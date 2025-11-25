@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical / Pharmacy Bill Generator | BCA-HUB</title>
+<style>
+:root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+}
+body{margin:0;font-family:"Poppins",Arial,sans-serif;background:var(--bg);color:var(--text);}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,var(--primary),var(--primary-dark));color:#fff;position:fixed;top:0;width:100%;z-index:1001;box-shadow:0 4px 10px rgba(0,0,0,.3);}
+
+.main{margin-top:0px;padding:15px;}
+.container{background:var(--card);padding:25px 20px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.15);max-width:800px;margin:0 auto;}
+h1{text-align:center;color:var(--primary);margin-bottom:20px;}
+input,select{width:60%;padding:10px;margin-bottom:12px;border-radius:8px;border:1px solid #ccc;font-size:16px;}
+button{padding:10px 14px;border-radius:8px;border:none;font-weight:600;cursor:pointer;margin-right:5px;}
+.btn-primary{background:var(--primary);color:#fff;}
+.table-container{overflow-x:auto;}
+.table{width:100%;border-collapse:collapse;margin-bottom:15px;}
+.table th,.table td{border:1px solid #ccc;padding:8px;text-align:center;min-width:80px;}
+.table th{background:#ffcdd2;}
+.total-box{background:#ffcdd2;padding:15px;border-radius:10px;margin-top:15px;font-size:18px;text-align:center;}
+@media(max-width:768px){
+  input,select{font-size:16px;}
+  button{width:100%;margin-bottom:8px;}
+  .table th,.table td{padding:6px;font-size:14px;min-width:80px;}
+}
+
+
+/* TOP LINKS */
+.scrollable-links{
+  display:flex;
+  overflow-x:auto;
+  background:#fff8e1;
+  padding:8px 0;
+  position:fixed;
+  top:53px;
+  width:100%;
+  scrollbar-width:thin;
+  z-index:999;
+}
+.scrollable-links a{
+  flex:0 0 auto;
+  margin:0 12px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+.scrollable-links a:hover{color:var(--primary);}
+
+/* SIDEBAR FIXED SCROLL */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px); /* top 80px ke baad remaining height */
+  background: var(--sidebar-bg);
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto; /* vertical scroll */
+  overflow-x: hidden; /* horizontal scroll nahi chahiye */
+}
+
+.sidebar.show { left: 0; }
+
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+
+/* Optional: custom scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* MAIN CONTENT */
+.container{
+  max-width:800px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  background-color: #f9fafb;
+  
+}
+
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+
+
+</style>
+</head>
+<body>
+<header>
+  <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+<div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+
+<div class="main">
+  <div class="container">
+    <h1>Medical / Pharmacy Bill Generator</h1>
+
+    <h3>Customer & Bill Details</h3>
+    <input type="text" id="invoiceNo" placeholder="Invoice Number">
+    <input type="text" id="customerName" placeholder="Customer Name">
+    <input type="date" id="billDate">
+
+    <h3>Medicines</h3>
+    <div class="table-container">
+      <table class="table" id="medicineTable">
+        <thead>
+          <tr>
+            <th>Medicine</th>
+            <th>Qty</th>
+            <th>Price (₹)</th>
+            <th>GST %</th>
+            <th>Discount %</th>
+            <th>Total (₹)</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="medicineBody">
+          <tr>
+            <td>
+              <select onchange="setPrice(this)">
+                <option value="0">Select Medicine</option>
+                <option value="50">Paracetamol</option>
+                <option value="120">Cough Syrup</option>
+                <option value="30">Vitamin C</option>
+                <option value="80">Pain Relief Cream</option>
+                <option value="150">Antibiotic</option>
+                <option value="200">Insulin</option>
+              </select>
+            </td>
+            <td><input type="number" value="1" min="1" onchange="updateRow(this)"></td>
+            <td><input type="number" value="0" min="0" onchange="updateRow(this)"></td>
+            <td><input type="number" value="5" min="0" onchange="updateRow(this)"></td>
+            <td><input type="number" value="0" min="0" onchange="updateRow(this)"></td>
+            <td class="itemTotal">0</td>
+            <td><button onclick="removeRow(this)">❌</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button class="btn-primary" onclick="addRow()">➕ Add Medicine</button>
+
+    <div class="total-box">
+      <strong>Grand Total: ₹ <span id="grandTotal">0</span></strong>
+    </div>
+
+    <button class="btn-primary" onclick="downloadPDF()">📄 Download Bill (PDF)</button>
+  </div>
+</div>
+<div class="howto">
+  <h3>How to Use</h3>
+  <p>
+    1️⃣ Enter patient or customer details.<br>
+    2️⃣ Add medicines or products with quantity and price.<br>
+    3️⃣ GST and discounts will be calculated automatically.<br>
+    4️⃣ Grand total will update in real-time.<br>
+    5️⃣ Click <b>Download PDF</b> to save the bill.<br>
+    6️⃣ Works on both mobile & desktop devices.<br>
+    7️⃣ Ideal for pharmacies, medical stores, and clinics.
+  </p>
+</div>
+<style>
+    /* How to Use Section - Medical / Pharmacy Bill Generator */
+.howto {
+  background: #f3e5f5; /* light purple background */
+  border-left: 5px solid #007bff; /* accent color */
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 800px;
+  margin: 20px auto;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.howto h3 {
+  color: #007bff; /* primary color */
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.howto p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #222;
+}
+
+.howto b {
+  color: #007bff; /* highlight important actions */
+}
+
+/* Responsive for Mobile */
+@media (max-width: 768px) {
+  .howto {
+    padding: 15px;
+  }
+  .howto p {
+    font-size: 13px;
+  }
+}
+
+
+
+    h1, h2 {
+      color: #007bff;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    h3 {
+  
+      padding-left: 12px;
+      margin-top: 40px;
+      margin-bottom: 12px;
+    }
+    p {
+      margin-bottom: 18px;
+      text-align: justify;
+    }
+    ul {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    hr {
+      border: none;
+      border-top: 2px solid #e0e0e0;
+      margin: 40px 0;
+    }
+
+</style>
+
+<div class="container">
+    <h1>Medical / Pharmacy Bill Generator</h1>
+    <hr />
+
+    <h3>Introduction</h3>
+    <p>
+      In the healthcare and pharmaceutical sectors, accuracy and efficiency are extremely important. A small mistake in billing or calculation can lead to financial losses and administrative confusion. Traditionally, many small medical stores and pharmacies used manual billing systems — handwritten bills, calculators, and registers. While this worked for small-scale businesses, it was time-consuming and prone to errors.
+    </p>
+    <p>
+      A <strong>Medical / Pharmacy Bill Generator</strong> is a computerized or web-based system designed to automate and simplify the process of generating pharmacy bills. It enables quick item selection, automatic price calculation, tax addition, and printing of receipts. This system not only saves time but also ensures accuracy and professionalism in billing, which is crucial in the healthcare industry.
+    </p>
+    <p>
+      By introducing such a billing system, medical stores can manage inventory, maintain transaction records, and improve customer service. The use of technology in billing also supports better financial management and compliance with taxation laws such as GST.
+    </p>
+
+    <h3>Objective</h3>
+    <p>The main objective of the <strong>Medical / Pharmacy Bill Generator</strong> is to develop an efficient billing system that minimizes manual work and human error. The specific goals include:</p>
+    <ul>
+      <li>To automate the billing process in pharmacies and medical shops.</li>
+      <li>To accurately calculate item prices, taxes, and discounts.</li>
+      <li>To generate professional and printable receipts for customers.</li>
+      <li>To maintain daily sales and stock records in an organized manner.</li>
+      <li>To improve business efficiency and reduce time spent on manual billing tasks.</li>
+    </ul>
+
+    <h3>Problem Statement</h3>
+    <p>
+      In a traditional pharmacy, billing is often done manually. When a customer buys multiple medicines, the pharmacist has to look up the prices, calculate totals, and apply taxes manually. This process is slow, and even a small error can cause incorrect billing or stock imbalance. Manual record-keeping also makes it difficult to analyze sales and manage inventory effectively.
+    </p>
+    <p>
+      Therefore, a <strong>computerized Medical / Pharmacy Bill Generator</strong> is needed to eliminate these issues. It provides a systematic, reliable, and user-friendly solution to handle daily billing efficiently and accurately.
+    </p>
+
+    <h3>Scope of the Project</h3>
+    <p>This project can be implemented in:</p>
+    <ul>
+      <li>Small and medium-sized pharmacies</li>
+      <li>Hospital dispensaries</li>
+      <li>Medical supply stores</li>
+      <li>Clinics and diagnostic centers</li>
+    </ul>
+    <p>
+      The scope of this system goes beyond simple billing — it can be integrated with stock management, customer data handling, and digital payment systems. Over time, it can evolve into a full-featured <em>pharmacy management system</em> that supports prescriptions, batch tracking, and expiry alerts.
+    </p>
+
+    <h3>Features</h3>
+    <ul>
+      <li><strong>User-Friendly Interface:</strong> The system provides a clean and intuitive interface that can be easily used by pharmacists and store staff.</li>
+      <li><strong>Medicine Database:</strong> Stores details such as medicine name, price, quantity, batch number, and expiry date.</li>
+      <li><strong>Automatic Calculations:</strong> Automatically calculates subtotal, tax (like GST), discount, and total payable amount.</li>
+      <li><strong>Invoice Generation:</strong> Generates a professional bill that includes store details, customer information, and purchase summary.</li>
+      <li><strong>Tax Handling:</strong> Automatically applies the appropriate tax percentage according to product type and local regulations.</li>
+      <li><strong>Stock Management (optional):</strong> Updates stock quantity after each sale and alerts when stock is low.</li>
+      <li><strong>Print and Save Option:</strong> Bills can be printed for customers and saved digitally for records.</li>
+      <li><strong>Search and Filter:</strong> Allows quick search for medicines by name, code, or category.</li>
+      <li><strong>Secure Login (for advanced versions):</strong> Ensures only authorized staff can access billing and inventory systems.</li>
+      <li><strong>Reports and Analytics:</strong> Provides sales summaries, tax reports, and performance insights.</li>
+    </ul>
+
+    <h3>Technology Used</h3>
+    <ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+      <li><strong>Backend (optional):</strong> Python (Flask/Django), PHP, or Node.js</li>
+      <li><strong>Database:</strong> MySQL / SQLite / PostgreSQL</li>
+      <li><strong>Tools:</strong> Visual Studio Code, XAMPP, or any code editor</li>
+    </ul>
+
+    <h3>System Design and Working</h3>
+    <p>The <strong>Medical / Pharmacy Bill Generator</strong> follows a systematic workflow:</p>
+    <ul>
+      <li><strong>Item Entry / Selection:</strong> The user selects the medicines purchased by the customer. Prices and tax details are fetched automatically.</li>
+      <li><strong>Quantity Input:</strong> The quantity of each item is entered.</li>
+      <li><strong>Bill Calculation:</strong> The system multiplies the price by quantity, adds taxes, applies discounts, and displays the total amount.</li>
+      <li><strong>Bill Generation:</strong> A detailed invoice is generated that includes medicine names, quantities, price, tax, and total amount.</li>
+      <li><strong>Printing and Saving:</strong> The bill can be printed or saved in a digital format (PDF or database record).</li>
+      <li><strong>Stock Update (optional):</strong> After the transaction, the stock quantity of sold items is automatically reduced.</li>
+    </ul>
+
+    <h3>Advantages</h3>
+    <ul>
+      <li><strong>Accuracy:</strong> Eliminates manual errors in pricing and tax calculation.</li>
+      <li><strong>Speed:</strong> Generates bills within seconds, even for large orders.</li>
+      <li><strong>Professional Presentation:</strong> Printed invoices look clean and standardized, improving customer trust.</li>
+      <li><strong>Record Keeping:</strong> Digital storage of bills helps in easy retrieval and auditing.</li>
+      <li><strong>Inventory Management:</strong> Tracks stock movement and expiry dates automatically.</li>
+      <li><strong>Compliance:</strong> Helps in accurate GST or tax reporting.</li>
+      <li><strong>Customer Satisfaction:</strong> Quick billing improves service quality and reduces waiting time.</li>
+      <li><strong>Eco-Friendly:</strong> Option to email or save bills digitally instead of printing.</li>
+    </ul>
+
+    <h3>Limitations</h3>
+    <ul>
+      <li>Requires a basic level of computer literacy for operators.</li>
+      <li>Initial setup and data entry (medicine names, prices, etc.) may take time.</li>
+      <li>Advanced versions with databases may need internet or local server setup.</li>
+      <li>Hardware like printers or barcode scanners adds to the cost.</li>
+    </ul>
+
+    <h3>Future Scope</h3>
+    <p>The <strong>Medical / Pharmacy Bill Generator</strong> can be extended with many modern features, such as:</p>
+    <ul>
+      <li>Integration with online payment systems (UPI, cards, etc.)</li>
+      <li>Automatic email or SMS receipts for customers</li>
+      <li>Barcode scanning for faster billing</li>
+      <li>Batch and expiry tracking for medicines</li>
+      <li>Prescription management and validation</li>
+      <li>Integration with e-pharmacy or online medicine delivery platforms</li>
+      <li>Cloud-based multi-store synchronization</li>
+      <li>Data analytics dashboard for sales trends</li>
+    </ul>
+
+    <h3>Conclusion</h3>
+    <p>
+      The <strong>Medical / Pharmacy Bill Generator</strong> is a practical and efficient software solution that simplifies the complex billing process in medical stores. It automates calculations, generates professional invoices, and maintains accurate records. By implementing such a system, pharmacies can operate faster, reduce errors, and improve customer satisfaction.
+    </p>
+    <p>
+      In today’s digital era, automation is not just an advantage but a necessity. This project reflects the growing need for technology-driven management in the healthcare and retail sectors. It also serves as an excellent academic project to demonstrate the application of programming and database concepts in real-world scenarios.
+    </p>
+    <p>
+      Overall, the Medical / Pharmacy Bill Generator is a valuable tool for streamlining operations, saving time, and ensuring accuracy — ultimately contributing to better healthcare service and smoother business management.
+    </p>
+
+    <div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+  </div>
+</div>
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function setPrice(select){
+  const priceInput = select.parentElement.nextElementSibling.nextElementSibling;
+  priceInput.value = select.value;
+  updateRow(priceInput);
+}
+
+function updateRow(el){
+  const row = el.parentElement.parentElement;
+  const qty = parseFloat(row.cells[1].querySelector('input').value)||0;
+  const price = parseFloat(row.cells[2].querySelector('input').value)||0;
+  const gst = parseFloat(row.cells[3].querySelector('input').value)||0;
+  const discount = parseFloat(row.cells[4].querySelector('input').value)||0;
+  let total = (qty * price) * (1 + gst/100) * (1 - discount/100);
+  row.querySelector('.itemTotal').textContent = total.toFixed(2);
+  calcGrand();
+}
+
+function calcGrand(){
+  let grand = 0;
+  document.querySelectorAll('.itemTotal').forEach(t=>grand+=parseFloat(t.textContent));
+  document.getElementById('grandTotal').textContent = grand.toFixed(2);
+}
+
+function addRow(){
+  const body = document.getElementById('medicineBody');
+  const row = document.createElement('tr');
+  row.innerHTML = `
+  <td>
+    <select onchange="setPrice(this)">
+      <option value="0">Select Medicine</option>
+      <option value="50">Paracetamol</option>
+      <option value="120">Cough Syrup</option>
+      <option value="30">Vitamin C</option>
+      <option value="80">Pain Relief Cream</option>
+      <option value="150">Antibiotic</option>
+      <option value="200">Insulin</option>
+    </select>
+  </td>
+  <td><input type="number" value="1" min="1" onchange="updateRow(this)"></td>
+  <td><input type="number" value="0" min="0" onchange="updateRow(this)"></td>
+  <td><input type="number" value="5" min="0" onchange="updateRow(this)"></td>
+  <td><input type="number" value="0" min="0" onchange="updateRow(this)"></td>
+  <td class="itemTotal">0</td>
+  <td><button onclick="removeRow(this)">❌</button></td>`;
+  body.appendChild(row);
+}
+
+function removeRow(btn){
+  btn.parentElement.parentElement.remove();
+  calcGrand();
+}
+
+function downloadPDF(){
+  const element = document.querySelector('.container');
+  html2pdf().from(element).set({filename:'Medical_Bill.pdf'}).save();
+}
+
+
+
+// Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+</script>
+</body>
+</html>

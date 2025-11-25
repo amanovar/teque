@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <style>
+ :root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+}
+
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: var(--main-bg);
+      
+    }
+    /* SIDEBAR */
+    .sidebar {
+      width: 220px;
+      height: 100vh;
+      background: var(--sidebar-bg);
+      position: fixed;
+      top: 60px;
+      left: -220px;
+      transition: left .4s ease;
+      overflow-y: auto;
+      color: white;
+      z-index: 999;
+    }
+    .sidebar.show { left: 0; }
+    .sidebar a {
+      display: block;
+      padding: 12px 18px;
+      color: white;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      transition: 0.3s;
+    }
+    .sidebar a:hover {
+      background: rgba(255,255,255,0.1);
+      padding-left: 25px;
+    }
+
+    /* MAIN */
+    main {
+      margin-top: 80px;
+      flex: 1;
+      padding: 20px;
+      transition: margin-left .4s ease;
+    }
+    .sidebar.show ~ main {
+      margin-left: 220px;
+    }
+
+    /* CALCULATOR BOX */
+    .calculator {
+      background: var(--card-bg);
+      max-width: 800px;
+      margin: auto;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .calculator h2 {
+      margin-bottom: 15px;
+      color: var(--text-dark);
+    }
+
+    input[type="text"] {
+      width: 90%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 5px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #007bff;
+    }
+
+    #qrcode {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* HOW TO USE */
+    .howto {
+      margin-top: 30px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      max-width: 800px;
+      margin: 20px auto;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .howto h3 { margin-top: 0; color: var(--primary); }
+
+    @media(max-width:768px){
+      main { padding: 10px; }
+    }
+
+
+    /* HEADER */
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 18px;
+  background-color: #007bff;
+  color:#fff;
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:1000;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+}
+
+/* TOP LINKS */
+.scrollable-links{
+  display:flex;
+  overflow-x:auto;
+  background:#fff3cd;
+  padding:8px 0;
+  position:fixed;
+  top:53px;
+  width:100%;
+  scrollbar-width:thin;
+  z-index:999;
+}
+.scrollable-links a{
+  flex:0 0 auto;
+  margin:0 12px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+.scrollable-links a:hover{color:var(--primary);}
+
+/* MAIN CONTENT */
+.container{
+  max-width:800px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  background-color: #f9fafb;
+  
+}
+
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+
+h1,h2{text-align:center;color:#007bff;}
+h3{color:#333;border-left:4px solid #007bff;padding-left:10px;}
+p{text-align:justify;line-height:1.8;margin-bottom:15px;}
+ul{line-height:1.8;}
+li{margin-bottom:8px;}
+hr{border:0;border-top:2px solid #eee;margin:30px 0;}
+  </style>
+</head>
+<body>
+  
+<header>
+  <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+<div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+  
+  <main>
+    <div class="calculator">
+      <h2>Generate QR Code</h2>
+      <input type="text" id="qrText" placeholder="Enter text or URL here...">
+      <br>
+      <button onclick="generateQR()">Generate</button>
+      <button onclick="downloadQR()">Download</button>
+
+      <div id="qrcode"></div>
+    </div>
+
+    <div class="howto">
+      <h3>How to Use</h3>
+      <p>1️⃣ Type any text, URL, or message in the box.<br>
+         2️⃣ Click <b>Generate</b> to create your QR code.<br>
+         3️⃣ Click <b>Download</b> to save your QR image.<br>
+         4️⃣ Works on both desktop and mobile.</p>
+    </div>
+  </main>
+<div class="container">
+  <h2>QR Code Generator</h2>
+  <p>
+    In a world where quick information access is essential, QR codes have become a simple yet powerful tool for connecting physical and digital spaces. A <strong>QR Code Generator</strong> is a software or web-based application that creates QR codes from text, URLs, contact information, Wi-Fi credentials, and more. These codes can be scanned by smartphones to instantly retrieve encoded information, making them ideal for marketing, payments, inventory, and contactless interactions.
+  </p>
+  <p>
+    This project offers an intuitive interface where users can input the content they want to encode, choose customization options like size or color, and generate a scannable QR image immediately. The QR Code Generator eliminates the need for manual encoding and ensures reliable, standard-compliant QR outputs suitable for printing or digital sharing.
+  </p>
+
+  <h3>Objective</h3>
+  <p>
+    The primary objective of the QR Code Generator is to make QR creation fast, accurate, and accessible to non-technical users. It aims to produce high-quality QR images that conform to industry standards while offering customization and ease of use. Specific goals include:
+  </p>
+  <ul>
+    <li>To allow users to generate QR codes quickly from various input types (URLs, text, contact cards, Wi-Fi, etc.).</li>
+    <li>To support customization options like size, error correction level, and format (PNG/SVG).</li>
+    <li>To ensure produced QR codes are reliable and easily scannable across common smartphone apps.</li>
+    <li>To provide options for saving, printing, and embedding codes in marketing material or documents.</li>
+    <li>To keep the interface simple so even first-time users can generate codes without guidance.</li>
+  </ul>
+
+  <h3>Problem Statement</h3>
+  <p>
+    Many individuals and small businesses still rely on third-party tools or complicated libraries to create QR codes. Some online tools are cluttered with ads, impose watermarks, or offer limited customization. Others require programming knowledge to generate high-resolution or vector-format QR images suitable for print.
+  </p>
+  <p>
+    Therefore, there is a need for a lightweight, ad-free, and user-friendly <strong>QR Code Generator</strong> that produces clean, exportable QR codes with useful customization while ensuring compatibility and scan reliability across devices.
+  </p>
+
+  <h3>Scope of the Project</h3>
+  <p>
+    The QR Code Generator can be used by marketers, store owners, event organizers, educators, and everyday users. It can generate codes for website links, event invitations, product pages, payment links, contact sharing (vCard), Wi-Fi access, and plain text. The tool is suitable for both digital applications (web pages, emails) and print media (flyers, posters, product packaging).
+  </p>
+  <p>
+    The project can be expanded with advanced features like batch generation, analytics for scanned codes, dynamic QR links that can be redirected, and integration with content management systems. It can also be packaged as a small library or API for developers to integrate into other software.
+  </p>
+
+  <h3>Features</h3>
+  <ul>
+    <li><strong>Multiple Content Types:</strong> Create QR codes for URLs, text, vCard, email, phone numbers, Wi-Fi credentials, and geo-locations.</li>
+    <li><strong>Customization:</strong> Adjust size, margin, color, background, and error correction level (L, M, Q, H).</li>
+    <li><strong>Export Options:</strong> Download as PNG, JPEG, or SVG for scalable vector output.</li>
+    <li><strong>Preview:</strong> Live preview to verify scannability before downloading.</li>
+    <li><strong>Batch Mode (optional):</strong> Upload a CSV to generate many QR codes at once.</li>
+    <li><strong>Dynamic QR Support:</strong> Create short redirect links so the QR target can be changed later (requires backend).</li>
+    <li><strong>Share & Embed:</strong> Copy embed code or share direct links to the generated QR image.</li>
+    <li><strong>Accessibility:</strong> Provide alt text and label options for images used on websites.</li>
+    <li><strong>Lightweight & Fast:</strong> Client-side generation to avoid server delays (or optional server-side for batch/dynamic).</li>
+  </ul>
+
+  <h3>Technology Used</h3>
+  <ul>
+    <li><strong>Frontend:</strong> HTML, CSS, JavaScript (with libraries like QRCode.js or qrcode-generator).</li>
+    <li><strong>Backend (optional):</strong> Node.js, Python (Flask), or PHP for dynamic QR, analytics, and batch processing.</li>
+    <li><strong>Database (optional):</strong> SQLite / MySQL for storing dynamic link mappings and scan logs.</li>
+    <li><strong>Tools:</strong> VS Code, browser dev tools, and image editors for testing and export.</li>
+  </ul>
+
+  <h3>System Design and Working</h3>
+  <p>The basic workflow of the QR Code Generator is as follows:</p>
+  <ul>
+    <li><strong>User Input:</strong> The user selects the content type, fills the required fields (e.g., URL, contact), and chooses customization settings.</li>
+    <li><strong>Encode:</strong> Frontend JavaScript encodes the input into a QR matrix using a QR library and chosen error correction.</li>
+    <li><strong>Render:</strong> The QR is rendered to a canvas or SVG element for preview.</li>
+    <li><strong>Verify:</strong> A quick built-in scan test (optional) checks scannability on common settings.</li>
+    <li><strong>Export/Save:</strong> User downloads the image (PNG/SVG) or, if dynamic, the backend stores a redirect record and provides a short link.</li>
+    <li><strong>Batch/Dynamic:</strong> For batch jobs, the server processes CSV and returns a ZIP of images. For dynamic codes, server maps short codes to target URLs and logs scans.</li>
+  </ul>
+
+  <h3>Advantages</h3>
+  <ul>
+    <li>Fast creation of scannable codes suitable for print and digital use.</li>
+    <li>Customizable visuals to match brand identity or design needs.</li>
+    <li>Vector export (SVG) ensures high-quality printing without pixelation.</li>
+    <li>Optional dynamic linking allows changing targets without reprinting codes.</li>
+    <li>Batch generation saves time when creating many codes for products or events.</li>
+    <li>Client-side generation enhances privacy — no content leaves the user’s browser unless desired.</li>
+  </ul>
+
+  <h3>Limitations</h3>
+  <ul>
+    <li>Highly customized designs (embedded logos or colors) require testing to ensure reliable scanning.</li>
+    <li>Dynamic QR functionality requires backend and hosting which may add cost and maintenance.</li>
+    <li>Very dense QR codes (lots of data) may require larger print size or higher error correction.</li>
+    <li>Printed codes degrade with wear; physical materials and print quality affect scan success.</li>
+  </ul>
+
+  <h3>Future Scope</h3>
+  <ul>
+    <li>Analytics dashboard showing scans by time and location.</li>
+    <li>Protected QR codes requiring password or time-limited access.</li>
+    <li>API for automated QR generation from other systems.</li>
+    <li>Template library for branded or stylized QR designs.</li>
+    <li>Mobile app for on-the-go generation and management.</li>
+  </ul>
+
+  <h3>Real-Life Applications</h3>
+  <p>
+    QR codes are used widely: restaurants for contactless menus, shops for product pages and coupons, events for tickets, museums for exhibit details, and businesses for vCard sharing. Payment systems use QR codes for UPI or wallet transfers. A reliable QR Code Generator helps individuals and organizations quickly bridge the gap between printed material and online information.
+  </p>
+
+  <h3>Conclusion</h3>
+  <p>
+    The <strong>QR Code Generator</strong> is a simple but versatile tool that empowers users to create scannable links to digital content with ease. By offering customization, export options, and optional dynamic features, it serves both casual users and businesses. Properly implemented, it improves customer interactions, simplifies content sharing, and supports modern contactless experiences. With future extensions like analytics and APIs, it can become an essential part of digital marketing and operations toolkits.
+  </p>
+</div>
+
+<div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+  </div>
+</div>
+  
+
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <script>
+    // Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+
+    const qrcodeDiv = document.getElementById("qrcode");
+    let qr;
+
+    function generateQR() {
+      const text = document.getElementById("qrText").value.trim();
+      if (!text) return alert("Please enter some text!");
+      qrcodeDiv.innerHTML = "";
+      qr = new QRCode(qrcodeDiv, {
+        text: text,
+        width: 180,
+        height: 180
+      });
+    }
+
+    function downloadQR() {
+      const img = qrcodeDiv.querySelector("img");
+      if (!img) return alert("Please generate a QR code first!");
+      const a = document.createElement("a");
+      a.href = img.src;
+      a.download = "qrcode.png";
+      a.click();
+    }
+  </script>
+</body>
+</html>

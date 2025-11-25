@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multiplication Calculator | BCA-HUB</title>
+<style>
+:root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+}
+body{
+  margin:0;
+  font-family:"Poppins",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:background .3s,color .3s;
+}
+/* HEADER */
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 18px;
+  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
+  color:#fff;
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:1000;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+}
+
+/* TOP LINKS */
+.scrollable-links{
+  display:flex;
+  overflow-x:auto;
+  background:#fff8e1;
+  padding:8px 0;
+  position:fixed;
+  top:53px;
+  width:100%;
+  scrollbar-width:thin;
+  z-index:999;
+}
+.scrollable-links a{
+  flex:0 0 auto;
+  margin:0 12px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+.scrollable-links a:hover{color:var(--primary);}
+
+/* SIDEBAR FIXED SCROLL */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px); /* top 80px ke baad remaining height */
+  background-color: #333333;
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto; /* vertical scroll */
+  overflow-x: hidden; /* horizontal scroll nahi chahiye */
+}
+
+.sidebar.show { left: 0; }
+
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+
+/* Optional: custom scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+/* CONTAINER */
+.container{
+  background:var(--card);
+  padding:25px 20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.15);
+  max-width:700px;
+  width:90%;
+  margin:130px auto 50px auto;
+}
+h1{color:var(--primary);margin-bottom:15px;}
+input[type="number"]{width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid #ccc;font-size:16px;}
+button{padding:10px 14px;border-radius:8px;border:none;font-weight:600;cursor:pointer;}
+.btn-primary{background:var(--primary);color:#fff;margin-right:5px;}
+.btn-secondary{background:#e0e0e0;margin-right:5px;}
+.result{margin-top:12px;padding:12px;border-radius:8px;background:#fffbe6;border-left:4px solid var(--primary);white-space:pre-wrap;}
+.info{margin-top:12px;padding:12px;background:#fff3cd;border-left:5px solid var(--primary);border-radius:8px;color:#333;}
+
+
+
+/* MAIN CONTENT */
+.container{
+  max-width:800px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  
+}
+h1{color:var(--primary);margin-bottom:20px;text-align:center;}
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+</style>
+</head>
+<body>
+<header>
+  <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+<div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+
+<!-- MAIN CONTAINER -->
+<div class="container">
+  <h1>Multiplication Calculator</h1>
+  <label>Enter first number:</label>
+  <input type="number" id="num1" placeholder="e.g. 5">
+  <label>Enter second number:</label>
+  <input type="number" id="num2" placeholder="e.g. 6">
+  <button class="btn-primary" onclick="multiply()">Multiply</button>
+  <button class="btn-secondary" onclick="clearResult()">Clear</button>
+  <div id="result" class="result"></div>
+  <div class="info">
+    <strong>How to Use:</strong><br>
+    1️⃣ Enter two numbers.<br>
+    2️⃣ Click <b>Multiply</b> to get the result.<br>
+    3️⃣ Use <b>Clear</b> to reset inputs.
+  </div>
+</div>
+<div class="container">
+<p>
+      Multiplication is one of the most fundamental operations in mathematics and is widely used in education, business, and daily life. Performing multiplication manually, especially for large numbers, can be time-consuming and prone to errors. A <strong>Multiplication Calculator</strong> is a digital tool designed to quickly and accurately compute the product of two or more numbers, making mathematical calculations easier and more reliable.
+</p>
+
+<p>
+      This project provides a simple interface where users can enter two or more numbers and instantly get the result. It is highly useful for students, teachers, accountants, and anyone who regularly works with numerical calculations. With a Multiplication Calculator, complex or large-number multiplications can be performed instantly without mistakes.
+</p>
+
+<h3>Objective</h3>
+<p>
+      The main objective of the Multiplication Calculator is to provide an accurate, fast, and easy-to-use tool for multiplying numbers. Specifically, it aims to:
+</p>
+<ul>
+      <li>Calculate multiplication of two or more numbers quickly and accurately.</li>
+      <li>Reduce manual errors in mathematical operations.</li>
+      <li>Provide a simple and intuitive interface suitable for all users.</li>
+      <li>Save time for students, teachers, and professionals.</li>
+      <li>Enable future enhancements like multi-digit calculations, history tracking, and batch operations.</li>
+</ul>
+
+<h3>Problem Statement</h3>
+<p>
+      Manual multiplication can become complicated when dealing with large numbers, decimals, or multiple inputs. Errors in multiplication can affect academic results, financial calculations, and business operations. Therefore, a <strong>Multiplication Calculator</strong> is necessary to provide instant and precise results, ensuring accurate computations in all scenarios.
+</p>
+
+<h3>Scope of the Project</h3>
+<p>
+      This calculator is suitable for students, teachers, accountants, engineers, and anyone dealing with numbers daily. It can be implemented as a web-based tool, mobile app, or desktop software. Future extensions may include batch multiplication, multi-digit calculations, step-by-step explanations, and graphical visualization of multiplication tables. The tool is versatile and applicable for educational, professional, and personal use.
+</p>
+
+<h3>Features</h3>
+<ul>
+      <li><strong>Simple Input:</strong> Users can enter two or more numbers to multiply.</li>
+      <li><strong>Instant Result:</strong> Displays the multiplication result immediately after input.</li>
+      <li><strong>Multiple Number Multiplication:</strong> Allows multiplication of several numbers at once.</li>
+      <li><strong>Responsive Design:</strong> Works seamlessly on mobile, tablet, and desktop devices.</li>
+      <li><strong>Reset Option:</strong> Clears all inputs for a new calculation.</li>
+      <li><strong>Optional Features:</strong> Can include multiplication tables, history of calculations, and step-by-step solutions.</li>
+</ul>
+
+<h3>Technology Used</h3>
+<ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+      <li><strong>Backend (optional):</strong> Node.js, Python, or PHP for storing historical calculations or batch operations</li>
+      <li><strong>Tools:</strong> VS Code or any code editor</li>
+</ul>
+
+<h3>System Design and Working</h3>
+<p>The Multiplication Calculator works in a simple and effective manner:</p>
+<ul>
+      <li><strong>Input Section:</strong> Users enter the numbers to be multiplied.</li>
+      <li><strong>Calculation Engine:</strong> JavaScript or backend logic computes the product accurately, handling integers, decimals, or multiple inputs.</li>
+      <li><strong>Result Display:</strong> Shows the multiplication result clearly.</li>
+      <li><strong>Optional Features:</strong> Can include multiplication tables, history of previous calculations, or step-by-step breakdowns.</li>
+      <li><strong>Reset Function:</strong> Clears all inputs and results for new calculations.</li>
+</ul>
+
+<h3>Advantages</h3>
+<ul>
+      <li>Instant and accurate multiplication results.</li>
+      <li>Reduces errors compared to manual multiplication.</li>
+      <li>Easy-to-use interface suitable for all users.</li>
+      <li>Responsive design ensures usability across all devices.</li>
+      <li>Supports multiple numbers and decimal calculations.</li>
+      <li>Optional features like multiplication tables and calculation history enhance learning and efficiency.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+      <li>Basic version does not store calculation history without backend integration.</li>
+      <li>Advanced features like batch operations or multi-step breakdowns require additional programming.</li>
+      <li>Does not automatically generate tables or graphs without optional features.</li>
+</ul>
+
+<h3>Future Scope</h3>
+<ul>
+      <li>Include multiplication tables and graphical representations for learning purposes.</li>
+      <li>Support batch multiplication and multi-digit operations.</li>
+      <li>Store calculation history for multiple users.</li>
+      <li>Mobile app version for on-the-go calculations.</li>
+      <li>Provide step-by-step solutions for educational use.</li>
+      <li>Integration with other calculators like addition, subtraction, or division for a complete math toolkit.</li>
+</ul>
+
+<h3>Conclusion</h3>
+<p>
+      The Multiplication Calculator is a practical and efficient tool for performing accurate and fast multiplication of numbers. It simplifies calculations, reduces errors, and is highly useful for students, teachers, professionals, and anyone working with numbers. With future enhancements like multiplication tables, batch operations, and mobile accessibility, the Multiplication Calculator can become a comprehensive and reliable tool for both educational and professional purposes, making numerical operations easier and more accurate for all users.
+</p>
+</div>
+
+<style>
+h1,h2{text-align:center;color:#007bff;}
+h3{color:#333;border-left:4px solid #007bff;padding-left:10px;}
+p{text-align:justify;line-height:1.8;margin-bottom:15px;}
+ul{line-height:1.8;}
+li{margin-bottom:8px;}
+hr{border:0;border-top:2px solid #eee;margin:30px 0;}
+</style>
+
+<div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+  </div>
+</div>
+
+<script>
+
+// Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+// Multiplication logic
+function multiply(){
+  const n1=Number(document.getElementById('num1').value);
+  const n2=Number(document.getElementById('num2').value);
+  if(isNaN(n1)||isNaN(n2)){ alert('Enter valid numbers'); return; }
+  const res=n1*n2;
+  document.getElementById('result').textContent=`Result: ${res}`;
+}
+function clearResult(){
+  document.getElementById('num1').value='';
+  document.getElementById('num2').value='';
+  document.getElementById('result').textContent='';
+}
+</script>
+
+</body>
+</html>

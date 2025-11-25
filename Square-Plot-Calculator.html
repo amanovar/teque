@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rectangle / Square Plot Calculator | BCA-HUB</title>
+  <style>
+   :root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+}
+
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: linear-gradient(90deg,#007bff,#007bff);
+      color: #fff;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    
+
+    .scrollable-links {
+      display: flex;
+      position: fixed;
+      overflow-x: auto;
+      background: #fff3cd;
+      padding: 10px 0;
+      top: 61px;
+      width: 100%;
+    }
+
+    .scrollable-links a {
+      flex: 0 0 auto;
+      margin: 0 15px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .scrollable-links a:hover { color: var(--primary); }
+/* SIDEBAR FIXED SCROLL */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px); /* top 80px ke baad remaining height */
+  background: var(--sidebar-bg);
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto; /* vertical scroll */
+  overflow-x: hidden; /* horizontal scroll nahi chahiye */
+}
+
+.sidebar.show { left: 0; }
+
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+
+/* Optional: custom scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+    
+    .container {
+      background: var(--card-bg);
+      padding: 25px 20px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      margin: 30px auto;
+      margin-top: 120px;
+      transition: 0.3s;
+    }
+
+    h2 { color: var(--primary); margin-bottom: 20px; font-size: 1.6rem; }
+    input, select, button {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .btn-calc { background: var(--primary); color: #fff; font-weight: 600; border: none; cursor: pointer; }
+    .btn-calc:hover { background: var(--primary-dark); }
+    .btn-reset { background: #e0e0e0; border: none; font-weight: 600; cursor: pointer; }
+    .btn-reset:hover { background: #ccc; }
+    .btn-print { background: #4caf50; color: #fff; border: none; font-weight: 600; cursor: pointer; }
+    .btn-print:hover { background: #388e3c; }
+
+    #result { margin-top: 15px; font-size: 18px; font-weight: bold; white-space: pre-line; color: var(--text); }
+
+    .info {
+      margin: 25px auto;
+      padding: 15px;
+      background: #fff3cd;
+      border-left: 5px solid var(--primary);
+      border-radius: 10px;
+      font-size: 15px;
+      color: #555;
+      text-align: left;
+      max-width: 420px;
+      width: 90%;
+    }
+
+   
+    
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+  </style>
+</head>
+<body>
+<header>
+  <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+  <div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+
+  <div class="container">
+    <h2>Rectangle / Square Plot Calculator</h2>
+    <select id="unit">
+      <option value="m">Meters</option>
+      <option value="ft">Feet</option>
+    </select>
+    <input type="number" id="length" placeholder="Enter Length" min="0">
+    <input type="number" id="width" placeholder="Enter Width" min="0">
+    <input type="number" id="rate" placeholder="Enter Rate per sq.m or sq.ft (optional)" min="0">
+    <button class="btn-calc" onclick="calculatePlot()">Calculate</button>
+    <button class="btn-reset" onclick="resetPlot()">Reset</button>
+    <button class="btn-print" onclick="printResult()">Print Result</button>
+    <div id="result"></div>
+  </div>
+
+  <div class="info">
+    <strong>How to Use:</strong><br />
+    1️⃣ Choose the unit (Meters or Feet).<br />
+    2️⃣ Enter the length and width of your plot.<br />
+    3️⃣ Optionally, enter a <b>rate</b> per unit area.<br />
+    4️⃣ Click <b>Calculate</b> to find Area, Perimeter, Diagonal & Total Cost.<br />
+    5️⃣ Click <b>Reset</b> to clear inputs.<br />
+    6️⃣ Use <b>Print Result</b> to save your calculation.
+  </div>
+
+  <div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+  </div>
+</div>
+
+  <script>
+    function calculatePlot() {
+      let length = parseFloat(document.getElementById("length").value);
+      let width = parseFloat(document.getElementById("width").value);
+      let rate = parseFloat(document.getElementById("rate").value);
+      let unit = document.getElementById("unit").value;
+
+      if (!length || !width) {
+        document.getElementById("result").innerText = "Please enter both Length and Width!";
+        return;
+      }
+
+      let area = length * width;
+      let perimeter = 2 * (length + width);
+      let diagonal = Math.sqrt(length**2 + width**2);
+      let totalCost = rate ? area * rate : null;
+
+      let resultText =
+        `Area: ${area.toFixed(2)} ${unit}²\n` +
+        `Perimeter: ${perimeter.toFixed(2)} ${unit}\n` +
+        `Diagonal: ${diagonal.toFixed(2)} ${unit}`;
+
+      if (totalCost) {
+        resultText += `\nTotal Cost: ${totalCost.toLocaleString()} currency units`;
+      }
+
+      document.getElementById("result").innerText = resultText;
+    }
+
+    function resetPlot() {
+      document.getElementById("length").value = "";
+      document.getElementById("width").value = "";
+      document.getElementById("rate").value = "";
+      document.getElementById("result").innerText = "";
+    }
+
+    function printResult() {
+      const resultText = document.getElementById("result").innerText;
+      if (!resultText) { alert("No result to print!"); return; }
+      const printWindow = window.open('', '', 'height=400,width=600');
+      printWindow.document.write('<html><head><title>Print Result</title></head><body>');
+      printWindow.document.write('<pre style="font-size:18px;">' + resultText + '</pre>');
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.print();
+    }
+
+    
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+    }
+
+    document.addEventListener('click', function(event) {
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.querySelector('.sidebar-toggle');
+      if (sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
+        sidebar.classList.remove('show');
+      }
+    });
+
+
+    // Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+  </script>
+</body>
+</html>

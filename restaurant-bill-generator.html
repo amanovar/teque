@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restaurant Bill Generator | BCA-HUB</title>
+<style>
+:root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+}
+body{margin:0;font-family:"Poppins",Arial,sans-serif;background:var(--bg);color:var(--text);}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,var(--primary),var(--primary-dark));color:#fff;position:fixed;top:0;width:100%;z-index:1001;box-shadow:0 4px 10px rgba(0,0,0,.3);}
+
+.main{margin-top:0px;padding:15px;}
+.container{background:var(--card);padding:25px 20px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.15);max-width:800px;margin:0 auto;}
+h1{text-align:center;color:var(--primary);margin-bottom:20px;}
+input,select{width:60%;padding:10px;margin-bottom:12px;border-radius:8px;border:1px solid #ccc;font-size:16px;}
+button{padding:10px 14px;border-radius:8px;border:none;font-weight:600;cursor:pointer;margin-right:5px;}
+.btn-primary{background:var(--primary);color:#fff;}
+.btn-secondary{background:#e0e0e0;}
+.table-container{overflow-x:auto;}
+.table{width:100%;border-collapse:collapse;margin-bottom:15px;}
+.table th,.table td{border:1px solid #ccc;padding:8px;text-align:center;min-width:80px;}
+.table th{background:#fff3cd;}
+.total-box{background:#fff3cd;padding:15px;border-radius:10px;margin-top:15px;font-size:18px;text-align:center;}
+@media(max-width:768px){
+  .table th,.table td{padding:6px;font-size:14px;min-width:60px;}
+  input,select{font-size:14px;}
+  button{width:100%;margin-bottom:8px;}
+}
+
+/* TOP LINKS */
+.scrollable-links{
+  display:flex;
+  overflow-x:auto;
+  background:#fff8e1;
+  padding:8px 0;
+  position:fixed;
+  top:53px;
+  width:100%;
+  scrollbar-width:thin;
+  z-index:999;
+}
+.scrollable-links a{
+  flex:0 0 auto;
+  margin:0 12px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+.scrollable-links a:hover{color:var(--primary);}
+
+/* SIDEBAR FIXED SCROLL */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px); /* top 80px ke baad remaining height */
+  background: var(--sidebar-bg);
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto; /* vertical scroll */
+  overflow-x: hidden; /* horizontal scroll nahi chahiye */
+}
+
+.sidebar.show { left: 0; }
+
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+
+/* Optional: custom scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* MAIN CONTENT */
+.container{
+  max-width:800px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  background-color: #f9fafb;
+  
+}
+
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+
+
+
+input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 1rem;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    input[type="file"] {
+      border: none;
+     background: #007bff;
+      color: white;
+    }
+    button {
+      border: none;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background .2s, transform .2s;
+    }
+  
+</style>
+</head>
+<body>
+<header>
+  <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+<div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+
+<div class="main">
+  <div class="container">
+    <h1>Restaurant / Cafe Bill Generator</h1>
+
+    <h3>Invoice & Table Details</h3>
+    <input type="text" id="invoiceNo" placeholder="Invoice Number">
+    <input type="text" id="tableNo" placeholder="Table Number">
+    <input type="text" id="serverName" placeholder="Waiter/Server Name">
+    <input type="date" id="billDate">
+
+    <h3>Items</h3>
+    <div class="table-container">
+      <table class="table" id="billTable">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Price (₹)</th>
+            <th>GST %</th>
+            <th>Discount %</th>
+            <th>Total (₹)</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="billBody">
+          <tr>
+            <td>
+              <select onchange="setPrice(this)">
+                <option value="0">Select Item</option>
+                <option value="150">Pizza</option>
+                <option value="80">Burger</option>
+                <option value="60">Sandwich</option>
+                <option value="40">Cold Drink</option>
+                <option value="120">Pasta</option>
+                <option value="50">Tea/Coffee</option>
+              </select>
+            </td>
+            <td><input type="number" value="1" min="1" onchange="updateRow(this)"></td>
+            <td><input type="number" value="0" min="0" onchange="updateRow(this)"></td>
+            <td><input type="number" value="5" min="0" onchange="updateRow(this)"></td>
+            <td><input type="number" value="0" min="0" onchange="updateRow(this)"></td>
+            <td class="itemTotal">0</td>
+            <td><button onclick="removeRow(this)">❌</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button class="btn-primary" onclick="addRow()">➕ Add Item</button>
+
+    <div class="total-box">
+      <strong>Grand Total: ₹ <span id="grandTotal">0</span></strong>
+    </div>
+
+    <button class="btn-primary" onclick="downloadPDF()">📄 Download Bill (PDF)</button>
+  </div>
+</div>
+<div class="howto">
+  <h3>How to Use</h3>
+  <p>
+    1️⃣ Enter customer details and table number.<br>
+    2️⃣ Add menu items with quantity and price.<br>
+    3️⃣ GST and discounts will be applied automatically.<br>
+    4️⃣ Grand total will update in real-time.<br>
+    5️⃣ Click <b>Download PDF</b> to save the bill.<br>
+    6️⃣ Works on both mobile & desktop devices.<br>
+    7️⃣ Ideal for restaurants, cafes, and food stalls.
+  </p>
+</div>
+<style>
+  /* How to Use Section - Restaurant / Cafe Bill Generator */
+.howto {
+  background: #fff3e0; /* light peach background */
+  border-left: 5px solid #007bff; /* accent color */
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 800px;
+  margin: 20px auto;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.howto h3 {
+  color: #007bff; /* primary color */
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.howto p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #222;
+}
+
+.howto b {
+  color: #007bff; /* highlight important actions */
+}
+
+/* Responsive for Mobile */
+@media (max-width: 768px) {
+  .howto {
+    padding: 15px;
+  }
+  .howto p {
+    font-size: 13px;
+  }
+}
+
+</style>
+<div class="container">
+<p>
+      In the modern era, technology plays a vital role in every business field, including the food and beverage industry.
+      Restaurants and cafés have evolved rapidly from traditional handwritten billing systems to modern computerized billing
+      solutions. A <strong>Restaurant / Café Bill Generator</strong> is a software or web-based system designed to simplify and
+      automate the process of generating bills for customers. It eliminates manual calculations, reduces human error, and improves
+      efficiency and customer satisfaction.
+    </p>
+    <p>
+      This project provides a user-friendly interface where staff can select menu items, enter quantities, and instantly generate
+      the total amount along with applicable taxes. The system also helps maintain records for daily sales and transactions.
+    </p>
+
+    <h3>Objective</h3>
+    <p>
+      The main objective of the Restaurant / Café Bill Generator is to automate the billing process in restaurants and cafés.
+      It aims to create a simple yet efficient system that:
+    </p>
+    <ul>
+      <li>Reduces human effort in calculating totals and taxes.</li>
+      <li>Saves time during busy hours.</li>
+      <li>Minimizes billing errors.</li>
+      <li>Generates a professional and clear bill for customers.</li>
+      <li>Stores transaction details for record-keeping and analysis.</li>
+    </ul>
+
+    <h3>Problem Statement</h3>
+    <p>
+      In traditional restaurants and cafés, billing is often done manually using calculators or handwritten notes. This process
+      can be time-consuming and prone to human errors such as incorrect totals or missed items. Moreover, manual billing makes
+      it difficult to maintain daily sales records and analyze business performance.
+      Therefore, there is a strong need for a <strong>digital billing system</strong> that is fast, accurate, and easy to use.
+    </p>
+
+    <h3>Scope of the Project</h3>
+    <p>
+      This project can be implemented in any small or medium-sized restaurant, café, or food stall. It can be further enhanced
+      with additional features like order management, payment integration, customer feedback, and report generation.
+      The system is flexible and can be customized for different types of restaurants such as fast food centers, coffee shops,
+      or fine-dining restaurants.
+    </p>
+
+    <h3>Features</h3>
+    <ul>
+      <li><strong>User-Friendly Interface:</strong> Easy to operate without technical knowledge.</li>
+      <li><strong>Menu Management:</strong> Add, edit, or remove menu items with prices.</li>
+      <li><strong>Automatic Calculations:</strong> Calculates total amount, taxes, and discounts automatically.</li>
+      <li><strong>Instant Bill Generation:</strong> Generates professional bills instantly.</li>
+      <li><strong>Tax and Discount Handling:</strong> Applies tax and discounts as needed.</li>
+      <li><strong>Data Storage:</strong> Option to save sales data for analysis.</li>
+      <li><strong>Print Option:</strong> Allows printing customer receipts.</li>
+      <li><strong>Error Reduction:</strong> Eliminates manual calculation errors.</li>
+    </ul>
+
+    <h3>Technology Used</h3>
+    <ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+      <li><strong>Backend (optional):</strong> Python (Flask/Django), PHP, Node.js</li>
+      <li><strong>Database:</strong> MySQL / SQLite</li>
+      <li><strong>Tools:</strong> VS Code or any text editor</li>
+    </ul>
+
+    <h3>System Design and Working</h3>
+    <p>The working of the Restaurant / Café Bill Generator follows a simple flow:</p>
+    <ul>
+      <li><strong>Menu Display:</strong> Displays predefined items with prices.</li>
+      <li><strong>Input Section:</strong> Staff enters quantity of ordered items.</li>
+      <li><strong>Bill Calculation:</strong> System calculates subtotal, tax, and total.</li>
+      <li><strong>Bill Display:</strong> Shows itemized bill on screen.</li>
+      <li><strong>Print/Save Bill:</strong> Option to print or save receipt.</li>
+    </ul>
+
+    <h3>Advantages</h3>
+    <ul>
+      <li>Time-saving and efficient during peak hours.</li>
+      <li>Accurate and error-free calculations.</li>
+      <li>Professional presentation of bills.</li>
+      <li>Easy data management for daily records.</li>
+      <li>Cost-effective compared to advanced POS systems.</li>
+      <li>Fully customizable according to business needs.</li>
+    </ul>
+
+    <h3>Limitations</h3>
+    <ul>
+      <li>Does not support online payments in the basic version.</li>
+      <li>No kitchen order tracking feature.</li>
+      <li>Requires backend integration for data storage and analytics.</li>
+    </ul>
+
+    <h3>Future Scope</h3>
+    <p>The system can be upgraded with:</p>
+    <ul>
+      <li>Online payment and UPI integration.</li>
+      <li>Email or SMS receipts to customers.</li>
+      <li>Role-based login for staff and admin.</li>
+      <li>Cloud database for centralized data storage.</li>
+      <li>Integration with inventory and order systems.</li>
+      <li>Mobile app or tablet version for portability.</li>
+    </ul>
+
+    <h3>Conclusion</h3>
+    <p>
+      The Restaurant / Café Bill Generator is a simple yet powerful tool that automates billing in restaurants and cafés.
+      It saves time, reduces errors, and ensures smooth transactions. With this system, the restaurant staff can focus more
+      on providing better service while the software handles calculations accurately. It demonstrates how digital solutions
+      can modernize small businesses and enhance their efficiency.
+    </p>
+</div>
+<style>
+ 
+    h1, h2 {
+      text-align: center;
+      color:#007bff;
+    }
+    h3 {
+      color: #333;
+      border-left: 4px solid #007bff;
+      padding-left: 10px;
+    }
+    p {
+      text-align: justify;
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+    ul {
+      line-height: 1.8;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    hr {
+      border: 0;
+      border-top: 2px solid #eee;
+      margin: 30px 0;
+    }
+</style>
+
+<div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+  </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function setPrice(select){
+  const priceInput = select.parentElement.nextElementSibling.nextElementSibling;
+  priceInput.value = select.value;
+  updateRow(priceInput);
+}
+
+function updateRow(el){
+  const row = el.parentElement.parentElement;
+  const qty = row.cells[1].querySelector('input').value;
+  const price = row.cells[2].querySelector('input').value;
+  const gst = row.cells[3].querySelector('input').value;
+  const discount = row.cells[4].querySelector('input').value;
+  let total = (qty * price) * (1 + gst/100) * (1 - discount/100);
+  row.querySelector('.itemTotal').textContent = total.toFixed(2);
+  calcGrand();
+}
+
+function calcGrand(){
+  let grand = 0;
+  document.querySelectorAll('.itemTotal').forEach(t=>grand+=parseFloat(t.textContent));
+  document.getElementById('grandTotal').textContent = grand.toFixed(2);
+}
+
+function addRow(){
+  const body = document.getElementById('billBody');
+  const row = document.createElement('tr');
+  row.innerHTML = `
+  <td>
+    <select onchange="setPrice(this)">
+      <option value="0">Select Item</option>
+      <option value="150">Pizza</option>
+      <option value="80">Burger</option>
+      <option value="60">Sandwich</option>
+      <option value="40">Cold Drink</option>
+      <option value="120">Pasta</option>
+      <option value="50">Tea/Coffee</option>
+    </select>
+  </td>
+  <td><input type="number" value="1" min="1" onchange="updateRow(this)"></td>
+  <td><input type="number" value="0" min="0" onchange="updateRow(this)"></td>
+  <td><input type="number" value="5" min="0" onchange="updateRow(this)"></td>
+  <td><input type="number" value="0" min="0" onchange="updateRow(this)"></td>
+  <td class="itemTotal">0</td>
+  <td><button onclick="removeRow(this)">❌</button></td>`;
+  body.appendChild(row);
+}
+
+function removeRow(btn){
+  btn.parentElement.parentElement.remove();
+  calcGrand();
+}
+
+function downloadPDF(){
+  const element = document.querySelector('.container');
+  html2pdf().from(element).set({filename:'Restaurant_Invoice.pdf'}).save();
+}
+
+
+// Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMI Calculator | BCA-HUB</title>
+<style>
+:root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+}
+body{
+  margin:0;
+  font-family:"Poppins",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:background .3s,color .3s;
+}
+
+/* HEADER */
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 18px;
+  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
+  color:#fff;
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:1001;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+}
+.logo{font-weight:700;font-size:1.3rem;margin-right: 80px;}
+.sidebar-toggle{cursor:pointer;font-size:1.5rem;display:block;}
+
+/* SCROLLABLE LINKS */
+.scrollable-links{
+  display:flex;
+  overflow-x:auto;
+  background:#fff3cd;
+  padding:8px 0;
+  position:fixed;
+  top:53px;
+  width:100%;
+  scrollbar-width:thin;
+  z-index:999;
+}
+.scrollable-links a{
+  flex:0 0 auto;
+  margin:0 12px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+.scrollable-links a:hover{color:var(--primary);}
+
+/* SIDEBAR */
+.sidebar{
+  width:220px;
+  height:100vh;
+  background:var(--sidebar-bg);
+  position:fixed;
+  top:0;
+  left:0;
+  padding-top:60px;
+  z-index:1000;
+  overflow-y:auto;
+  transition:left .3s ease;
+}
+.sidebar a{
+  display:block;
+  padding:12px 18px;
+  border-bottom:1px solid rgba(255,255,255,.2);
+  color:white;
+  text-decoration:none;
+  font-size:1em;
+  transition:0.3s;
+}
+.sidebar a:hover{background:rgba(255,255,255,.1);padding-left:25px;}
+.sidebar.closed{left:-220px;}
+
+/* MAIN CONTENT */
+.main{
+  margin-left:220px;
+  padding:130px 20px 50px 20px;
+  transition:margin-left .3s;
+  
+}
+
+/* MOBILE ADJUSTMENTS */
+@media(max-width:1024px){
+  .sidebar-toggle{display:block;}
+  .sidebar.closed{left:-220px;}
+  .sidebar{top:0;}
+  .main{margin-left:0;}
+}
+
+/* CONTAINER */
+.container{
+  background:var(--card);
+  padding:25px 20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.15);
+  max-width:800px;
+  margin:0 auto;
+}
+h1{color:var(--primary);margin-bottom:15px;text-align:center;}
+input[type="number"]{width:90%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid #ccc;font-size:16px;}
+button{padding:10px 14px;border-radius:8px;border:none;font-weight:600;cursor:pointer;}
+.btn-primary{background:var(--primary);color:#fff;margin-right:5px;}
+.btn-secondary{background:#e0e0e0;margin-right:5px;}
+.result{margin-top:12px;padding:12px;border-radius:8px;background:#fffbe6;border-left:4px solid var(--primary);white-space:pre-wrap;}
+.info{margin-top:12px;padding:12px;background:#fff3cd;border-left:5px solid var(--primary);border-radius:8px;color:#333;}
+
+/* MAIN CONTENT */
+.main{
+  max-width:1200px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  
+}
+h1{color:var(--primary);margin-bottom:20px;text-align:center;}
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+/* SIDEBAR FIXED SCROLL */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px); /* top 80px ke baad remaining height */
+ background-color: #333333;
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto; /* vertical scroll */
+  overflow-x: hidden; /* horizontal scroll nahi chahiye */
+}
+
+.sidebar.show { left: 0; }
+
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+
+/* Optional: custom scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+</style>
+</head>
+<body>
+<header>
+  <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+<div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+<div class="main">
+  <div class="container">
+    <h1>BMI Calculator</h1>
+    <label>Weight (kg):</label>
+    <input type="number" id="weight" placeholder="e.g. 70">
+    <label>Height (cm):</label>
+    <input type="number" id="height" placeholder="e.g. 170">
+    <button class="btn-primary" onclick="calculateBMI()">Calculate</button>
+    <button class="btn-secondary" onclick="clearBMI()">Clear</button>
+    <div id="result" class="result"></div>
+    <div class="info">
+      <strong>How to Use:</strong><br>
+      1️⃣ Enter your weight in kilograms (kg).<br>
+      2️⃣ Enter your height in centimeters (cm).<br>
+      3️⃣ Click <b>Calculate</b> to get your BMI and category.<br>
+      4️⃣ Click <b>Clear</b> to reset inputs.<br>
+      5️⃣ Result will show below.
+    </div>
+  </div>
+</div>
+<div class="container">
+<p>
+      Maintaining a healthy body weight is essential for overall wellness. Body Mass Index (BMI) is a simple method to assess whether a person’s weight is healthy relative to their height. However, calculating BMI manually requires a formula and careful unit conversion. A <strong>BMI Calculator</strong> is a digital tool designed to quickly compute BMI, helping users understand their weight category and take informed decisions regarding health and fitness.
+</p>
+
+<p>
+      This project provides a user-friendly interface where users can enter their weight in kilograms or pounds and height in centimeters or feet/inches. The calculator then computes the BMI and displays the weight category, such as underweight, normal, overweight, or obese. This tool is highly useful for fitness enthusiasts, healthcare professionals, and anyone interested in monitoring their health.
+</p>
+
+<h3>Objective</h3>
+<p>
+      The main objective of the BMI Calculator is to provide an accurate, fast, and easy-to-use tool for assessing body weight relative to height. Specifically, it aims to:
+</p>
+<ul>
+      <li>Calculate BMI accurately using standard formulas.</li>
+      <li>Classify users into weight categories for better understanding.</li>
+      <li>Provide a user-friendly interface for all age groups.</li>
+      <li>Save time compared to manual calculations.</li>
+      <li>Enable future enhancements such as graphical tracking, health tips, and multi-user tracking.</li>
+</ul>
+
+<h3>Problem Statement</h3>
+<p>
+      Manual BMI calculation can be confusing, especially when converting between units or calculating for multiple users. Errors in calculation can mislead users regarding their health status. Therefore, a <strong>BMI Calculator</strong> is necessary to provide instant, accurate results, helping individuals maintain a healthy lifestyle and make informed health decisions.
+</p>
+
+<h3>Scope of the Project</h3>
+<p>
+      This calculator is useful for individuals, fitness trainers, healthcare professionals, schools, and wellness centers. It can be implemented as a web tool, mobile app, or desktop software. Future extensions may include graphical BMI tracking over time, personalized health suggestions, integration with diet and exercise plans, and multiple user profiles. It is versatile and applicable for personal health monitoring, fitness programs, and professional health assessments.
+</p>
+
+<h3>Features</h3>
+<ul>
+      <li><strong>Simple Input:</strong> Users can enter weight in kilograms or pounds and height in centimeters or feet/inches.</li>
+      <li><strong>BMI Calculation:</strong> Calculates BMI accurately using the formula: <em>BMI = weight (kg) / (height (m))^2</em>.</li>
+      <li><strong>Weight Category:</strong> Displays the BMI category such as underweight, normal, overweight, or obese.</li>
+      <li><strong>Responsive Design:</strong> Works perfectly on mobile, tablet, and desktop devices.</li>
+      <li><strong>Instant Results:</strong> Shows BMI and category immediately after input.</li>
+      <li><strong>Reset Option:</strong> Clears inputs and results for a new calculation.</li>
+      <li><strong>Unit Conversion:</strong> Option to switch between metric and imperial units.</li>
+</ul>
+
+<h3>Technology Used</h3>
+<ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+      <li><strong>Backend (optional):</strong> Node.js, Python, or PHP for storing historical BMI records or user profiles</li>
+      <li><strong>Tools:</strong> VS Code or any code editor</li>
+</ul>
+
+<h3>System Design and Working</h3>
+<p>The BMI Calculator works through a simple and efficient process:</p>
+<ul>
+      <li><strong>Input Section:</strong> Users enter weight and height in the chosen units.</li>
+      <li><strong>Calculation Engine:</strong> JavaScript or backend logic computes BMI using the standard formula and determines the weight category.</li>
+      <li><strong>Result Display:</strong> Shows BMI value and corresponding category clearly.</li>
+      <li><strong>Optional Features:</strong> Graphical tracking of BMI over time, health tips, and multiple user profiles.</li>
+      <li><strong>Reset Function:</strong> Clears all inputs and results for a new calculation.</li>
+</ul>
+
+<h3>Advantages</h3>
+<ul>
+      <li>Instant and accurate BMI calculation.</li>
+      <li>Helps users understand their health status clearly.</li>
+      <li>Reduces errors compared to manual calculation methods.</li>
+      <li>User-friendly interface suitable for all users.</li>
+      <li>Responsive design ensures usability on any device.</li>
+      <li>Optional features like graphical tracking help monitor health progress over time.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+      <li>Basic version does not track BMI history for multiple dates or users.</li>
+      <li>Advanced features like health suggestions, diet plans, and exercise tips require backend support.</li>
+      <li>BMI is a general indicator and may not reflect exact health or fitness level for all individuals.</li>
+</ul>
+
+<h3>Future Scope</h3>
+<ul>
+      <li>Graphical BMI tracking over time to monitor health progress.</li>
+      <li>Integration with diet and exercise recommendations for personalized health plans.</li>
+      <li>Store historical BMI records for multiple users.</li>
+      <li>Mobile app version for convenient tracking and calculations on-the-go.</li>
+      <li>Provide detailed reports and insights based on BMI trends.</li>
+      <li>Integration with wearable devices to fetch weight and height data automatically.</li>
+</ul>
+
+<h3>Conclusion</h3>
+<p>
+      The BMI Calculator is a practical and efficient tool for assessing body weight relative to height. It provides instant, accurate, and reliable results, helping users monitor their health effectively. With additional features like graphical tracking, personalized health suggestions, and mobile accessibility, the BMI Calculator can become a comprehensive tool for personal and professional health monitoring. By making health assessments easy and error-free, it encourages users to take proactive steps towards a healthier lifestyle.
+</p>
+</div>
+
+<style>
+h1,h2{text-align:center;color:#007bff;}
+h3{color:#333;border-left:4px solid #007bff;padding-left:10px;}
+p{text-align:justify;line-height:1.8;margin-bottom:15px;}
+ul{line-height:1.8;}
+li{margin-bottom:8px;}
+hr{border:0;border-top:2px solid #eee;margin:30px 0;}
+</style>
+
+
+
+<div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+  </div>
+</div>
+<script>
+
+// Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+// BMI calculation
+function calculateBMI(){
+  const weight=Number(document.getElementById('weight').value);
+  const height=Number(document.getElementById('height').value)/100; // cm to meters
+  if(!weight || !height){ alert("Enter valid values"); return; }
+  const bmi=weight/(height*height);
+  let category="";
+  if(bmi<18.5){category="Underweight";}
+  else if(bmi<25){category="Normal weight";}
+  else if(bmi<30){category="Overweight";}
+  else{category="Obese";}
+  document.getElementById('result').textContent=`BMI: ${bmi.toFixed(2)}\nCategory: ${category}`;
+}
+
+function clearBMI(){
+  document.getElementById('weight').value='';
+  document.getElementById('height').value='';
+  document.getElementById('result').textContent='';
+}
+</script>
+
+</body>
+</html>

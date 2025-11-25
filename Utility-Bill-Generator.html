@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Utility Bill Generator | BCA-HUB</title>
+<style>
+:root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+}
+body{margin:0;font-family:"Poppins",Arial,sans-serif;background:var(--bg);color:var(--text);}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,var(--primary),var(--primary-dark));color:#fff;position:fixed;top:0;width:100%;z-index:1001;box-shadow:0 4px 10px rgba(0,0,0,.3);}
+
+.main{margin-top:120px;padding:15px;}
+.container{background:var(--card);padding:25px 20px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.15);max-width:700px;margin:0 auto;}
+h1{text-align:center;color:var(--primary);margin-bottom:20px;}
+input,select{width:60%;padding:10px;margin-bottom:12px;border-radius:8px;border:1px solid #ccc;font-size:16px;}
+button{padding:10px 14px;border-radius:8px;border:none;font-weight:600;cursor:pointer;margin-right:5px;}
+.btn-primary{background:var(--primary);color:#fff;}
+.total-box{background:#bbdefb;padding:15px;border-radius:10px;margin-top:15px;font-size:18px;text-align:center;}
+@media(max-width:768px){
+  input,select{font-size:14px;}
+  button{width:100%;margin-bottom:8px;}
+}
+
+/* TOP LINKS */
+.scrollable-links{
+  display:flex;
+  overflow-x:auto;
+  background:#fff8e1;
+  padding:8px 0;
+  position:fixed;
+  top:53px;
+  width:100%;
+  scrollbar-width:thin;
+  z-index:999;
+}
+.scrollable-links a{
+  flex:0 0 auto;
+  margin:0 12px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+.scrollable-links a:hover{color:var(--primary);}
+
+/* SIDEBAR FIXED SCROLL */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px); /* top 80px ke baad remaining height */
+  background: var(--sidebar-bg);
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto; /* vertical scroll */
+  overflow-x: hidden; /* horizontal scroll nahi chahiye */
+}
+
+.sidebar.show { left: 0; }
+
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+
+/* Optional: custom scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+/* MAIN CONTENT */
+.container{
+  max-width:800px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  background-color: #f9fafb;
+  
+}
+
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+
+
+
+input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 1rem;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    input[type="file"] {
+      border: none;
+     background: #007bff;
+      color: white;
+    }
+    button {
+      border: none;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background .2s, transform .2s;
+    }
+  
+
+</style>
+</head>
+<body>
+<header>
+  <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+<div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+
+<div class="main">
+  <div class="container">
+    <h1>Utility Bill Generator</h1>
+
+    <h3>Customer & Bill Details</h3>
+    <input type="text" id="customerName" placeholder="Customer Name">
+    <input type="text" id="billNo" placeholder="Bill Number">
+    <select id="utilityType">
+      <option value="Electricity">Electricity</option>
+      <option value="Water">Water</option>
+      <option value="Gas">Gas</option>
+    </select>
+    <input type="date" id="billDate">
+
+    <h3>Consumption Details</h3>
+    <input type="number" id="units" placeholder="Units Consumed" min="0">
+    <input type="number" id="rate" placeholder="Rate per Unit (₹)" min="0" value="0">
+    <input type="number" id="gst" placeholder="GST %" min="0" value="5">
+
+    <div class="total-box">
+      <strong>Total Amount: ₹ <span id="totalAmount">0</span></strong>
+    </div>
+
+    <button class="btn-primary" onclick="calculateTotal()">Calculate Total</button>
+    <button class="btn-primary" onclick="downloadPDF()">📄 Download Bill (PDF)</button>
+  </div>
+</div>
+<div class="howto">
+  <h3>How to Use</h3>
+  <p>
+    1️⃣ Enter customer details and billing period.<br>
+    2️⃣ Input units consumed for electricity, water, or gas.<br>
+    3️⃣ Set rate per unit and any fixed charges.<br>
+    4️⃣ GST and discounts will be calculated automatically.<br>
+    5️⃣ Grand total will be displayed in real-time.<br>
+    6️⃣ Click <b>Download PDF</b> to save the bill.<br>
+    7️⃣ Works on both mobile & desktop with responsive UI.
+  </p>
+</div>
+<style>
+    /* How to Use Section - Utility Bill Generator */
+.howto {
+  background: #fff3e0; /* light orange background */
+  border-left: 5px solid #007bff; /* accent color */
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 800px;
+  margin: 20px auto;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.howto h3 {
+  color: #007bff; /* primary color */
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.howto p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #222;
+}
+
+.howto b {
+  color: #007bff; /* highlight important actions */
+}
+
+/* Responsive for Mobile */
+@media (max-width: 768px) {
+  .howto {
+    padding: 15px;
+  }
+  .howto p {
+    font-size: 13px;
+  }
+}
+
+</style>
+<div class="container">
+  <p>
+    In the age of digital transformation, automation has become essential for accuracy, convenience, and productivity. 
+    The <strong>Utility Bill Generator</strong> is a software or web-based system designed to simplify and automate 
+    the process of generating bills for essential public utilities like electricity, water, gas, and internet. 
+    Instead of depending on manual billing methods, this system calculates charges based on usage and produces 
+    professional bills instantly. It helps both organizations and customers by making the billing process faster, 
+    transparent, and error-free.
+  </p>
+  <p>
+    The project aims to replace traditional paper-based or manually calculated bills with a digital, reliable, 
+    and efficient solution. Users or administrators can input data such as customer name, meter reading, units consumed, 
+    and applicable rates. The system automatically calculates totals, adds taxes, and displays the final payable amount. 
+    Bills can be printed or downloaded, reducing human effort and ensuring accuracy.
+  </p>
+
+  <h3>Objective</h3>
+  <p>
+    The key objective of the Utility Bill Generator is to create an automated platform that efficiently generates 
+    utility bills without manual intervention. The system focuses on speed, precision, and easy access to billing data. 
+    It ensures that utility providers can manage multiple customers seamlessly and that users receive accurate bills on time.
+  </p>
+  <ul>
+    <li>To automate the billing process for electricity, water, gas, and internet services.</li>
+    <li>To minimize human errors during bill preparation and calculation.</li>
+    <li>To reduce administrative work and enhance time efficiency.</li>
+    <li>To generate professional, easy-to-read bills for customers.</li>
+    <li>To maintain a digital record of all transactions for future reference.</li>
+    <li>To support the vision of a paperless and eco-friendly billing system.</li>
+  </ul>
+
+  <h3>Problem Statement</h3>
+  <p>
+    Traditionally, many local authorities and private companies rely on manual billing systems using calculators or 
+    spreadsheets. These methods often lead to mistakes in totals, incorrect tax calculations, and delays in distribution. 
+    Maintaining physical records also increases administrative load and reduces data accessibility. 
+    Consumers sometimes receive incorrect or delayed bills, creating confusion and dissatisfaction.
+  </p>
+  <p>
+    Therefore, a <strong>digital Utility Bill Generator</strong> is needed to overcome these limitations. 
+    By automating the process, this system ensures consistency, accuracy, and better management of billing data. 
+    It benefits both providers and consumers by making billing smarter, faster, and more transparent.
+  </p>
+
+  <h3>Scope of the Project</h3>
+  <p>
+    The Utility Bill Generator can be implemented across various sectors. 
+    Government utility departments, private service companies, schools, residential complexes, and offices can 
+    all benefit from this system. It can handle a single type of utility or multiple utilities at once, depending on 
+    organizational needs. 
+  </p>
+  <p>
+    This project can also be expanded to include features like automated meter reading integration, 
+    online payments, and real-time usage tracking. It can easily scale for small, medium, or large-scale billing systems, 
+    making it suitable for both individual and institutional applications.
+  </p>
+
+  <h3>Features</h3>
+  <ul>
+    <li><strong>Simple User Interface:</strong> Designed for ease of use with minimal training required.</li>
+    <li><strong>Automated Calculations:</strong> Automatically computes total amounts, taxes, and surcharges.</li>
+    <li><strong>Multiple Utility Support:</strong> Manage electricity, water, and gas billing from one system.</li>
+    <li><strong>Custom Rate Management:</strong> Modify unit rates and tax slabs as per rules or location.</li>
+    <li><strong>Instant Bill Generation:</strong> Create and display professional bills in real time.</li>
+    <li><strong>Data Storage:</strong> Save customer and transaction details for easy retrieval.</li>
+    <li><strong>Print and Download:</strong> Option to print or export bills in PDF format.</li>
+    <li><strong>Email Integration:</strong> Send digital copies directly to customers.</li>
+    <li><strong>Secure Access:</strong> Protect billing data with authorized login.</li>
+    <li><strong>Error-Free Operations:</strong> Reduces the risk of manual mistakes completely.</li>
+  </ul>
+
+  <h3>Technology Used</h3>
+  <ul>
+    <li><strong>Frontend:</strong> HTML, CSS, JavaScript for interface and interactivity.</li>
+    <li><strong>Backend (optional):</strong> PHP, Node.js, or Python (Flask/Django).</li>
+    <li><strong>Database:</strong> MySQL or SQLite for storing billing and customer records.</li>
+    <li><strong>Tools Used:</strong> VS Code, Notepad++, or any preferred text editor.</li>
+  </ul>
+
+  <h3>System Design and Working</h3>
+  <p>The workflow of the Utility Bill Generator consists of several steps:</p>
+  <ul>
+    <li><strong>Data Entry:</strong> The admin inputs user details, units consumed, and meter readings.</li>
+    <li><strong>Rate Application:</strong> The system applies standard or custom rates automatically.</li>
+    <li><strong>Calculation Module:</strong> Computes subtotal, taxes, and total payable amount.</li>
+    <li><strong>Bill Display:</strong> Generates a clear and itemized bill for review.</li>
+    <li><strong>Download/Print Option:</strong> Enables saving or printing the generated invoice.</li>
+    <li><strong>Database Storage:</strong> Saves the record in the database for reports or audits.</li>
+  </ul>
+
+  <h3>Advantages</h3>
+  <ul>
+    <li>Reduces the workload of billing staff and improves speed.</li>
+    <li>Minimizes human error through automatic calculations.</li>
+    <li>Supports modern digital transformation goals.</li>
+    <li>Enables easy tracking of past bills and payment history.</li>
+    <li>Customizable according to different rate structures and regions.</li>
+    <li>Provides professional and easy-to-understand bills for customers.</li>
+    <li>Contributes to environmental sustainability by reducing paper usage.</li>
+  </ul>
+
+  <h3>Limitations</h3>
+  <ul>
+    <li>Basic version may not include live meter reading integration.</li>
+    <li>Needs backend database for storing billing records securely.</li>
+    <li>No graphical analytics in the initial design.</li>
+    <li>Requires periodic updates of rate and tax data for accuracy.</li>
+  </ul>
+
+  <h3>Future Scope</h3>
+  <p>
+    The Utility Bill Generator has great potential for expansion. In the future, it can be integrated with 
+    smart meter systems to automatically fetch consumption readings. Payment gateways can be added to enable 
+    customers to pay directly online. Cloud technology can allow remote access and centralized data management.
+  </p>
+  <ul>
+    <li>Integration with smart energy meters for real-time updates.</li>
+    <li>Online payment systems using UPI, cards, or e-wallets.</li>
+    <li>Cloud-based platform for scalable and secure operations.</li>
+    <li>Automatic email or SMS notifications for new bills or due dates.</li>
+    <li>Detailed usage reports and consumption analytics dashboard.</li>
+    <li>Multi-language support for accessibility across different regions.</li>
+    <li>Role-based logins for admin, accountant, and consumer access.</li>
+    <li>Integration with government and private billing systems.</li>
+  </ul>
+
+  <h3>Real-Life Applications</h3>
+  <p>
+    The <strong>Utility Bill Generator</strong> has applications across multiple sectors. 
+    Power boards can use it for electricity billing; water supply departments can manage consumption-based bills. 
+    Gas companies, internet providers, and even private housing societies can automate their monthly billing 
+    with this system. Educational institutions, hospitals, and corporate offices can also use it to handle 
+    their internal utility billing efficiently.
+  </p>
+
+  <h3>Conclusion</h3>
+  <p>
+    The <strong>Utility Bill Generator</strong> is a practical and efficient system that replaces outdated manual 
+    billing processes with an automated digital approach. It ensures accuracy, speed, and professionalism while 
+    maintaining transparency between service providers and customers. The system saves time, reduces workload, 
+    and helps organizations move toward digital sustainability. With additional features such as online payment, 
+    data analytics, and cloud integration, the Utility Bill Generator can evolve into a complete digital billing 
+    management platform that meets the needs of modern smart cities and digital service ecosystems.
+  </p>
+</div>
+
+<style>
+  h1, h2 {
+    text-align: center;
+    color: #007bff;
+  }
+  h3 {
+    color: #333;
+    border-left: 4px solid #007bff;
+    padding-left: 10px;
+  }
+  p {
+    text-align: justify;
+    line-height: 1.8;
+    margin-bottom: 15px;
+  }
+  ul {
+    line-height: 1.8;
+  }
+  li {
+    margin-bottom: 8px;
+  }
+  hr {
+    border: 0;
+    border-top: 2px solid #eee;
+    margin: 30px 0;
+  }
+</style>
+
+
+<div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+<hr>
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function calculateTotal(){
+  const units = parseFloat(document.getElementById('units').value)||0;
+  const rate = parseFloat(document.getElementById('rate').value)||0;
+  const gst = parseFloat(document.getElementById('gst').value)||0;
+  let total = units * rate;
+  total = total * (1 + gst/100);
+  document.getElementById('totalAmount').textContent = total.toFixed(2);
+}
+
+function downloadPDF(){
+  const element = document.querySelector('.container');
+  html2pdf().from(element).set({filename:'Utility_Bill.pdf'}).save();
+}
+
+
+// Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+</script>
+</body>
+</html>

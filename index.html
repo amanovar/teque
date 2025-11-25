@@ -1,436 +1,592 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>BCA-HUB — Learn • Practice • Build, hello manohar ji</title>
-  <meta name="description" content="BCA-HUB: BCA students ke liye notes, quizzes, code examples, calculators aur project ideas — sab ek jagah. Learn, practice aur build with free tools." />
-  <meta name="keywords" content="BCA, BCA Notes, BCA Quiz, BCA Projects, BCA Calculators, BCA-HUB, BCA Study Material, BCA Learning, BCA Tools" />
-  <meta name="author" content="BCA-HUB Team" />
-  <meta name="robots" content="index, follow" />
-  <meta name="language" content="en" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="canonical" href="https://lavenderblush-snail-560509.hostingersite.com/index.html" />
-</head>
-
-</head>
-<body>
-  
-  <style>
-    :root{
-      --bg:#0f172a;        /* slate-900 */
-      --card:#111827ee;    /* gray-900 */
-      --text:#e5e7eb;      /* gray-200 */
-      --muted:#9ca3af;     /* gray-400 */
-      --brand:#22d3ee;     /* cyan-400 */
-      --accent:#a78bfa;    /* violet-400 */
-      --ring:#22d3ee55;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 18px;
-      --max: 1100px;
-    }
-    *{
-      box-sizing:border-box
-    }
-    html,body{
-      height:100%
-    }
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-      
-      background:
-        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
-        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
-        var(--bg);
-      color:var(--text);
-      line-height:1.6;
-    }
-    a{
-      color:inherit;
-      text-decoration:none
-    }
-    .wrap{max-width:var(--max);margin:auto;padding:20px}
-    header{
-      position:sticky; top:0;
-       z-index:10;
-      backdrop-filter: blur(8px);
-      background: linear-gradient(180deg, rgba(17,24,39,.85), rgba(17,24,39,.35));
-      border-bottom:1px solid #ffffff10;
-    }
-    .nav{
-      display:flex;
-      align-items:center;justify-content:space-between;
-      gap:12px}
-    .brand{display:flex;
-      align-items:center;gap:10px;font-weight:700;
-      letter-spacing:.3px}
-    .logo{
-      width:36px;height:36px;
-      border-radius:10px;
-      background: conic-gradient(from 180deg, var(--brand), var(--accent), var(--brand));
-      box-shadow: 0 0 0 4px #ffffff10, 0 8px 25px #00000070;
-    }
-    .nav a.btn{padding:10px 14px;border:1px solid #ffffff25;border-radius:12px}
-    .nav a.btn:hover{border-color:#ffffff55}
-    .hero{
-      display:grid; gap:22px; align-items:center;
-      grid-template-columns: 1.1fr .9fr;
-      padding:52px 20px 28px;
-    }
-
-    .scrollable-links {
-  display: flex;
-  overflow-x: auto;
-  gap: 12px;
-  padding: 10px 16px;
-  background: #0b1220cc; /* dark bar */
-  border-bottom: 1px solid #ffffff20;
-  scrollbar-width: none; /* Firefox hide scrollbar */
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCA-HUB | All Calculators</title>
+<style>
+:root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
 }
-.scrollable-links::-webkit-scrollbar {
-  display: none; /* Chrome hide scrollbar */
-  
+
+body{
+  margin:0;
+  font-family:"Poppins",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:background .3s,color .3s;
 }
-.scrollable-links a {
-  flex: 0 0 auto;
-  padding: 8px 14px;
+/* HEADER */
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 18px;
+  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
+  color:#fff;
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:1000;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+}
 
-  border: 1px solid #ffffff25;
-  border-radius: 999px;
-  font-size: 14px;
-  color: #e5e7eb;
+/* TOP LINKS */
+.scrollable-links{
+  display:flex;
+  overflow-x:auto;
+  background:#fff8e1;
+  padding:8px 0;
+  position:fixed;
+  top:53px;
+  width:100%;
+  scrollbar-width:thin;
+  z-index:999;
+}
+.scrollable-links a{
+  flex:0 0 auto;
+  margin:0 12px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+.scrollable-links a:hover{color:var(--primary);}
 
+/* SIDEBAR FIXED SCROLL */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px); /* top 80px ke baad remaining height */
+  background: var(--sidebar-bg);
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto; /* vertical scroll */
+  overflow-x: hidden; /* horizontal scroll nahi chahiye */
+}
+
+.sidebar.show { left: 0; }
+
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
   text-decoration: none;
-  white-space: nowrap;
-  transition: background .2s, border-color .2s;
-}
-.scrollable-links a:hover {
-  background: #1f2937;
-  border-color: #ffffff55;
+  font-size: 1em;
+  transition: 0.3s;
 }
 
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+
+/* Optional: custom scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* MAIN CONTENT */
+.container{
+  max-width:800px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  background-color: #f9fafb;
+  
+}
+
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
 
 
 
 
-    @media (max-width:900px){
-       .hero{grid-template-columns:1fr; padding-top:32px} }
-    .hero h1{
-      font-size: clamp(28px, 4vw, 46px);
-      line-height:1.15; margin:10px 0 8px;
-      letter-spacing:.2px;
+input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 1rem;
+      border-radius: 8px;
+      box-sizing: border-box;
     }
-    .hero p{
-      color:var(--muted);font-size:clamp(14px,2.2vw,18px)
+    input[type="file"] {
+      border: none;
+     background: #007bff;
+      color: white;
     }
-    .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:14px}
-    .btn-primary, .btn-ghost{
-      padding:12px 16px; border-radius:14px; font-weight:600; cursor:pointer; border:1px solid transparent;
-      transition: transform .08s ease, box-shadow .2s ease, border-color .2s;
+    button {
+      border: none;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background .2s, transform .2s;
     }
-    .btn-primary{
-      background: linear-gradient(135deg, var(--brand), var(--accent));
-      color:#0b1220;
-      box-shadow: var(--shadow);
-    }
-    .btn-primary:active{ transform: scale(.98) }
-    .btn-ghost{
-      border-color:#ffffff30; background:#0b122040; color:var(--text)
-    }
-    .preview{
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, #0b1220, #0b1220c5);
-      border:1px solid #ffffff12; box-shadow: var(--shadow);
-      padding:16px; min-height:260px;
-      position:relative; overflow:hidden;
-    }
-    .glow{
-      position:absolute; inset:-30%; filter: blur(60px);
-      background: conic-gradient(from 0deg, #22d3ee30, #a78bfa30, transparent 30%);
-      animation: spin 9s linear infinite;
-    }
-    @keyframes spin{ to{ transform: rotate(1turn) } }
-    section{padding:32px 20px}
-    h2{font-size:clamp(20px,3vw,28px); margin:6px 0 12px}
-    .grid{
-      display:grid; gap:16px;
-      grid-template-columns: repeat(3, 1fr);
-    }
-    @media (max-width:900px){
-       .grid{grid-template-columns:1fr 1fr}
-       }
-    @media (max-width:620px){
-       .grid{grid-template-columns:1fr} 
-      }
-    .card{
-      background: linear-gradient(180deg, #0f172acc, #0b1220cc);
-      border:1px solid #ffffff12;
-      border-radius: var(--radius);
-      padding:16px; box-shadow: var(--shadow);
-      transition: transform .15s ease, border-color .2s ease;
-    }
-    .card:hover{ transform: translateY(-4px);
-       border-color:#ffffff35 }
-    .muted{color:var(--muted)}
-    .badge{
-      display:inline-block; font-size:12px; padding:6px 10px; border-radius:999px;
-      border:1px solid #ffffff25; background:#0b122055; margin-bottom:6px
-    }
-    .list{margin:0; padding-left:18px}
-    .list li{margin:6px 0}
-    .faq details{
-      border:1px solid #ffffff18; border-radius:14px; padding:12px 14px; margin:10px 0; background:#0b122040
-    }
-    .faq summary{cursor:pointer; font-weight:600}
-    footer{padding:30px 20px;color:#9aa3b2;border-top:1px solid #ffffff12}
-    .pillnav{display:flex;gap:8px;flex-wrap:wrap}
-    .pillnav a{padding:8px 12px;border:1px solid #ffffff25;border-radius:999px}
-    .pillnav a:hover{border-color:#ffffff55}
-    .ring:focus{outline:none; box-shadow: 0 0 0 4px var(--ring)}
-  </style>
+  
+</style>
 </head>
 <body>
-  <header>
-    <div class="wrap nav">
-      <div class="brand"><span class="logo" aria-hidden="true"></span> BCA-HUB</div>
-      <nav class="pillnav">
-        <a href="#about">About</a>
-        <a href="#features">Features</a>
-        <a href="#semesters">Semesters</a>
-        <a href="#faq">FAQ</a>
-        <a class="btn" href="#get-started">Get Started</a>
-      </nav>
-    </div>
-  </header>
+<header>
+  <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
 
-  <!-- SCROLLABLE LINKS -->
 <div class="scrollable-links">
   <a href="index.html">Home</a>
-  <a href="allinone.html">All-in-One Utility</a>
-  <a href="GST-Calculator.html">All Calculator</a>
-  <a href="C++Programming-Quiz.html">C Language Quiz</a>
-  <a href="Editor1.html">HTML Editor</a>
-  <a href="Notes-Maker.html">Whiteboard</a>
-  <a href="clanguage.html">C Language</a>
-  <a href="Project-Ideas.html">Project Ideas</a>
-  <a href="Image-to-PDF-Converter.html">Image to PDF Converter</a>
-  <a href="PDF-Library.html">Notes PDF Library</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
 </div>
 
 
-  <main class="wrap">
-    <!-- HERO -->
-    <section class="hero" id="get-started" aria-label="Hero">
-      <div>
-        <span class="badge">Free • Mobile Friendly • Practical</span>
-        <h1>BCA-HUB — Learn • Practice • Build</h1>
-        <p>Welcome to our educational and utility website!
-This platform is specially designed for students and learners who want to study, practice, and explore useful tools at one place. Our website provides a collection of features that make learning easier and more interactive.</p>
-        <div class="cta">
-          <a class="btn-primary ring" href="#semesters">Start Learning</a>
-          <a class="btn-ghost ring" href="#features">Explore Features</a>
-        </div>
-      </div>
-      <div class="preview" aria-hidden="true">
-        <div class="glow"></div>
-        <div style="position:relative; z-index:2">
-          <p style="margin:0 0 8px; color:#c7d2fe">console</p>
-          <pre style="margin:0; overflow:auto"><code>// Try it on BCA-HUB
-int main(){
-  printf("Hello BCA!\\n");
-  return 0;
-}</code></pre>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" aria-label="About BCA-HUB">
-      <h2>Our Vision</h2>
-      <p class="muted">
-     Our vision is to create a smart educational hub where students not only read and study but also practice and test themselves in real-time. With a mix of calculators, coding tools, papers, and quizzes, we aim to make learning easy, practical, and interactive.
-      </p>
-    </section>
-
-    <!-- FEATURES -->
-    <section id="features" aria-label="Key Features">
-      <h2>Key Features</h2>
-      <div class="grid">
-        <div class="card">
-          <strong>PDF Library</strong>
-          <p class="muted">PDF Library, CSS Notes, HTML Notes, JavaScript Notes </p>
-          
-          <button style="background-color: rgb(93, 93, 220);border-radius: 5px;"><a style="color: white;" href="PDF-Library.html">view</a></button>
-        </div>
-        
-            <div class="card">
-          <strong>Whiteboard</strong>
-          <p class="muted">Whether it’s preparing diagrams, mind maps, flowcharts, or study notes, the Whiteboard + Notes Maker helps</p>
-      
-            <button style="background-color: rgb(93, 93, 220);border-radius: 5px;"><a style="color: white;" href="Notes-Maker.html">view</a></button>
-        </div>
-        <div class="card">
-          <strong>Calculators</strong>
-          <p class="muted">GST Calculator, EMI Calculator, BMI Calculator, Age Calculator, etc.</p>
-       
-             <button style="background-color: rgb(93, 93, 220);border-radius: 5px;"><a style="color: white;" href="GST-Calculator.html">view</a></button>
-        
-        </div>
-        <div class="card">
-          <strong>Project Ideas</strong>
-          <p class="muted">Mini and major project ideas with source code.</p>
-        
-        <button style="background-color: rgb(93, 93, 220);border-radius: 5px;"><a style="color: white;" href="Project-Ideas.html">view</a></button>
-        </div>
-
-          <div class="card">
-          <strong> Image to PDF Converter</strong>
-          <p class="muted">The Image to PDF Converter</p>
-        
-        <button style="background-color: rgb(93, 93, 220);border-radius: 5px;"><a style="color: white;" href="Image-to-PDF-Converter.html">view</a></button>
-        </div>
-
-
-        <div class="card">
-          <strong>Meter ⇄ Caliber Converter</strong>
-          <p class="muted">Convert meters to calibers and vice versa — with millimeter or inch options..</p>
-<a href="meter-caliber.html">more</a>
-        </div>
-      </div>
-    </section>
-
+<div class="container">
+  <h2>Image to PDF Converter</h2>
+<p>The Image to PDF Converter simplifies converting images into the PDF format. Users often need to combine notes, assignments, ID proofs, or document photos into one file. This application accepts common image formats like JPG and PNG, then produces a clean, high-quality PDF output. The goal is to make document management faster and easier for students, teachers, and professionals.</p>
+<br>
+<div class="Converter">
     
+    <p>Select up to 500 images to convert into a single PDF</p>
+    <input type="file" id="imageInput" accept="image/*" multiple />
+    <br>
+    <button onclick="convertToPDF()">Convert to PDF</button>
+  </div>
+<br>
+<h2>About SmartCalc Hub</h2>
+    <p>
+      SmartCalc Hub is your one-stop destination for all kinds of online calculators — financial, health, academic, and daily utilities. Whether you need to calculate your BMI, plan your SIP, estimate your bills, or check time and dates, we’ve got it all here. Designed with simplicity, accuracy, and speed in mind, SmartCalc aims to make every calculation just one click away.
+    </p>
 
-    <!-- SEMESTERS QUICK LINKS -->
-
-    <section id="semesters" aria-label="Semesters">
-      <h2>Start Learning —BCA Semesters</h2>
-      <div class="pillnav">
-       <a href="./sem1.html">Semester 1</a>
-        <a href="./sem2.html">Semester 2</a>
-         <a href="./sem3.html">Semester 3</a>
-        <a href="./sem4.html">Semester 4</a>
-        <a href="./sem5.html">Semester 5</a>
-      <a href="./sem6.html">Semester 6</a>
-        <a href="paper.html">Quastions paper</a>
-        
-      </div>
-      <p class="muted" style="margin-top:10px">Topic</p>
-
-    </section>
-
-  
-
-    <!-- FAQ -->
-
-
-    <section id="faq" class="faq" aria-label="FAQs">
-      <h2>FAQs</h2>
-      <details>
-        <summary>kya ye free hai?</summary>
-        <p>Haan, BCA-HUB completely free hai.</p>
-      </details>
-      <details>
-
-        <summary>notes kis format me milte hain?</summary>
-        <p>Short notes + PDFs + live code examples.</p>
-      </details>
-      <details>
-
-
-        <summary>kya phone par smoothly chalega?</summary>
-
-        <p>Haan, site 100% mobile-friendly. Low-data optimized.</p>
-      </details>
-      
-      <details>
-
-        <summary>project help milegi?</summary>
-        <p>Ideas + structure + sample code provide kiya jata hai.</p>
-      </details>
-    </section>
-
-     
- <!-- FAQ -->
-    <section id="faq" class="faq" aria-label="FAQs">
-      <h2>Computer Graphics?</h2>
-      <details>
-        <summary>1. What is Computer Graphics?</summary>
-        <p>Computer Graphics refers to the creation, manipulation, and representation of visual images using a computer. It involves generating images like 2D drawings, 3D models, and animations.
+<p>
+      Modern users prefer platforms that offer quick access, seamless navigation, and clear explanations. To meet these expectations, the home page can be enhanced with interactive elements such as hover effects, tooltips, and animated sections that make navigation engaging. For example, a user hovering over the “EMI Calculator” icon could see a brief description, highlighting its purpose and key benefits. Such micro-interactions increase user engagement and improve the overall experience.
 </p>
-      </details>
-      <details>
-        <summary>2. What are the types of Computer Graphics?</summary>
-        <p>Raster Graphics: Images made of pixels (e.g., digital photos).
 
-Vector Graphics: Images based on mathematical formulas (e.g., CAD drawings).
-
-3D Graphics: Representations of objects in three dimensions.</p>
-      </details>
-      <details>
-        <summary>3 What is the difference between Raster and Vector graphics?</summary>
-        <p>Raster: Pixel-based, loses quality when scaled, e.g., JPEG, PNG.
-
-Vector: Formula-based, scales without losing quality, e.g., SVG, AI files..</p>
-      </details>
-      <details>
-        <summary>4 What is a pixel?</summary>
-        <p>A pixel (short for “picture element”) is the smallest unit of a digital image or display. Each pixel has a specific color and position.
-
+<p>
+      Personalization is another important aspect. By analyzing user behavior or providing options to create profiles, the home page can display frequently used tools prominently, suggest new utilities, or even provide reminders for recurring tasks like monthly EMI payments or daily BMI tracking. This dynamic approach transforms a static homepage into an intelligent hub that adapts to user needs, saving time and increasing satisfaction.
 </p>
-      </details>
 
-      <details>
-        <summary>5 What is a frame buffer?</summary>
-        <p>A frame buffer is a portion of RAM containing a bitmap that drives the video display. It holds color values for every pixel to be displayed on the screen.
-.</p>
-      </details>
-      <details>
-        <summary>6 What are the applications of Computer Graphics?</summary>
-        <p>Video games
-
-Animation movies
-
-CAD (Computer-Aided Design)
-
-Virtual reality
-
-User interface design
-
-Medical imaging</p>
-      </details>
-
-      <details>
-        <summary>7 Explain 2D and 3D transformations.</summary>
-        <p>
-2D Transformation: Operations like translation, rotation, scaling in a 2D plane.
-
-3D Transformation: Same operations but in three dimensions (X, Y, Z axes).</p>
-      </details>
-
-      <details>
-        <summary>8  What is clipping in Computer Graphics?</summary>
-    <p>Clipping is the process of cutting out portions of images or primitives that lie outside a defined region (like a viewport or window).
-.</p>
-      </details>
-      <details>
-          <summary>9  What is the Bresenham’s Line Algorithm?</summary>
-        <p>Bresenham's algorithm is used to draw lines on a grid or raster display efficiently by choosing the nearest pixel to the ideal line.
+<p>
+      Visual hierarchy plays a critical role in making the home page more effective. Categorizing tools into sections such as <em>Finance, Health, Mathematics, and Geometry</em> helps users locate the required calculator quickly. Featured tools, popular calculators, and “New Additions” sections can be strategically placed to draw attention and encourage exploration. This layout not only improves usability but also promotes lesser-known tools that users might find useful.
 </p>
-      </details>
-    </section>
-  </main>
 
-  <footer>
-    <div class="wrap" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
-      <span>© <span id="y"></span> BCA-HUB</span>
-      <span>Learn • Practice • </span>
+<p>
+      Another way to enhance the home page is by integrating educational content. Short tutorials, example problems, and tips related to each calculator help users understand the underlying concepts. For instance, alongside the SIP Calculator, a brief note explaining the concept of compounding can make the tool more meaningful for beginners. Similarly, a small guide on BMI interpretation or polygon perimeter calculation can empower users to make informed decisions.
+</p>
+
+<p>
+      Accessibility and responsiveness remain top priorities. The home page must load quickly, adapt to different screen sizes, and support touch-based navigation on mobile devices. Implementing responsive grids, scalable icons, and collapsible sections ensures a consistent and pleasant experience for all users. Additionally, including a search bar allows users to find specific calculators in seconds, enhancing efficiency.
+</p>
+
+<p>
+      Community engagement and feedback can also be incorporated on the home page. Users could rate calculators, leave reviews, or suggest new tools. This interactive approach not only helps improve the platform but also creates a sense of community and trust among users.
+</p>
+
+<p>
+      In summary, the home page is not just a starting point—it is the heart of the platform. By combining clear navigation, interactive features, personalization, educational content, and responsive design, the home page can significantly enhance user satisfaction. It becomes a one-stop hub where users can efficiently access a wide range of calculators and tools while enjoying a seamless, informative, and engaging experience. Such a thoughtfully designed home page ensures that users return frequently, explore more tools, and benefit from the full potential of the platform.
+</p>
+</div>
+
+<style>
+h1,h2{text-align:center;color:#007bff;}
+h3{color:#333;border-left:4px solid #007bff;padding-left:10px;}
+p{text-align:justify;line-height:1.8;margin-bottom:15px;}
+ul{line-height:1.8;}
+li{margin-bottom:8px;}
+hr{border:0;border-top:2px solid #eee;margin:30px 0;}
+</style>
+
+
+<div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
     </div>
-  </footer>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
 
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+  </div>
+</div>
+
+<div class="container">
+<p>
+      In the modern digital era, online tools and calculators have become indispensable for individuals, students, professionals, and businesses. They simplify complex calculations, save time, and reduce human errors, allowing users to make informed decisions quickly. A well-designed home page serves as the central hub for accessing all these utilities in one place, providing a seamless experience to users. The home page acts as the gateway, where users can explore a variety of calculators and tools for financial planning, health monitoring, educational purposes, mathematical calculations, and geometric solutions.
+</p>
+
+<p>
+      This platform provides a comprehensive collection of digital calculators including <strong>SIP Calculator</strong>, <strong>EMI Calculator</strong>, <strong>BMI Calculator</strong>, <strong>Multiplication Calculator</strong>, <strong>Polygon Perimeter Calculator</strong>, and many more. Each tool is designed to be user-friendly, responsive, and accurate, ensuring a smooth experience across mobile devices, tablets, and desktops. The main purpose of this home page is to guide users intuitively to the required tool while providing educational and informational content that helps them understand the utility and importance of each calculator.
+</p>
+
+<h3>Objective of the Home Page</h3>
+<p>
+      The primary objective of the home page is to act as an interactive and informative portal that connects users to all the available tools and calculators. It aims to:
+</p>
+<ul>
+      <li>Provide a centralized location where users can easily access all available calculators and utilities.</li>
+      <li>Offer a clean, modern, and responsive user interface that works efficiently on mobile, tablet, and desktop devices.</li>
+      <li>Educate users about each tool, explaining its purpose, advantages, and practical applications.</li>
+      <li>Facilitate navigation to the calculators with minimal effort and maximum clarity.</li>
+      <li>Encourage users to engage with multiple tools, enhancing their knowledge and productivity.</li>
+</ul>
+
+<h3>Importance of a Home Page</h3>
+<p>
+      A well-structured home page is crucial for any platform that offers multiple utilities. Users often visit the site with a specific need, such as calculating their BMI, planning financial investments, or finding the perimeter of a polygon. A thoughtfully designed home page helps in:
+</p>
+<ul>
+      <li>Reducing confusion by clearly categorizing tools based on their purpose, such as health, finance, mathematics, or geometry.</li>
+      <li>Saving time by providing direct access to the most frequently used calculators.</li>
+      <li>Enhancing user experience by ensuring responsiveness and accessibility on all devices.</li>
+      <li>Providing educational content alongside each tool to help users understand its importance and correct usage.</li>
+</ul>
+
+<h3>Featured Tools and Their Benefits</h3>
+<p>
+      Each tool on the home page is selected and designed to serve a unique purpose. Below is an overview of the featured calculators and their benefits:
+</p>
+
+<h4>SIP Calculator</h4>
+<p>
+      The SIP (Systematic Investment Plan) Calculator is essential for financial planning. It helps users determine the potential future value of their regular investments. By entering the monthly investment amount, expected rate of return, and investment duration, users can instantly see how their wealth can grow over time. This tool empowers investors to plan their financial goals effectively, understand the power of compounding, and make informed decisions regarding mutual fund investments.
+</p>
+
+<h4>EMI Calculator</h4>
+<p>
+      The EMI (Equated Monthly Installment) Calculator simplifies loan management. Users can calculate monthly loan payments for home loans, car loans, education loans, or personal loans by providing the principal amount, interest rate, and loan tenure. The calculator also provides total interest payable and overall repayment amount, helping users plan their budgets efficiently. It is highly useful for borrowers, financial advisors, and banks.
+</p>
+
+<h4>BMI Calculator</h4>
+<p>
+      The BMI (Body Mass Index) Calculator is a health-focused tool that assesses whether a person’s weight is healthy relative to their height. By entering weight and height, users can determine their BMI and the associated weight category, such as underweight, normal, overweight, or obese. This calculator is valuable for fitness enthusiasts, healthcare professionals, and anyone aiming to maintain a healthy lifestyle.
+</p>
+
+<h4>Multiplication Calculator</h4>
+<p>
+      The Multiplication Calculator is an educational and professional tool that helps users quickly compute the product of two or more numbers. It is especially useful for students learning mathematics, teachers preparing exercises, accountants, and professionals dealing with numeric data. The calculator ensures accurate results and supports both integers and decimals, saving time and reducing errors.
+</p>
+
+<h4>Polygon Perimeter Calculator</h4>
+<p>
+      The Polygon Perimeter Calculator is designed for students, engineers, architects, and designers who need to find the total length of a polygon's sides. Users can enter the number of sides and their respective lengths, and the calculator instantly provides the total perimeter. This tool is useful in geometry classes, construction projects, and design planning, ensuring precise measurements and efficient workflow.
+</p>
+
+<h3>User Interface and Design</h3>
+<p>
+      The home page is designed with a modern and intuitive interface. Key design elements include:
+</p>
+<ul>
+      <li><strong>Responsive Layout:</strong> The page adapts to any screen size, ensuring seamless usability on mobile phones, tablets, and desktops.</li>
+      <li><strong>Clear Navigation:</strong> Tools are categorized based on their function, with quick links and sections for health, finance, mathematics, and geometry.</li>
+      <li><strong>Interactive Buttons:</strong> Each calculator has a “Go to Tool” button for instant access.</li>
+      <li><strong>Informative Sections:</strong> Each tool has a brief description, objectives, and key benefits displayed on the home page.</li>
+      <li><strong>Search and Filter:</strong> Users can search for specific calculators or filter based on categories, making navigation faster and easier.</li>
+</ul>
+
+<h3>Advantages of the Home Page</h3>
+<ul>
+      <li>Acts as a central hub connecting users to all tools efficiently.</li>
+      <li>Enhances user engagement by providing informative descriptions for each tool.</li>
+      <li>Saves time by enabling direct access to calculators without navigating through multiple pages.</li>
+      <li>Responsive design ensures accessibility on all devices.</li>
+      <li>Improves learning and understanding by providing educational content alongside each tool.</li>
+      <li>Encourages repeated visits as users can rely on the platform for various calculations and learning purposes.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+      <li>Basic home page may not store user history or preferences without backend integration.</li>
+      <li>Advanced analytics, comparison features, and personalized recommendations require database support.</li>
+      <li>Some calculators may have limitations in handling extremely large numbers or complex scenarios without further development.</li>
+</ul>
+
+<h3>Future Scope</h3>
+<p>
+      The home page can be enhanced in multiple ways to provide a more interactive and personalized experience for users. Future developments may include:
+</p>
+<ul>
+      <li>Integration of user accounts to save calculation history and preferences.</li>
+      <li>Graphical dashboards showing trends for financial, health, or mathematical data.</li>
+      <li>Mobile application version for easier access and portability.</li>
+      <li>Interactive tutorials and tips for each tool to guide new users.</li>
+      <li>Comparison features for tools like SIP, EMI, and BMI to provide personalized recommendations.</li>
+      <li>Integration with APIs for real-time financial data, health monitoring, or educational content.</li>
+      <li>Multi-language support to make the platform accessible to a wider audience.</li>
+      <li>Advanced analytics and reporting for professionals and educators using the platform.</li>
+</ul>
+
+<h3>Conclusion</h3>
+<p>
+      The home page acts as the central gateway to a diverse range of calculators and digital tools that serve multiple purposes including financial planning, health monitoring, educational assistance, and geometric calculations. By providing a clean, responsive, and user-friendly interface, the home page ensures that users can access and use these tools efficiently across devices. It educates users about each tool, facilitates quick navigation, and enhances overall engagement.
+</p>
+
+<p>
+      With the integration of features like search, categorization, visual dashboards, and future enhancements like user accounts and personalized recommendations, the home page becomes more than just a portal—it transforms into a comprehensive platform for learning, calculation, and informed decision-making. By centralizing all tools, the home page not only simplifies access but also encourages users to explore multiple utilities, thereby improving productivity, accuracy, and overall satisfaction.
+</p>
+
+<p>
+      In essence, a well-structured home page is the backbone of any platform offering multiple calculators and utilities. It ensures ease of use, accessibility, and educational value while maintaining aesthetic appeal. Users can rely on this central hub to meet their financial, health, mathematical, and geometrical needs with precision and convenience. The home page demonstrates how digital solutions can streamline day-to-day tasks, enhance learning, and empower users with accurate and timely information.
+</p>
+</div>
+
+
+
+
+<script>
+
+// Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+</script>
+<!-- jsPDF CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    // Current year
-    document.getElementById('y').textContent = new Date().getFullYear();
+    async function convertToPDF() {
+      const { jsPDF } = window.jspdf;
+      const input = document.getElementById("imageInput");
+      const files = input.files;
+
+      if (files.length === 0) {
+        alert("Please select images first!");
+        return;
+      }
+      if (files.length > 500) {
+        alert("You can only select up to 500 images!");
+        return;
+      }
+
+      const pdf = new jsPDF();
+      let firstPage = true;
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const imgData = await readFileAsDataURL(file);
+
+        if (!firstPage) pdf.addPage();
+        pdf.addImage(imgData, "JPEG", 10, 10, 180, 260); // Adjust image fit
+        firstPage = false;
+      }
+
+      pdf.save("images.pdf");
+    }
+
+    function readFileAsDataURL(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
   </script>
+
+ 
 </body>
 </html>

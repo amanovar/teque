@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCA-HUB | Hexa to Decimal Calculator</title>
+<style>
+:root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+}
+body{
+  margin:0;
+  font-family:"Poppins",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:background .3s,color .3s;
+}
+/* HEADER */
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 18px;
+  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
+  color:#fff;
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:1000;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+}
+.logo{font-weight:700;font-size:1.3rem; margin-right: 80px;}
+.sidebar-toggle{cursor:pointer;font-size:1.5rem;}
+/* TOP LINKS */
+.scrollable-links{
+  display:flex;
+  overflow-x:auto;
+  background:#fff3cd;
+  padding:8px 0;
+  position:fixed;
+  top:53px;
+  width:100%;
+  scrollbar-width:thin;
+  z-index:999;
+}
+.scrollable-links a{
+  flex:0 0 auto;
+  margin:0 12px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+.scrollable-links a:hover{color:var(--primary);}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px);
+  background: var(--sidebar-bg);
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto;
+}
+.sidebar.show { left: 0; }
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+/* MAIN */
+.container{
+  max-width:600px;
+  margin:130px auto 50px auto;
+  padding:20px;
+  background:var(--card);
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+}
+h1{color:var(--primary);margin-bottom:20px;text-align:center;}
+input{
+  width:80%;
+  padding:10px;
+  margin:10px 5px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  text-align:center;
+  font-size:1em;
+}
+button{
+  padding:10px 20px;
+  margin-top:10px;
+  border-radius:6px;
+  border:none;
+  background:var(--primary);
+  color:#fff;
+  cursor:pointer;
+  font-size:1em;
+  transition:.3s;
+}
+button:hover{background:var(--primary-dark);}
+.result{margin-top:15px;font-weight:600;font-size:1.1em;}
+.toggle-mode{
+  position:fixed;top:15px;right:15px;width:45px;height:45px;border-radius:50%;
+  border:none;background:var(--primary);color:#fff;font-size:20px;cursor:pointer;z-index:1002;
+  box-shadow:0 4px 10px rgba(0,0,0,.2);
+}
+.toggle-mode:hover{background:var(--primary-dark);}
+
+/* INFO BOX */
+.info {
+  background: #fff3cd;
+  border-left: 5px solid var(--primary);
+  padding: 10px 15px;
+  margin: 15px 0 25px 0;
+  border-radius: 8px;
+  font-size: 0.95em;
+  line-height: 1.6;
+  text-align: left;
+}
+
+/* MAIN CONTENT */
+.container{
+  max-width:800px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  
+}
+h1{color:var(--primary);margin-bottom:20px;text-align:center;}
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+/* TOGGLE BUTTON */
+.toggle-mode{
+  position:fixed;top:15px;right:15px;width:45px;height:45px;border-radius:50%;border:none;background:var(--primary);color:#fff;font-size:20px;cursor:pointer;z-index:1002;
+}
+.toggle-mode:hover{background:var(--primary-dark);}
+
+</style>
+</head>
+<body>
+<header>
+  <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+<div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+
+<div class="container">
+  <h1>Hexadecimal to Decimal Calculator</h1>
+  <input type="text" id="hexInput" placeholder="Enter Hexadecimal (e.g., 1A3)">
+  <br>
+  <button onclick="convertHex()">Convert</button>
+  <button onclick="clearFields()">Clear</button>
+  <div class="result" id="result"></div>
+  <div class="info">
+    <strong>How to Use:</strong><br>
+    1️⃣ Enter a hexadecimal number (e.g., <b>1A3</b>).<br>
+    2️⃣ Click <b>Convert</b> to get its decimal value.<br>
+    3️⃣ Supports digits 0–9 and A–F (case-insensitive).<br>
+    4️⃣ Click <b>Clear</b> to reset inputs.<br>
+    5️⃣ Result will appear below.<br>
+    6️⃣ Use 🌙 or ☀️ to switch dark/light mode.
+  </div>
+
+</div>
+<div class="container">
+<p>
+      Converting numbers between different systems is a common task in computer science, programming, and digital electronics. One frequent requirement is converting numbers from hexadecimal (base-16) to decimal (base-10). A <strong>Hexadecimal to Decimal Calculator</strong> is a tool that helps users quickly and accurately convert hexadecimal numbers into decimal numbers without manual calculation.
+</p>
+
+<p>
+      This project provides a simple interface where users can enter a hexadecimal number and instantly see its decimal equivalent. It is highly useful for students, programmers, engineers, and anyone working with computer systems or digital circuits.
+</p>
+
+<h3>Objective</h3>
+<p>
+      The main goal of the Hexadecimal to Decimal Calculator is to provide a quick, accurate, and easy-to-use tool for number conversion. Specifically, the calculator aims to:
+</p>
+<ul>
+      <li>Automatically convert hexadecimal numbers to decimal format.</li>
+      <li>Save time and reduce errors compared to manual conversion.</li>
+      <li>Provide a user-friendly interface suitable for beginners and professionals.</li>
+      <li>Support both uppercase and lowercase hexadecimal inputs (0-9, A-F, a-f).</li>
+      <li>Allow future integration with other number system calculators.</li>
+</ul>
+
+<h3>Problem Statement</h3>
+<p>
+      Manually converting hexadecimal numbers to decimal can be confusing and error-prone, especially for large numbers. Students and beginners often find it difficult to understand the conversion process. In professional work, incorrect conversion can lead to software bugs or errors in digital design. Therefore, a <strong>Hexadecimal to Decimal Calculator</strong> is needed to simplify the process and provide accurate results instantly.
+</p>
+
+<h3>Scope of the Project</h3>
+<p>
+      This calculator can be used in educational contexts, programming exercises, software development, digital electronics, and testing environments. It can be extended to include decimal-to-hexadecimal conversion, binary conversions, and other number system calculators. The tool is flexible and can be implemented in web applications, desktop software, or mobile apps.
+</p>
+
+<h3>Features</h3>
+<ul>
+      <li><strong>Simple Interface:</strong> Easy to use for students, programmers, and engineers.</li>
+      <li><strong>Instant Conversion:</strong> Displays decimal equivalent immediately after input.</li>
+      <li><strong>Input Validation:</strong> Accepts only valid hexadecimal characters (0-9, A-F, a-f).</li>
+      <li><strong>Responsive Design:</strong> Works perfectly on mobile, tablet, and desktop screens.</li>
+      <li><strong>Copy & Clear Options:</strong> Allows users to copy the result or reset the input easily.</li>
+      <li><strong>Supports Large Numbers:</strong> Can handle long hexadecimal numbers without error.</li>
+</ul>
+
+<h3>Technology Used</h3>
+<ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+      <li><strong>Backend (optional):</strong> Node.js, Python, or PHP for additional functionality</li>
+      <li><strong>Tools:</strong> VS Code or any text editor</li>
+</ul>
+
+<h3>How It Works</h3>
+<ul>
+      <li><strong>User Input:</strong> Enter a hexadecimal number (letters A-F or a-f and digits 0-9).</li>
+      <li><strong>Conversion Logic:</strong> JavaScript processes the input and converts it to decimal format.</li>
+      <li><strong>Display Result:</strong> Shows the decimal number instantly on the screen.</li>
+      <li><strong>Reset/Copy:</strong> User can clear the input for a new calculation or copy the result to clipboard.</li>
+</ul>
+
+<h3>Advantages</h3>
+<ul>
+      <li>Fast and accurate conversion.</li>
+      <li>Eliminates manual calculation errors.</li>
+      <li>Simple for beginners and professionals alike.</li>
+      <li>Responsive and accessible on all devices.</li>
+      <li>Can be used in education, programming, and electronics projects.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+      <li>Does not store previous conversions in the basic version.</li>
+      <li>Cannot convert numbers from other systems unless integrated with more calculators.</li>
+      <li>Offline version cannot handle very large numbers beyond JavaScript’s number limits.</li>
+</ul>
+
+<h3>Future Scope</h3>
+<ul>
+      <li>Include Decimal to Hexadecimal conversion.</li>
+      <li>Binary and Octal number system conversions.</li>
+      <li>Maintain conversion history for reference.</li>
+      <li>Integrate with learning platforms for students.</li>
+      <li>Mobile app version for on-the-go calculations.</li>
+      <li>Option to handle very large numbers with BigInt or backend support.</li>
+</ul>
+
+<h3>Conclusion</h3>
+<p>
+      The Hexadecimal to Decimal Calculator is a practical and easy-to-use tool that simplifies number system conversions. It saves time, reduces errors, and provides instant results. This project demonstrates how digital calculators can help students, programmers, and engineers perform tasks efficiently, making number conversions faster, more reliable, and more accessible.
+</p>
+</div>
+
+<style>
+h1,h2{text-align:center;color:#007bff;}
+h3{color:#333;border-left:4px solid #007bff;padding-left:10px;}
+p{text-align:justify;line-height:1.8;margin-bottom:15px;}
+ul{line-height:1.8;}
+li{margin-bottom:8px;}
+hr{border:0;border-top:2px solid #eee;margin:30px 0;}
+</style>
+
+<div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+  </div>
+</div>
+
+
+<script>
+// Sidebar
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+document.querySelectorAll('.sidebar a').forEach(link=>{
+  link.addEventListener('click',()=>document.getElementById('sidebar').classList.remove('show'));
+});
+
+// Hex to Decimal Logic
+function convertHex(){
+  const hex = document.getElementById('hexInput').value.trim();
+  if(!/^[0-9A-Fa-f]+$/.test(hex)){
+    document.getElementById('result').innerHTML = "⚠️ Please enter a valid hexadecimal number (0-9, A-F).";
+    return;
+  }
+  const decimal = parseInt(hex,16);
+  document.getElementById('result').innerHTML = `Decimal Value: <b>${decimal}</b>`;
+}
+function clearFields(){
+  document.getElementById('hexInput').value = '';
+  document.getElementById('result').innerHTML = '';
+}
+</script>
+</body>
+</html>

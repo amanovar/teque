@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Date Calculator | BCA-HUB</title>
+<style>
+:root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+}
+*{box-sizing:border-box;font-family:"Poppins",Arial,sans-serif}
+body{margin:0;background:var(--bg);color:var(--text);transition:background .2s,color .2s}
+header{position:fixed;top:0;left:0;right:0;height:60px;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,#007bff,#007bff);color:#fff;z-index:1000;box-shadow:0 4px 10px rgba(0,0,0,.2)}
+/* TOP LINKS */
+.scrollable-links{
+  display:flex;
+  overflow-x:auto;
+  background:#fff8e1;
+  padding:8px 0;
+  position:fixed;
+  top:58px;
+  width:100%;
+  scrollbar-width:thin;
+  z-index:999;
+}
+.scrollable-links a{
+  flex:0 0 auto;
+  margin:0 12px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+.scrollable-links a:hover{color:var(--primary);}
+
+
+.container{max-width:600px;margin:150px auto;padding:20px;border-radius:12px;background:var(--card);box-shadow:0 8px 30px rgba(0,0,0,.08)}
+h2{margin:0 0 10px;color:var(--primary)}
+input,select,button{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #ccc;font-size:15px}
+.btn-row{display:flex;gap:10px;margin-top:10px}
+.btn-row>button{flex:1;cursor:pointer;border:none;border-radius:8px;padding:10px;font-weight:600}
+.btn-calc{background:var(--primary);color:#fff}
+.btn-reset{background:#9e9e9e;color:#fff}
+.btn-print{background:#007bff;color:#fff}
+.btn-copy{background:#1976d2;color:#fff}
+#result{margin-top:14px;padding:12px;border-radius:10px;background:#fff3cd;white-space:pre-line}
+.info{margin-top:12px;padding:12px;background:#fff3cd;border-left:5px solid var(--primary);border-radius:8px;color:#333}
+.small{font-size:13px;color:#666}
+@media(min-width:900px){.container{padding:28px}}
+body.dark{--bg:#0d0d0f;--card:#121214;--text:#eaeaea}
+body.dark input, body.dark select{background:#171717;color:#eaeaea;border:1px solid #333}
+body.dark .scrollable-links{background:#141414}
+/* SIDEBAR FIXED SCROLL */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px); /* top 80px ke baad remaining height */
+  background: var(--sidebar-bg);
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto; /* vertical scroll */
+  overflow-x: hidden; /* horizontal scroll nahi chahiye */
+}
+
+.sidebar.show { left: 0; }
+
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+
+/* Optional: custom scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+/* MAIN CONTENT */
+.container{
+  max-width:800px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  
+}
+h1{color:var(--primary);margin-bottom:20px;text-align:center;}
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+</style>
+</head>
+<body>
+<header>
+ <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+  <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+<div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+
+<div class="container">
+<h2>Date Calculator</h2>
+
+<label>First Date</label>
+<input type="date" id="date1">
+
+<label>Second Date</label>
+<input type="date" id="date2">
+
+<label>Operation</label>
+<select id="operation">
+<option value="difference">Difference Between Dates</option>
+<option value="add">Add Days/Weeks/Months/Years to First Date</option>
+<option value="subtract">Subtract Days/Weeks/Months/Years from First Date</option>
+</select>
+
+<div id="addSubtractOptions" style="display:none;">
+  <label>Value</label>
+  <input type="number" id="valueInput" min="0" placeholder="Enter numeric value">
+  <label>Unit</label>
+  <select id="unitSelect">
+    <option value="days">Days</option>
+    <option value="weeks">Weeks</option>
+    <option value="months">Months</option>
+    <option value="years">Years</option>
+  </select>
+</div>
+
+<div class="btn-row">
+<button class="btn-calc" onclick="calculateDate()">Calculate</button>
+<button class="btn-reset" onclick="resetForm()">Reset</button>
+<button class="btn-print" onclick="printResult()">Print</button>
+<button class="btn-copy" onclick="copyResult()">Copy</button>
+</div>
+
+<div id="result" style="display:none"></div>
+
+<div class="info">
+<strong>How to Use:</strong><br>
+1️⃣ Select the first and second date.<br>
+2️⃣ Choose operation: Difference, Add, or Subtract.<br>
+3️⃣ If Add/Subtract, enter value and unit (days/weeks/months/years).<br>
+4️⃣ Click <b>Calculate</b> to see result.<br>
+5️⃣ Reset, Print, Copy buttons available.<br>
+6️⃣ Dark/Light mode toggle available.
+</div>
+</div>
+<div class="container">
+<p>
+      Calculating dates manually can often be confusing and time-consuming. Whether you need to find the number of days between two dates, determine a future or past date, or calculate age, doing it manually can lead to errors. A <strong>Date Calculator</strong> is a digital tool designed to simplify date calculations and provide accurate results instantly. It is especially useful for students, professionals, project managers, and anyone who frequently works with dates.
+</p>
+
+<p>
+      This project provides a user-friendly interface where users can input two dates or specify a date along with a number of days, months, or years. The calculator then computes the difference between dates, finds future or past dates, or calculates age and durations. It is highly useful for academic, business, and personal applications, helping users save time and avoid mistakes.
+</p>
+
+<h3>Objective</h3>
+<p>
+      The main goal of the Date Calculator is to provide a simple, accurate, and fast tool for all date-related calculations. Specifically, it aims to:
+</p>
+<ul>
+      <li>Calculate the number of days, months, or years between two dates accurately.</li>
+      <li>Determine a future or past date based on a given start date and duration.</li>
+      <li>Calculate age or duration in a precise manner.</li>
+      <li>Provide a user-friendly interface that is easy for anyone to use.</li>
+      <li>Allow future enhancements like integrating with calendars, project planning, or reminders.</li>
+</ul>
+
+<h3>Problem Statement</h3>
+<p>
+      Calculating date differences manually or using basic tools can be prone to errors. Accounting for leap years, varying month lengths, and different date formats can make manual calculations complicated. Mistakes in date calculation can affect project planning, event scheduling, age verification, or other important tasks. Therefore, a <strong>Date Calculator</strong> is necessary to provide accurate, instant, and reliable results.
+</p>
+
+<h3>Scope of the Project</h3>
+<p>
+      This calculator can be used by students, teachers, project managers, event planners, HR professionals, and anyone needing date calculations. It can be implemented as a web tool, desktop application, or mobile app. Future extensions may include features like multiple date format support, calendar integration, countdown timers, and automatic leap year adjustments. It is versatile and adaptable to different use cases, from academic projects to business planning.
+</p>
+
+<h3>Features</h3>
+<ul>
+      <li><strong>Simple Interface:</strong> Easy input fields for start date, end date, or duration.</li>
+      <li><strong>Instant Calculation:</strong> Shows results immediately after entering the dates.</li>
+      <li><strong>Date Difference:</strong> Calculates the number of days, weeks, months, or years between two dates.</li>
+      <li><strong>Future/Past Date:</strong> Finds the date after or before a specified number of days, months, or years.</li>
+      <li><strong>Age Calculator:</strong> Determines age accurately based on date of birth.</li>
+      <li><strong>Leap Year Handling:</strong> Automatically accounts for leap years and varying month lengths.</li>
+      <li><strong>Responsive Design:</strong> Works on mobile, tablet, and desktop screens.</li>
+      <li><strong>Reset Option:</strong> Clears all inputs for a new calculation.</li>
+</ul>
+
+<h3>Technology Used</h3>
+<ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+      <li><strong>Backend (optional):</strong> Node.js, Python, or PHP for storing historical calculations or scheduling data</li>
+      <li><strong>Tools:</strong> VS Code or any code editor</li>
+</ul>
+
+<h3>System Design and Working</h3>
+<p>The Date Calculator works in a simple and intuitive way:</p>
+<ul>
+      <li><strong>Input Section:</strong> User enters two dates or one date with a duration.</li>
+      <li><strong>Calculation Engine:</strong> JavaScript or backend logic computes the difference or the future/past date instantly.</li>
+      <li><strong>Result Display:</strong> Shows the result clearly in days, weeks, months, or years.</li>
+      <li><strong>Reset Function:</strong> Users can clear all fields to perform a new calculation.</li>
+</ul>
+
+<h3>Advantages</h3>
+<ul>
+      <li>Accurate and fast date calculations.</li>
+      <li>Eliminates manual errors in calculating date differences or future/past dates.</li>
+      <li>Easy to use for students, professionals, and anyone needing date calculations.</li>
+      <li>Responsive design makes it accessible on all devices.</li>
+      <li>Automatically accounts for leap years and month variations.</li>
+      <li>Supports multiple practical applications such as project planning, event scheduling, and age calculation.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+      <li>Basic version does not store historical calculations.</li>
+      <li>Advanced features like reminders, calendar integration, or recurring events require backend support.</li>
+      <li>Cannot handle complex time zone differences without additional programming.</li>
+</ul>
+
+<h3>Future Scope</h3>
+<ul>
+      <li>Integration with calendar applications for event planning and reminders.</li>
+      <li>Store historical calculations for reference and analytics.</li>
+      <li>Support multiple date formats for international users.</li>
+      <li>Include countdown timers for events and deadlines.</li>
+      <li>Mobile app version for on-the-go date calculations.</li>
+      <li>Integration with project management tools for duration tracking and scheduling.</li>
+      <li>Visual representation of dates, durations, and timelines using charts and calendars.</li>
+</ul>
+
+<h3>Conclusion</h3>
+<p>
+      The Date Calculator is a practical and efficient tool that simplifies all types of date-related calculations. It provides instant, accurate, and reliable results for calculating differences between dates, determining future or past dates, and computing age or durations. This tool is highly beneficial for students, professionals, and anyone managing schedules, projects, or personal timelines. With future enhancements like calendar integration, historical tracking, and mobile accessibility, the Date Calculator can become a comprehensive solution for all date-related needs, saving time, reducing errors, and making planning more efficient.
+</p>
+</div>
+
+<style>
+h1,h2{text-align:center;color:#007bff;}
+h3{color:#333;border-left:4px solid #007bff;padding-left:10px;}
+p{text-align:justify;line-height:1.8;margin-bottom:15px;}
+ul{line-height:1.8;}
+li{margin-bottom:8px;}
+hr{border:0;border-top:2px solid #eee;margin:30px 0;}
+</style>
+
+
+<div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+</div>
+  </div>
+<script>
+const date1=document.getElementById('date1');
+const date2=document.getElementById('date2');
+const operation=document.getElementById('operation');
+const addSubOptions=document.getElementById('addSubtractOptions');
+
+operation.addEventListener('change',()=>{addSubOptions.style.display=(operation.value==='add'||operation.value==='subtract')?'block':'none';});
+
+function calculateDate(){
+  const op=operation.value;
+  const d1=date1.value?new Date(date1.value):null;
+  const d2=date2.value?new Date(date2.value):null;
+  const val=parseInt(document.getElementById('valueInput').value);
+  const unit=document.getElementById('unitSelect').value;
+  if(!d1){alert('Select first date');return;}
+  let resultText='';
+  if(op==='difference'){
+    if(!d2){alert('Select second date');return;}
+    const diffMs=Math.abs(d2-d1);
+    const diffDays=Math.floor(diffMs/(1000*60*60*24));
+    const diffWeeks=(diffDays/7).toFixed(2);
+    const diffMonths=(diffDays/30.4375).toFixed(2);
+    const diffYears=(diffDays/365.25).toFixed(2);
+    resultText=`Difference:\nDays: ${diffDays}\nWeeks: ${diffWeeks}\nMonths: ${diffMonths}\nYears: ${diffYears}`;
+  } else if(op==='add'||op==='subtract'){
+    if(isNaN(val)||val<0){alert('Enter valid number');return;}
+    let newDate=new Date(d1.getTime());
+    const factor=op==='subtract'?-1:1;
+    if(unit==='days') newDate.setDate(newDate.getDate()+val*factor);
+    else if(unit==='weeks') newDate.setDate(newDate.getDate()+val*7*factor);
+    else if(unit==='months') newDate.setMonth(newDate.getMonth()+val*factor);
+    else if(unit==='years') newDate.setFullYear(newDate.getFullYear()+val*factor);
+    resultText=`Resulting Date: ${newDate.toLocaleDateString()}`;
+  }
+  const r=document.getElementById('result');
+  r.style.display='block';
+  r.innerText=resultText;
+  r.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function resetForm(){
+  date1.value='';
+  date2.value='';
+  operation.value='difference';
+  document.getElementById('valueInput').value='';
+  document.getElementById('unitSelect').value='days';
+  document.getElementById('addSubtractOptions').style.display='none';
+  const r=document.getElementById('result'); r.style.display='none'; r.innerText='';
+}
+
+function printResult(){
+  const text=document.getElementById('result').innerText;
+  if(!text){alert('No result');return;}
+  const w=window.open('','_blank','height=400,width=600');
+  w.document.write('<html><head><title>Date Result</title></head><body>');
+  w.document.write('<pre style="font-size:16px;">'+text+'</pre></body></html>');
+  w.document.close();w.print();
+}
+
+function copyResult(){
+  const text=document.getElementById('result').innerText;
+  if(!text){alert('No result');return;}
+  navigator.clipboard.writeText(text).then(()=>alert('Copied to clipboard'));
+}
+
+function toggleMode(){document.body.classList.toggle('dark');document.querySelector('.toggle-mode').textContent=document.body.classList.contains('dark')?'☀️':'🌙'}
+function toggleSidebar(){alert('Sidebar clicked (placeholder)');}
+
+
+
+
+// Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+</script>
+</body>
+</html>

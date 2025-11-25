@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Searchable Tools & Calculators</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f8fa;
+  }
+
+  /* Search bar */
+  .search-bar {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 10;
+  }
+
+  .search-bar input {
+    width: 95%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+  }
+
+  .search-bar input:focus {
+    border-color: #0078ff;
+  }
+
+  /* Scrollable top links */
+  .scrollable-links {
+    overflow-x: auto;
+    white-space: nowrap;
+    background: #fff;
+    padding: 10px;
+    border-bottom: 2px solid #eee;
+  }
+
+  .scrollable-links a {
+    display: inline-block;
+    color: #333;
+    text-decoration: none;
+    padding: 8px 15px;
+    margin: 5px;
+    background: #f1f3f6;
+    border-radius: 6px;
+    transition: 0.3s;
+  }
+
+  .scrollable-links a:hover {
+    background: #0078ff;
+    color: #fff;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 250px;
+    background: #fff;
+    padding: 10px;
+    border-right: 2px solid #eee;
+    height: 100vh;
+    overflow-y: auto;
+    position: fixed;
+    top: 60px;
+  }
+
+  .sidebar a {
+    display: block;
+    color: #333;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 6px;
+    margin: 4px 0;
+    transition: 0.3s;
+  }
+
+  .sidebar a:hover {
+    background: #0078ff;
+    color: white;
+  }
+
+  /* Main content */
+  .content {
+    margin-left: 270px;
+    padding: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      position: relative;
+      width: 100%;
+      height: auto;
+      border: none;
+      top: 0;
+    }
+
+    .content {
+      margin-left: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Search Bar -->
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="Search calculator or tool...">
+</div>
+
+<!-- Scrollable Links -->
+<div class="scrollable-links" id="topLinks">
+  <a href="index.html">Home</a>
+  <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator</a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator</a>
+  <a href="Age.html">Age Calculator</a>
+  <a href="BMI.html">BMI Calculator</a>
+  <a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager</a>
+  <a href="multiplication.html">Multiplication Calculator</a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="Resume-Builder.html">Resume Builder</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+</div>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sideLinks">
+  <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator</a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator</a>
+  <a href="Age.html">Age Calculator</a>
+  <a href="BMI.html">BMI Calculator</a>
+  <a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager</a>
+  <a href="multiplication.html">Multiplication Calculator</a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="Resume-Builder.html">Resume Builder</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+</div>
+
+<!-- Content -->
+<div class="content">
+  <h1>Welcome to Tools & Calculators</h1>
+  <p>Type in the search bar to quickly find any calculator or generator.</p>
+</div>
+
+<!-- Script -->
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const topLinks = document.querySelectorAll('#topLinks a');
+  const sideLinks = document.querySelectorAll('#sideLinks a');
+
+  searchInput.addEventListener('input', () => {
+    const filter = searchInput.value.toLowerCase();
+    [topLinks, sideLinks].forEach(linkGroup => {
+      linkGroup.forEach(link => {
+        const text = link.textContent.toLowerCase();
+        link.style.display = text.includes(filter) ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

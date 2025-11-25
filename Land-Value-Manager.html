@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Advanced Land Value Manager | BCA-HUB</title>
+  <style>
+   :root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+}
+    *{box-sizing:border-box;font-family:"Poppins",Arial,sans-serif}
+    body{margin:0;background:var(--bg);color:var(--text);transition:background .2s,color .2s}
+    header{position:fixed;top:0;left:0;right:0;height:60px;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,#007bff,#007bff);color:#fff;z-index:1000;box-shadow:0 4px 10px rgba(0,0,0,.2)}
+    
+    .small{font-size:13px;color:rgba(255,255,255,.95)}
+    .toggle-mode{position:fixed;right:18px;top:12px;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;z-index:1001;cursor:pointer}
+    .scrollable-links{position:fixed;top:61px;left:0;right:0;display:flex;overflow-x:auto;background:#fff3cd;padding:8px 10px;z-index:999}
+    .scrollable-links a{flex:0 0 auto;margin:0 12px;text-decoration:none;color:#333;font-weight:500}
+    .container{max-width:1100px;margin:140px auto 60px;padding:18px;border-radius:12px;background:var(--card-bg);box-shadow:0 10px 30px rgba(0,0,0,.08)}
+    h2{margin:0 0 10px;color:var(--primary)}
+    .grid{display:grid;gap:10px}
+    .two{grid-template-columns:1fr 1fr}
+    .three{grid-template-columns:1fr 1fr 1fr}
+    label{display:block;font-size:13px;margin-bottom:6px;color:var(--muted)}
+    input[type=number], input[type=text], select{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;font-size:15px;background:#fff}
+    .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    button{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-grey{background:#e0e0e0}
+    .btn-green{background:#007bff;color:#fff}
+    .btn-blue{background:#007bff;color:#fff}
+    .result{margin-top:14px;padding:14px;border-radius:10px;background:#f7f7f7;border-left:4px solid var(--primary);white-space:pre-line;font-weight:600}
+    .info{margin-top:12px;padding:12px;background:#fff3cd;border-left:5px solid var(--primary);border-radius:8px;color:#333}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{padding:8px;border:1px solid #eaeaea;text-align:left;font-size:14px}
+    th{background:#fafafa}
+    .right{text-align:right}
+    .muted{color:var(--muted);font-size:13px}
+    .controls{display:grid;gap:10px;margin-bottom:6px}
+    .divider{height:1px;background:#eee;margin:10px 0;border-radius:2px}
+    .note{font-size:13px;color:#666}
+    @media(min-width:900px){.cols-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}}
+   
+    /* MAIN CONTENT */
+.container{
+  max-width:900px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  
+}
+h1{color:var(--primary);margin-bottom:20px;text-align:center;}
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+
+
+/* SIDEBAR FIXED SCROLL */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px); /* top 80px ke baad remaining height */
+  background: var(--sidebar-bg);
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto; /* vertical scroll */
+  overflow-x: hidden; /* horizontal scroll nahi chahiye */
+}
+
+.sidebar.show { left: 0; }
+
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+
+/* Optional: custom scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+  </style>
+</head>
+<body>
+<header>
+  <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+<div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+
+  <div class="container">
+    <h2>Land Value Manager (Multiple Plots, CSV, Invoice)</h2>
+
+    <!-- Input block -->
+    <div class="grid three">
+      <div>
+        <label>Input Method</label>
+        <select id="inputMethod">
+          <option value="dimensions">Dimensions (L × W)</option>
+          <option value="area">Direct Area</option>
+        </select>
+      </div>
+      <div>
+        <label>Length/Width Unit</label>
+        <select id="lenUnit">
+          <option value="m">Meters (m)</option>
+          <option value="ft">Feet (ft)</option>
+          <option value="yd">Yard (yd)</option>
+        </select>
+      </div>
+      <div>
+        <label>Area Unit (for rate & totals)</label>
+        <select id="areaUnit">
+          <option value="sqm">sq.m</option>
+          <option value="sqft">sq.ft</option>
+          <option value="sqyd">sq.yd</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div id="dimensionsBlock" class="grid two">
+      <div>
+        <label>Length</label>
+        <input type="number" id="length" placeholder="Length" min="0" step="any">
+      </div>
+      <div>
+        <label>Width</label>
+        <input type="number" id="width" placeholder="Width" min="0" step="any">
+      </div>
+    </div>
+
+    <div id="areaBlock" style="display:none;margin-top:8px">
+      <label>Direct Area</label>
+      <input type="number" id="directArea" placeholder="Area (in selected area unit)" min="0" step="any">
+    </div>
+
+    <div style="margin-top:10px" class="grid three">
+      <div>
+        <label>Rate per area unit (<span id="rateUnitLabel">sq.m</span>)</label>
+        <input type="number" id="ratePerUnit" placeholder="Rate per area unit" min="0" step="any">
+      </div>
+      <div>
+        <label>Discount Type</label>
+        <select id="discountType">
+          <option value="none">None</option>
+          <option value="percent">Percent (%)</option>
+          <option value="flat">Flat</option>
+        </select>
+      </div>
+      <div>
+        <label>Discount Value</label>
+        <input type="number" id="discountValue" placeholder="eg. 5 (percent) or 10000 (flat)" min="0" step="any">
+      </div>
+    </div>
+
+    <div style="margin-top:10px" class="grid three">
+      <div>
+        <label>Extra Charges (flat)</label>
+        <input type="number" id="extraCharges" placeholder="Extra charges (flat)" min="0" step="any">
+      </div>
+      <div>
+        <label>Tax (%)</label>
+        <input type="number" id="taxPercent" placeholder="Tax percent" min="0" step="any">
+      </div>
+      <div>
+        <label>Plot Name / Identifier</label>
+        <input type="text" id="plotName" placeholder="Plot A / Site 1 (optional)">
+      </div>
+    </div>
+
+    <div style="margin-top:10px" class="grid two">
+      <div>
+        <label>Currency</label>
+        <select id="currencySelect">
+          <option value="₹">₹ (INR)</option>
+          <option value="$">$ (USD)</option>
+          <option value="€">€ (EUR)</option>
+          <option value="custom">Custom Symbol</option>
+        </select>
+        <input type="text" id="customCurrency" placeholder="Enter symbol (e.g. Rs)" style="margin-top:6px;display:none">
+      </div>
+      <div>
+        <label>Rounding</label>
+        <select id="rounding">
+          <option value="no">No</option>
+          <option value="nearest">Nearest Integer</option>
+          <option value="ceil">Round Up</option>
+          <option value="floor">Round Down</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-row" style="margin-top:12px">
+      <button class="btn-primary" onclick="addPlot()">Add Plot</button>
+      <button class="btn-blue" onclick="calculateAll()">Calculate Totals</button>
+      <button class="btn-grey" onclick="resetAll()">Reset All</button>
+      <button class="btn-green" onclick="downloadCSV()">Export CSV</button>
+      <button class="btn-blue" onclick="printInvoice()">Generate Invoice (Print/PDF)</button>
+    </div>
+
+    <div id="plotsTableContainer" style="margin-top:16px;display:none">
+      <h3 style="margin:8px 0 6px">Added Plots</h3>
+      <table id="plotsTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Plot</th>
+            <th>Area</th>
+            <th>Rate/unit</th>
+            <th>Base Cost</th>
+            <th>Discount</th>
+            <th>Extra</th>
+            <th>Tax</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div id="totalsBox" style="margin-top:12px;display:none">
+      <h3 style="margin:8px 0 6px">Summary</h3>
+      <div id="summaryResult" class="result"></div>
+    </div>
+
+    <div id="conversionBox" class="info" style="display:none"></div>
+<br>
+    <div class="info" style="margin-top:12px">
+      <strong>Note:</strong> You can add multiple plots, then click <b>Generate Invoice</b> to open a printable invoice. Use browser Print → Save as PDF to get PDF.
+    </div>
+  </div>
+
+
+<div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+<hr>
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+
+
+
+<script>
+    // Constants
+    const SQM_TO_SQFT = 10.7639104167;
+    const SQYD_TO_SQFT = 9;
+    const SQFT_TO_SQM = 1 / SQM_TO_SQFT;
+    const SQFT_TO_SQYD = 1 / SQYD_TO_SQFT;
+    const SQYD_TO_SQM = 0.83612736;
+
+    // State
+    let plots = []; // each plot: {name, area (in areaUnit), areaUnit, rate, base, discount, extra, tax, total}
+
+    // DOM
+    const inputMethod = document.getElementById('inputMethod');
+    const dimensionsBlock = document.getElementById('dimensionsBlock');
+    const areaBlock = document.getElementById('areaBlock');
+    const lenUnit = document.getElementById('lenUnit');
+    const areaUnit = document.getElementById('areaUnit');
+    const rateUnitLabel = document.getElementById('rateUnitLabel');
+    const currencySelect = document.getElementById('currencySelect');
+    const customCurrency = document.getElementById('customCurrency');
+
+    // UI reactions
+    inputMethod.addEventListener('change', () => {
+      if (inputMethod.value === 'dimensions') {
+        dimensionsBlock.style.display = 'grid';
+        areaBlock.style.display = 'none';
+      } else {
+        dimensionsBlock.style.display = 'none';
+        areaBlock.style.display = 'block';
+      }
+    });
+
+    areaUnit.addEventListener('change', () => {
+      const u = areaUnit.value;
+      rateUnitLabel.innerText = u === 'sqm' ? 'sq.m' : u === 'sqft' ? 'sq.ft' : 'sq.yd';
+    });
+
+    currencySelect.addEventListener('change', () => {
+      if (currencySelect.value === 'custom') customCurrency.style.display = 'block';
+      else customCurrency.style.display = 'none';
+    });
+
+    // helpers
+    function getCurrencySymbol(){
+      return currencySelect.value === 'custom' ? (customCurrency.value || '') : currencySelect.value;
+    }
+
+    function toAreaFromDimensions(length, width, lenU, areaU){
+      // compute area based on length unit then convert to desired area unit
+      let sqft;
+      if (lenU === 'm') sqft = length * width * SQM_TO_SQFT;
+      else if (lenU === 'ft') sqft = length * width;
+      else sqft = length * width * SQYD_TO_SQFT;
+
+      if (areaU === 'sqft') return sqft;
+      if (areaU === 'sqm') return sqft * SQFT_TO_SQM;
+      if (areaU === 'sqyd') return sqft * SQFT_TO_SQYD;
+      return sqft;
+    }
+
+    function convertArea(value, fromUnit, toUnit){
+      // general conversion using sqft as intermediate
+      let sqft;
+      if (fromUnit === 'sqm') sqft = value * SQM_TO_SQFT;
+      else if (fromUnit === 'sqft') sqft = value;
+      else if (fromUnit === 'sqyd') sqft = value * SQYD_TO_SQFT;
+      else sqft = value;
+
+      if (toUnit === 'sqft') return sqft;
+      if (toUnit === 'sqm') return sqft * SQFT_TO_SQM;
+      if (toUnit === 'sqyd') return sqft * SQFT_TO_SQYD;
+      return sqft;
+    }
+
+    function formatNum(n){ return Number(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); }
+    function formatMoney(n){ const sym = getCurrencySymbol(); return (sym ? sym + ' ' : '') + formatNum(n); }
+
+    // Add a plot (reads current input fields)
+    function addPlot(){
+      const method = inputMethod.value;
+      const lenU = lenUnit.value;
+      const aU = areaUnit.value;
+      const name = (document.getElementById('plotName').value || ('Plot ' + (plots.length + 1))).trim();
+
+      let areaVal;
+      if (method === 'dimensions'){
+        const length = parseFloat(document.getElementById('length').value);
+        const width = parseFloat(document.getElementById('width').value);
+        if (isNaN(length) || isNaN(width) || length <=0 || width <=0){ alert('Enter valid Length and Width > 0'); return; }
+        areaVal = toAreaFromDimensions(length, width, lenU, aU);
+      } else {
+        const direct = parseFloat(document.getElementById('directArea').value);
+        if (isNaN(direct) || direct <=0){ alert('Enter valid direct area > 0'); return; }
+        areaVal = direct; // assumed in selected areaUnit
+      }
+
+      const rate = parseFloat(document.getElementById('ratePerUnit').value);
+      if (isNaN(rate) || rate < 0){ alert('Enter valid rate per unit'); return; }
+
+      const discountType = document.getElementById('discountType').value;
+      const discountValue = parseFloat(document.getElementById('discountValue').value) || 0;
+      const extraCharges = parseFloat(document.getElementById('extraCharges').value) || 0;
+      const taxPercent = parseFloat(document.getElementById('taxPercent').value) || 0;
+
+      // compute costs
+      const base = areaVal * rate;
+      let discountAmount = 0;
+      if (discountType === 'percent') discountAmount = (discountValue / 100) * base;
+      else if (discountType === 'flat') discountAmount = discountValue;
+
+      const subtotal = base - discountAmount + extraCharges;
+      const taxAmount = (taxPercent / 100) * subtotal;
+      const total = subtotal + taxAmount;
+
+      const rounding = document.getElementById('rounding').value;
+      const finalTotal = applyRounding(total, rounding);
+
+      // push
+      const plot = {
+        name,
+        area: areaVal,
+        areaUnit: aU,
+        rate,
+        base,
+        discountType,
+        discountValue,
+        discountAmount,
+        extraCharges,
+        taxPercent,
+        taxAmount,
+        total,
+        finalTotal
+      };
+      plots.push(plot);
+      renderPlotsTable();
+      clearInputFields();
+    }
+
+    function applyRounding(val, mode){
+      if (mode === 'nearest') return Math.round(val);
+      if (mode === 'ceil') return Math.ceil(val);
+      if (mode === 'floor') return Math.floor(val);
+      return Number(val.toFixed(2));
+    }
+
+    function clearInputFields(){
+      // keep area unit and currency etc, but clear numeric fields for next entry
+      document.getElementById('length').value='';
+      document.getElementById('width').value='';
+      document.getElementById('directArea').value='';
+      document.getElementById('ratePerUnit').value='';
+      document.getElementById('discountValue').value='';
+      document.getElementById('extraCharges').value='';
+      document.getElementById('taxPercent').value='';
+      document.getElementById('plotName').value='';
+    }
+
+    function renderPlotsTable(){
+      const container = document.getElementById('plotsTableContainer');
+      const tbody = document.querySelector('#plotsTable tbody');
+      tbody.innerHTML = '';
+      if (plots.length === 0){ container.style.display = 'none'; document.getElementById('totalsBox').style.display='none'; return; }
+      container.style.display = 'block';
+      plots.forEach((p,i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i+1}</td>
+          <td>${escapeHtml(p.name)}</td>
+          <td>${formatNum(p.area)} ${unitLabel(p.areaUnit)}</td>
+          <td class="right">${formatMoney(p.rate)}</td>
+          <td class="right">${formatMoney(p.base)}</td>
+          <td class="right">${p.discountType==='none' ? '-' : (p.discountType==='percent' ? p.discountValue+'%' : formatMoney(p.discountValue))} <br><span class="muted">-${formatMoney(p.discountAmount)}</span></td>
+          <td class="right">${formatMoney(p.extraCharges)}</td>
+          <td class="right">${p.taxPercent}% <br><span class="muted">${formatMoney(p.taxAmount)}</span></td>
+          <td class="right">${formatMoney(p.finalTotal)}</td>
+          <td><button onclick="removePlot(${i})" style="padding:6px 8px;border-radius:6px">Remove</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+      calculateAll(); // update totals
+    }
+
+    function unitLabel(aU){ return aU === 'sqm' ? 'sq.m' : aU === 'sqft' ? 'sq.ft' : 'sq.yd'; }
+
+    function removePlot(index){
+      if (!confirm('Remove this plot?')) return;
+      plots.splice(index,1);
+      renderPlotsTable();
+    }
+
+    // Calculate totals across plots (convert areas to selected area unit first)
+    function calculateAll(){
+      if (plots.length === 0){ alert('No plots added yet. Add plots first.'); return; }
+      // totals in the area unit selected globally
+      const targetUnit = document.getElementById('areaUnit').value;
+      let totalArea = 0;
+      let totalBase = 0;
+      let totalDiscount = 0;
+      let totalExtra = 0;
+      let totalTax = 0;
+      let totalFinal = 0;
+
+      // but note each plot already stored in the selected area unit at adding time (we used selected areaUnit at add)
+      // If user changed global areaUnit after adding, we need to convert stored area to the current area unit before totaling.
+      plots.forEach(p=>{
+        const areaInTarget = convertArea(p.area, p.areaUnit, targetUnit);
+        totalArea += areaInTarget;
+
+        // We must convert base & other monetary amounts if area unit changed and rate was per previous unit.
+        // Simpler approach: Recompute per-plot costs using stored area converted to targetUnit and using the original rate-per-unit assumption:
+        // But original 'rate' was entered per areaUnit selected at time of adding; p.rate corresponds to p.areaUnit.
+        // So to recompute consistently, convert area to p.areaUnit for base calculation OR convert rate to targetUnit.
+        // We'll recompute base using areaInTarget & assumed rate per targetUnit if user changed areaUnit since adding:
+        // We'll assume plots' rates are per the current global areaUnit (safer UX) — BUT to avoid ambiguity, keep original stored base & final totals as-is.
+        // For robust behavior: we sum stored p.finalTotal and convert currency rounding later.
+        totalBase += p.base;
+        totalDiscount += p.discountAmount;
+        totalExtra += p.extraCharges;
+        totalTax += p.taxAmount;
+        totalFinal += p.finalTotal;
+      });
+
+      const rounding = document.getElementById('rounding').value;
+      const finalRounded = applyRounding(totalFinal, rounding);
+
+      // render summary
+      const currency = getCurrencySymbol();
+      const summaryBox = document.getElementById('summaryResult');
+      summaryBox.innerText =
+`Total area (approx): ${formatNum(totalArea)} ${unitLabel(targetUnit)}
+Total base cost: ${formatMoney(totalBase)}
+Total discount: -${formatMoney(totalDiscount)}
+Total extra charges: +${formatMoney(totalExtra)}
+Total tax: +${formatMoney(totalTax)}
+
+Grand Total: ${formatMoney(finalRounded)}
+(Displayed total uses stored per-plot calculations; to ensure exact consistency, enter rates according to chosen area unit before adding each plot.)
+`;
+      document.getElementById('totalsBox').style.display='block';
+    }
+
+    // CSV export
+    function downloadCSV(){
+      if (plots.length === 0){ alert('Add plots first to export.'); return; }
+      const headers = ['Index','Plot','Area','AreaUnit','RatePerUnit','BaseCost','DiscountType','DiscountValue','DiscountAmount','ExtraCharges','TaxPercent','TaxAmount','FinalTotal'];
+      const rows = plots.map((p,i)=>[
+        i+1,
+        p.name,
+        p.area,
+        p.areaUnit,
+        p.rate,
+        p.base,
+        p.discountType,
+        p.discountValue,
+        p.discountAmount,
+        p.extraCharges,
+        p.taxPercent,
+        p.taxAmount,
+        p.finalTotal
+      ]);
+      let csv = headers.join(',') + '\n';
+      rows.forEach(r=>{
+        csv += r.map(cell => `"${String(cell).replace(/"/g,'""')}"`).join(',') + '\n';
+      });
+      const blob = new Blob([csv],{type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const date = new Date().toISOString().slice(0,19).replace('T','_').replace(/:/g,'-');
+      a.download = `land_plots_${date}.csv`;
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    // Invoice / printable
+    function printInvoice(){
+      if (plots.length === 0){ alert('Add plots first to generate invoice.'); return; }
+      const currency = getCurrencySymbol();
+      const targetUnit = document.getElementById('areaUnit').value;
+      // build HTML
+      let html = `
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Invoice - Land Value</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;padding:20px;color:#111}
+h1{color:#ff9800}
+.table{width:100%;border-collapse:collapse;margin-top:12px}
+.table th,.table td{border:1px solid #ddd;padding:8px;text-align:left}
+.right{text-align:right}
+.small{font-size:13px;color:#666}
+</style>
+</head><body>
+<h1>BCA-HUB — Land Value Invoice</h1>
+<div class="small">Generated: ${new Date().toLocaleString()}</div>
+<table class="table">
+<thead><tr>
+<th>#</th><th>Plot</th><th>Area (${unitLabel(targetUnit)})</th><th>Rate/unit</th><th>Base</th><th>Discount</th><th>Extra</th><th>Tax</th><th>Total</th>
+</tr></thead><tbody>
+`;
+      plots.forEach((p,i)=>{
+        // convert area to targetUnit if needed
+        const areaInTarget = convertArea(p.area, p.areaUnit, targetUnit);
+        html += `<tr>
+<td>${i+1}</td>
+<td>${escapeHtml(p.name)}</td>
+<td class="right">${formatNum(areaInTarget)}</td>
+<td class="right">${(currency?currency+' ':'')+formatNum(p.rate)}</td>
+<td class="right">${(currency?currency+' ':'')+formatNum(p.base)}</td>
+<td class="right">${p.discountType==='percent'?p.discountValue+'%':(p.discountType==='flat'? (currency?currency+' ':'')+formatNum(p.discountValue):'-')} <div class="small">-${(currency?currency+' ':'')+formatNum(p.discountAmount)}</div></td>
+<td class="right">${(currency?currency+' ':'')+formatNum(p.extraCharges)}</td>
+<td class="right">${p.taxPercent}% <div class="small">${(currency?currency+' ':'')+formatNum(p.taxAmount)}</div></td>
+<td class="right">${(currency?currency+' ':'')+formatNum(p.finalTotal)}</td>
+</tr>`;
+      });
+      // totals (reuse summary)
+      // compute totals again
+      let totalBase = 0, totalDiscount = 0, totalExtra = 0, totalTax = 0, totalFinal = 0, totalArea = 0;
+      plots.forEach(p=>{
+        totalBase += p.base; totalDiscount += p.discountAmount; totalExtra += p.extraCharges; totalTax += p.taxAmount; totalFinal += p.finalTotal;
+        totalArea += convertArea(p.area,p.areaUnit,targetUnit);
+      });
+      html += `</tbody></table>
+<hr>
+<h3>Summary</h3>
+<div> Total Area: ${formatNum(totalArea)} ${unitLabel(targetUnit)}</div>
+<div> Total Base: ${(currency?currency+' ':'')+formatNum(totalBase)}</div>
+<div> Total Discount: -${(currency?currency+' ':'')+formatNum(totalDiscount)}</div>
+<div> Total Extra: ${(currency?currency+' ':'')+formatNum(totalExtra)}</div>
+<div> Total Tax: ${(currency?currency+' ':'')+formatNum(totalTax)}</div>
+<h2>Grand Total: ${(currency?currency+' ':'')+formatNum(totalFinal)}</h2>
+<hr>
+<div class="small">This invoice was generated using BCA-HUB Land Value Manager. Please review values before payment.</div>
+</body></html>
+`;
+      const w = window.open('','_blank','height=700,width=900');
+      w.document.write(html);
+      w.document.close();
+      // give browser a moment then trigger print
+      setTimeout(()=>{ w.focus(); /* user can choose print/save */ },300);
+    }
+
+    // Reset everything
+    function resetAll(){
+      if (!confirm('Reset everything? This will remove all added plots.')) return;
+      plots = [];
+      renderPlotsTable();
+      document.getElementById('conversionBox').style.display='none';
+      document.getElementById('summaryResult').innerText='';
+      document.getElementById('plotsTableContainer').style.display='none';
+      document.getElementById('totalsBox').style.display='none';
+      // clear inputs
+      clearInputFields();
+    }
+
+    function escapeHtml(text){
+      if (!text) return '';
+      return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // conversion helper (for user)
+    function showConversions(){
+      const target = document.getElementById('areaUnit').value;
+      let val;
+      if (inputMethod.value === 'dimensions'){
+        const l = parseFloat(document.getElementById('length').value);
+        const w = parseFloat(document.getElementById('width').value);
+        if (isNaN(l) || isNaN(w) || l<=0 || w<=0){ alert('Enter valid Length & Width'); return; }
+        val = toAreaFromDimensions(l,w,lenUnit.value,target);
+      } else {
+        const direct = parseFloat(document.getElementById('directArea').value);
+        if (isNaN(direct) || direct<=0){ alert('Enter direct area'); return; }
+        val = direct;
+      }
+      const sqm = convertArea(val,target,'sqm'), sqft = convertArea(val,target,'sqft'), sqyd = convertArea(val,target,'sqyd');
+      const box = document.getElementById('conversionBox');
+      box.style.display='block';
+      box.innerText = `Equivalent areas:\n• ${formatNum(sqm)} sq.m\n• ${formatNum(sqft)} sq.ft\n• ${formatNum(sqyd)} sq.yd`;
+      box.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+
+    // allow pressing Enter to add
+    document.addEventListener('keydown', (e)=>{
+      if (e.key === 'Enter'){
+        const active = document.activeElement;
+        if (active && (active.tagName === 'INPUT' || active.tagName === 'SELECT')){
+          // avoid accidental form submit, do nothing
+        }
+      }
+    });
+
+    // toggle mode
+    function toggleMode(){
+      document.body.classList.toggle('dark');
+      const btn = document.querySelector('.toggle-mode');
+      btn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+    }
+
+    function toggleSidebar(){
+      alert('Sidebar placeholder — implement navigation as needed.');
+    }
+
+    // initialize
+    (function init(){ areaUnit.dispatchEvent(new Event('change')); })();
+
+
+
+    // Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+  </script>
+</body>
+</html>

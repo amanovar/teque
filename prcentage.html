@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Percentage Calculator | BCA-HUB</title>
+<style>
+:root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+}
+body{
+  margin:0;
+  font-family:"Poppins",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:background .3s,color .3s;
+}
+
+/* HEADER */
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 18px;
+  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
+  color:#fff;
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:1001;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+}
+
+
+/* TOP LINKS */
+.scrollable-links{
+  display:flex;
+  overflow-x:auto;
+  background:#fff8e1;
+  padding:8px 0;
+  position:fixed;
+  top:53px;
+  width:100%;
+  scrollbar-width:thin;
+  z-index:999;
+}
+.scrollable-links a{
+  flex:0 0 auto;
+  margin:0 12px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+.scrollable-links a:hover{color:var(--primary);}
+
+/* SIDEBAR FIXED SCROLL */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px); /* top 80px ke baad remaining height */
+  background: var(--sidebar-bg);
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto; /* vertical scroll */
+  overflow-x: hidden; /* horizontal scroll nahi chahiye */
+}
+
+.sidebar.show { left: 0; }
+
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+
+/* Optional: custom scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+/* MAIN CONTENT */
+.main{
+  margin-left:220px;
+  padding:130px 20px 50px 20px;
+  transition:margin-left .3s;
+}
+
+/* MOBILE ADJUSTMENTS */
+@media(max-width:1024px){
+  .sidebar-toggle{display:block;}
+  .sidebar.closed{left:-220px;}
+  .sidebar{top:0;}
+  .main{margin-left:0;}
+}
+
+/* CONTAINER */
+.container{
+  background:var(--card);
+  padding:25px 20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.15);
+  max-width:800px;
+  margin:0 auto;
+}
+h1{color:var(--primary);margin-bottom:15px;text-align:center;}
+input[type="number"]{width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid #ccc;font-size:16px;}
+button{padding:10px 14px;border-radius:8px;border:none;font-weight:600;cursor:pointer;}
+.btn-primary{background:var(--primary);color:#fff;margin-right:5px;}
+.btn-secondary{background:#e0e0e0;margin-right:5px;}
+.result{margin-top:12px;padding:12px;border-radius:8px;background:#fffbe6;border-left:4px solid var(--primary);white-space:pre-wrap;}
+.info{margin-top:12px;padding:12px;background:#fff3cd;border-left:5px solid var(--primary);border-radius:8px;color:#333;}
+
+
+/* MAIN CONTENT */
+.main{
+  max-width:1200px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  
+}
+h1{color:var(--primary);margin-bottom:20px;text-align:center;}
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+</style>
+</head>
+<body>
+<header>
+  <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+<div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+
+<div class="main">
+  <div class="container">
+    <h1>Percentage Calculator</h1>
+    <label>Enter Total Marks:</label>
+    <input type="number" id="total" placeholder="e.g. 500">
+    <label>Enter Obtained Marks:</label>
+    <input type="number" id="obtained" placeholder="e.g. 425">
+    <button class="btn-primary" onclick="calculatePercentage()">Calculate</button>
+    <button class="btn-secondary" onclick="clearPercentage()">Clear</button>
+    <div id="result" class="result"></div>
+    <br>
+    <div class="info">
+      <strong>How to Use:</strong><br>
+      1️⃣ Enter total marks.<br>
+      2️⃣ Enter obtained marks.<br>
+      3️⃣ Click <b>Calculate</b> to see percentage.<br>
+      4️⃣ Click <b>Clear</b> to reset inputs.<br>
+      5️⃣ Result will show below.
+    </div>
+  </div>
+</div>
+<div class="container">
+<p>
+      Percentages are an important part of everyday calculations, from academics to business and finance. Calculating percentages manually can be error-prone and time-consuming, especially when dealing with multiple numbers or complex problems. A <strong>Percentage Calculator</strong> is a digital tool designed to simplify the process of calculating percentages, providing instant and accurate results for a wide range of applications.
+</p>
+
+<p>
+      This project provides a simple interface where users can enter numbers and percentages to calculate results such as percentage of a number, percentage increase or decrease, and total value. It is highly useful for students, teachers, accountants, business analysts, and anyone who needs to perform percentage calculations quickly and accurately.
+</p>
+
+<h3>Objective</h3>
+<p>
+      The main objective of the Percentage Calculator is to offer a fast, precise, and user-friendly tool for performing all types of percentage calculations. Specifically, it aims to:
+</p>
+<ul>
+      <li>Calculate percentage of a number accurately.</li>
+      <li>Compute percentage increase or decrease between two numbers.</li>
+      <li>Provide an easy-to-use interface suitable for all users.</li>
+      <li>Save time compared to manual calculations.</li>
+      <li>Enable future enhancements such as batch calculations, graphical representation, and integration with educational tools.</li>
+</ul>
+
+<h3>Problem Statement</h3>
+<p>
+      Manually calculating percentages can be challenging, especially when dealing with multiple values, fractions, or complex problems. Mistakes can lead to incorrect financial reports, academic results, or data analysis. Therefore, a <strong>Percentage Calculator</strong> is essential to simplify calculations, ensure accuracy, and provide instant results for students, professionals, and anyone needing precise percentage computations.
+</p>
+
+<h3>Scope of the Project</h3>
+<p>
+      This calculator is suitable for students, teachers, accountants, business professionals, and analysts. It can be implemented as a web tool, mobile app, or desktop software. Future enhancements may include supporting multiple numbers at once, calculating weighted percentages, generating reports, and providing visual graphs for better understanding. The tool is versatile and can be applied in academics, business, finance, and everyday calculations.
+</p>
+
+<h3>Features</h3>
+<ul>
+      <li><strong>Simple Input:</strong> Users can enter the base number and the percentage to calculate.</li>
+      <li><strong>Percentage of a Number:</strong> Quickly calculates the specified percentage of a given number.</li>
+      <li><strong>Percentage Increase/Decrease:</strong> Calculates the change in percentage between two numbers.</li>
+      <li><strong>Instant Results:</strong> Displays results immediately after input for quick calculations.</li>
+      <li><strong>Responsive Design:</strong> Works well on mobile, tablet, and desktop screens.</li>
+      <li><strong>Clear Display:</strong> Shows results in a user-friendly format with labels.</li>
+      <li><strong>Reset Option:</strong> Clears inputs and results for new calculations.</li>
+</ul>
+
+<h3>Technology Used</h3>
+<ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+      <li><strong>Backend (optional):</strong> Node.js, Python, or PHP for storing calculation history</li>
+      <li><strong>Tools:</strong> VS Code or any code editor</li>
+</ul>
+
+<h3>System Design and Working</h3>
+<p>The Percentage Calculator works in a simple and effective manner:</p>
+<ul>
+      <li><strong>Input Section:</strong> Users enter the base number and percentage or two numbers for percentage change.</li>
+      <li><strong>Calculation Engine:</strong> JavaScript or backend logic computes the percentage accurately and instantly.</li>
+      <li><strong>Result Display:</strong> Shows results clearly for easy understanding.</li>
+      <li><strong>Reset Function:</strong> Users can clear all inputs and results to perform new calculations.</li>
+</ul>
+
+<h3>Advantages</h3>
+<ul>
+      <li>Provides accurate and fast percentage calculations.</li>
+      <li>Reduces errors compared to manual computation.</li>
+      <li>Simple interface suitable for students, teachers, and professionals.</li>
+      <li>Responsive design ensures accessibility on any device.</li>
+      <li>Supports multiple types of percentage calculations.</li>
+      <li>Helps in academics, business, finance, and everyday calculations.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+      <li>Basic version does not track calculation history.</li>
+      <li>Advanced features like batch calculations or graphical analysis require backend integration.</li>
+      <li>Does not automatically fetch data for percentage comparison without additional input.</li>
+</ul>
+
+<h3>Future Scope</h3>
+<ul>
+      <li>Include batch calculations for multiple numbers at once.</li>
+      <li>Generate graphical representation of percentage changes.</li>
+      <li>Store historical calculations for reference and analysis.</li>
+      <li>Integrate with educational tools or financial software for automatic calculations.</li>
+      <li>Mobile app version for on-the-go percentage calculations.</li>
+      <li>Provide step-by-step solutions for educational purposes.</li>
+</ul>
+
+<h3>Conclusion</h3>
+<p>
+      The Percentage Calculator is a practical and efficient tool that simplifies percentage calculations for students, teachers, professionals, and anyone who works with numbers. It provides instant, accurate, and reliable results, saving time and reducing errors. With future enhancements like batch calculations, graphical representations, and integration with educational or financial tools, the Percentage Calculator can become a comprehensive solution for all percentage-related needs, helping users make informed decisions quickly and efficiently.
+</p>
+</div>
+
+<style>
+h1,h2{text-align:center;color:#007bff;}
+h3{color:#333;border-left:4px solid #007bff;padding-left:10px;}
+p{text-align:justify;line-height:1.8;margin-bottom:15px;}
+ul{line-height:1.8;}
+li{margin-bottom:8px;}
+hr{border:0;border-top:2px solid #eee;margin:30px 0;}
+</style>
+
+
+<div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+  </div>
+</div>
+<script>
+function toggleMode(){
+  document.body.classList.toggle('dark');
+  const btn=document.querySelector('.toggle-mode');
+  btn.textContent=document.body.classList.contains('dark')?'☀️':'🌙';
+}
+
+
+    // Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+// Percentage calculation
+function calculatePercentage(){
+  const total=Number(document.getElementById('total').value);
+  const obtained=Number(document.getElementById('obtained').value);
+  if(!total || !obtained || obtained>total){ alert("Enter valid values"); return; }
+  const percent=(obtained/total)*100;
+  document.getElementById('result').textContent=`Percentage: ${percent.toFixed(2)} %`;
+}
+
+function clearPercentage(){
+  document.getElementById('total').value='';
+  document.getElementById('obtained').value='';
+  document.getElementById('result').textContent='';
+}
+</script>
+
+</body>
+</html>

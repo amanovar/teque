@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://amanovar.github.io/learn-/sitemap.xml
+Host: https://amanovar.github.io/learn-/

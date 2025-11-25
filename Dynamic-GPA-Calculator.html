@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic GPA Calculator | BCA-HUB</title>
+  <style>
+   :root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+}
+
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: linear-gradient(90deg,#007bff,#007bff);
+      color: #fff;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+  /* TOP LINKS */
+.scrollable-links{
+  display:flex;
+  overflow-x:auto;
+  background:#fff8e1;
+  padding:8px 0;
+  position:fixed;
+  top:58px;
+  width:100%;
+  scrollbar-width:thin;
+  z-index:999;
+}
+.scrollable-links a{
+  flex:0 0 auto;
+  margin:0 12px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+.scrollable-links a:hover{color:var(--primary);}
+
+/* SIDEBAR FIXED SCROLL */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px); /* top 80px ke baad remaining height */
+  background: var(--sidebar-bg);
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto; /* vertical scroll */
+  overflow-x: hidden; /* horizontal scroll nahi chahiye */
+}
+
+.sidebar.show { left: 0; }
+
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+
+/* Optional: custom scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+    
+    .container { background: var(--card-bg); padding: 25px 20px; border-radius: 15px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); max-width: 420px; width: 90%; text-align: center; margin: 30px auto; margin-top: 120px; transition: 0.3s; }
+
+    h2 { color: var(--primary); margin-bottom: 20px; font-size: 1.6rem; }
+    input, select, button { width: 90%; padding: 10px; margin: 10px 0; font-size: 16px; border-radius: 8px; border: 1px solid #ccc; }
+
+    .btn-calc { background: var(--primary); color: #fff; font-weight: 600; border: none; cursor: pointer; }
+    .btn-calc:hover { background: var(--primary-dark); }
+    .btn-reset { background: #e0e0e0; border: none; font-weight: 600; cursor: pointer; }
+    .btn-reset:hover { background: #ccc; }
+    .btn-print { background: #007bff; color: #fff; border: none; font-weight: 600; cursor: pointer; }
+    .btn-print:hover { background: #007bff; }
+
+    #result { margin-top: 15px; font-size: 18px; font-weight: bold; white-space: pre-line; color: var(--text); }
+
+    .info { margin: 25px auto; padding: 15px; background: #fff3cd; border-left: 5px solid var(--primary); border-radius: 10px; font-size: 15px; color: #555; text-align: left; max-width: 420px; width: 90%; }
+
+    
+
+    @media (min-width:1024px){
+      .container{max-width:600px;padding:35px 30px;}
+      input, button{width:90%;padding:14px;font-size:18px;}
+      h2{font-size:2rem;}
+      #result{font-size:20px;}
+      .info{max-width:600px;font-size:16px;padding:20px;}
+    }
+
+    /* MAIN CONTENT */
+.container{
+  max-width:800px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  
+}
+h1{color:var(--primary);margin-bottom:20px;text-align:center;}
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+  </style>
+</head>
+<body>
+<header>
+  <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+  <div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+
+  <div class="container">
+    <h2>Dynamic GPA Calculator</h2>
+    <label for="subjectCount">Number of Subjects:</label>
+    <input type="number" id="subjectCount" placeholder="Enter number of subjects" min="1" max="20">
+    <button class="btn-calc" onclick="generateFields()">Generate Fields</button>
+    <form id="gpaForm"></form>
+    <button class="btn-calc" onclick="calculateGPA()">Calculate GPA</button>
+    <button class="btn-reset" onclick="resetGPAForm()">Reset</button>
+    <button class="btn-print" onclick="printGPAResult()">Print Result</button>
+    <div id="result"></div>
+  </div>
+
+  <div class="info">
+    <strong>How to Use:</strong><br />
+    1️⃣ Enter the number of subjects and click <b>Generate Fields</b>.<br />
+    2️⃣ Enter marks for each subject (0-100).<br />
+    3️⃣ Click <b>Calculate GPA</b> to see your GPA.<br />
+    4️⃣ Use <b>Reset</b> to clear fields.<br />
+    5️⃣ Use <b>Print Result</b> to save your GPA.
+  </div>
+<div class="container">
+<p>
+      Academic performance is often measured using Grade Point Average (GPA), which reflects a student's overall performance in their courses. Calculating GPA manually can be complicated, especially for students taking multiple subjects with different credit hours and varying grades. A <strong>Dynamic GPA Calculator</strong> is a digital tool designed to simplify this process, allowing students to calculate their GPA accurately and instantly based on input grades and credits.
+</p>
+
+<p>
+      This project provides a simple and interactive interface where students can enter their course grades and corresponding credit hours. The calculator dynamically updates the GPA as grades are entered or changed, making it highly useful for students at all levels, from high school to university. It is also valuable for teachers, academic advisors, and institutions that want to help students track their academic performance easily.
+</p>
+
+<h3>Objective</h3>
+<p>
+      The main goal of the Dynamic GPA Calculator is to provide a fast, accurate, and easy-to-use tool for calculating GPA. Specifically, it aims to:
+</p>
+<ul>
+      <li>Calculate GPA dynamically as grades and credits are entered or updated.</li>
+      <li>Reduce errors compared to manual GPA calculations.</li>
+      <li>Support multiple grading systems and credit structures.</li>
+      <li>Provide a user-friendly interface suitable for students, teachers, and academic advisors.</li>
+      <li>Allow future enhancements such as semester-wise GPA tracking, CGPA calculation, and academic performance analytics.</li>
+</ul>
+
+<h3>Problem Statement</h3>
+<p>
+      Students often face difficulties calculating their GPA manually, especially when dealing with many subjects, varied credit hours, and different grading scales. Manual calculations can be prone to errors, time-consuming, and frustrating. Moreover, students cannot instantly see the impact of improving a single grade on their overall GPA. Therefore, a <strong>Dynamic GPA Calculator</strong> is essential to simplify GPA computation, provide instant feedback, and ensure accurate results.
+</p>
+
+<h3>Scope of the Project</h3>
+<p>
+      This calculator can be used by students of high schools, colleges, and universities, as well as by teachers and academic institutions. It can be implemented as a web-based tool, desktop software, or mobile application. The project can be expanded to include features such as tracking GPA across multiple semesters, calculating cumulative GPA (CGPA), generating reports, and providing suggestions for academic improvement. It is highly flexible and can adapt to different grading systems used globally.
+</p>
+
+<h3>Features</h3>
+<ul>
+      <li><strong>Dynamic Calculation:</strong> Updates GPA instantly as grades and credits are entered or changed.</li>
+      <li><strong>Multiple Subjects:</strong> Allows calculation for any number of subjects.</li>
+      <li><strong>Credit-Based Calculation:</strong> Supports courses with different credit hours to calculate weighted GPA.</li>
+      <li><strong>Responsive Design:</strong> Works on mobile phones, tablets, and desktops.</li>
+      <li><strong>Easy-to-Use Interface:</strong> Simple input fields for grades and credits.</li>
+      <li><strong>Supports Various Grading Scales:</strong> Can handle 4.0 scale, percentage-based, or custom grade points.</li>
+      <li><strong>Reset Option:</strong> Clears all inputs to start a new GPA calculation.</li>
+      <li><strong>Clear Display:</strong> Shows GPA instantly and clearly in a professional format.</li>
+</ul>
+
+<h3>Technology Used</h3>
+<ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+      <li><strong>Backend (optional):</strong> Node.js, Python, or PHP for storing historical GPA data and reports</li>
+      <li><strong>Tools:</strong> VS Code or any code editor</li>
+</ul>
+
+<h3>System Design and Working</h3>
+<p>The Dynamic GPA Calculator works in the following steps:</p>
+<ul>
+      <li><strong>Input Section:</strong> Users enter grades and credit hours for each subject.</li>
+      <li><strong>Dynamic Calculation Engine:</strong> JavaScript automatically calculates GPA as inputs are entered or changed.</li>
+      <li><strong>Weighted GPA Calculation:</strong> Accounts for different credit hours for accurate computation.</li>
+      <li><strong>Display Result:</strong> Shows GPA instantly, optionally with CGPA and visual indicators.</li>
+      <li><strong>Reset Function:</strong> Clears all inputs for a fresh calculation.</li>
+</ul>
+
+<h3>Advantages</h3>
+<ul>
+      <li>Instant and accurate GPA calculation.</li>
+      <li>Reduces manual errors and saves time.</li>
+      <li>Dynamic calculation allows students to see how changing grades affect GPA.</li>
+      <li>Responsive interface makes it usable on all devices.</li>
+      <li>Supports multiple grading systems and credit structures.</li>
+      <li>Can be extended to track performance over multiple semesters or courses.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+      <li>Basic version does not store historical GPA data.</li>
+      <li>Does not provide predictive GPA scenarios without additional programming.</li>
+      <li>Advanced features like GPA trend analysis or academic recommendations require backend integration.</li>
+</ul>
+
+<h3>Future Scope</h3>
+<ul>
+      <li>Include semester-wise GPA tracking and cumulative GPA (CGPA) calculation.</li>
+      <li>Provide grade prediction based on desired GPA targets.</li>
+      <li>Store GPA history for students and generate downloadable reports.</li>
+      <li>Integrate with academic portals and learning management systems.</li>
+      <li>Offer suggestions for academic improvement based on performance trends.</li>
+      <li>Create a mobile app for on-the-go GPA calculation.</li>
+      <li>Include visual charts and graphs for performance analysis.</li>
+</ul>
+
+<h3>Conclusion</h3>
+<p>
+      The Dynamic GPA Calculator is a practical and efficient tool for students, teachers, and academic advisors. It simplifies GPA calculation, reduces errors, and provides instant results, helping students understand their academic performance in real-time. With future enhancements like semester tracking, predictive calculations, and integration with academic platforms, this tool can become a comprehensive solution for monitoring and improving student performance. By digitalizing GPA calculation, this project saves time, improves accuracy, and makes academic evaluation accessible and transparent for everyone.
+</p>
+</div>
+
+<style>
+h1,h2{text-align:center;color:#007bff;}
+h3{color:#333;border-left:4px solid #007bff;padding-left:10px;}
+p{text-align:justify;line-height:1.8;margin-bottom:15px;}
+ul{line-height:1.8;}
+li{margin-bottom:8px;}
+hr{border:0;border-top:2px solid #eee;margin:30px 0;}
+</style>
+<div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+  </div>
+</div>
+  <script>
+    function generateFields() {
+      const count = parseInt(document.getElementById("subjectCount").value);
+      const form = document.getElementById("gpaForm");
+      form.innerHTML = '';
+      if(isNaN(count) || count < 1 || count > 20){
+        alert("Enter a valid number of subjects (1-20).");
+        return;
+      }
+      for(let i=1;i<=count;i++){
+        const input = document.createElement("input");
+        input.type="number";
+        input.placeholder=`Subject ${i} Marks (0-100)`;
+        input.id=`subject${i}`;
+        input.min=0;
+        input.max=100;
+        form.appendChild(input);
+      }
+    }
+
+    function calculateGPA() {
+      const count = document.getElementById("gpaForm").children.length;
+      if(count === 0){
+        alert("Please generate subject fields first!");
+        return;
+      }
+      let marks=[];
+      for(let i=1;i<=count;i++){
+        const val = parseFloat(document.getElementById(`subject${i}`).value);
+        if(isNaN(val) || val<0 || val>100){
+          document.getElementById("result").innerText = "Enter valid marks (0-100) for all subjects!";
+          return;
+        }
+        marks.push(val);
+      }
+      const total = marks.reduce((a,b)=>a+b,0);
+      const gpa = (total/(count*100))*10;
+      document.getElementById("result").innerText = `Your GPA: ${gpa.toFixed(2)} / 10`;
+    }
+
+    function resetGPAForm(){
+      document.getElementById("gpaForm").innerHTML='';
+      document.getElementById("subjectCount").value='';
+      document.getElementById("result").innerText='';
+    }
+
+    function printGPAResult(){
+      const resultText = document.getElementById("result").innerText;
+      if(!resultText){ alert("No result to print!"); return; }
+      const printWindow = window.open('', '', 'height=400,width=600');
+      printWindow.document.write('<html><head><title>Print Result</title></head><body>');
+      printWindow.document.write('<pre style="font-size:18px;">'+resultText+'</pre>');
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.print();
+    }
+
+    
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+    }
+
+    document.addEventListener('click', function(event){
+      const sidebar=document.getElementById('sidebar');
+      const toggleBtn=document.querySelector('.sidebar-toggle');
+      if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+        sidebar.classList.remove('show');
+      }
+    });
+
+
+    // Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+  </script>
+</body>
+</html>

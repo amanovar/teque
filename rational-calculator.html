@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCA-HUB | Rational Calculator</title>
+<style>
+:root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+}
+body{
+  margin:0;
+  font-family:"Poppins",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:background .3s,color .3s;
+}
+/* HEADER */
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 18px;
+  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
+  color:#fff;
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:1000;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+}
+.logo{font-weight:700;font-size:1.3rem; margin-right: 80px;}
+.sidebar-toggle{cursor:pointer;font-size:1.5rem;}
+/* TOP LINKS */
+.scrollable-links{
+  display:flex;
+  overflow-x:auto;
+  background:#fff3cd;
+  padding:8px 0;
+  position:fixed;
+  top:58px;
+  width:100%;
+  scrollbar-width:thin;
+  z-index:999;
+}
+.scrollable-links a{
+  flex:0 0 auto;
+  margin:0 12px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+.scrollable-links a:hover{color:var(--primary);}
+
+/* SIDEBAR FIXED SCROLL */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px);
+  background: var(--sidebar-bg);
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto;
+}
+.sidebar.show { left: 0; }
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+/* MAIN CONTENT */
+.container{
+  max-width:600px;
+  margin:130px auto 50px auto;
+  padding:20px;
+  background:var(--card);
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+}
+h1{color:var(--primary);margin-bottom:20px;text-align:center;}
+input{
+  width:90%;
+  padding:10px;
+  margin:10px 5px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  text-align:center;
+  font-size:1em;
+}
+select, button{
+  padding:10px;
+  margin:10px;
+  border-radius:6px;
+  border:none;
+  background:var(--primary);
+  color:#fff;
+  cursor:pointer;
+  font-size:1em;
+  transition:.3s;
+}
+button:hover{background:var(--primary-dark);}
+.result{margin-top:15px;font-weight:600;font-size:1.1em;}
+
+.info {
+  background: #fff3cd;
+  border-left: 5px solid var(--primary);
+  padding: 10px 15px;
+  margin: 15px 0 25px 0;
+  border-radius: 8px;
+  font-size: 0.95em;
+  line-height: 1.6;
+  text-align: left;
+}
+body.dark .info {
+  background: #333;
+  border-left-color: var(--primary-dark);
+  color: #ddd;
+}
+
+/* MAIN CONTENT */
+.container{
+  max-width:800px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  
+}
+h1{color:var(--primary);margin-bottom:20px;text-align:center;}
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+/* TOGGLE BUTTON */
+.toggle-mode{
+  position:fixed;top:15px;right:15px;width:45px;height:45px;border-radius:50%;border:none;background:var(--primary);color:#fff;font-size:20px;cursor:pointer;z-index:1002;
+}
+.toggle-mode:hover{background:var(--primary-dark);}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+<div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+<div class="container">
+  <h1>Rational Number Calculator</h1>
+  <p>Enter fractions (for example: <b>3/4</b> or <b>5/6</b>) and choose an operation.</p>
+
+  <input type="text" id="num1" placeholder="First fraction">
+  <select id="operator">
+    <option value="+">+</option>
+    <option value="-">−</option>
+    <option value="*">×</option>
+    <option value="/">÷</option>
+  </select>
+  <input type="text" id="num2" placeholder="Second fraction"><br>
+  
+  <button onclick="calculate()">Calculate</button>
+  <div class="result" id="result"></div>
+  <div class="info">
+  <strong>How to Use:</strong><br>
+  1️⃣ Enter the first fraction (example: 3/4).<br>
+  2️⃣ Select the operation (+, −, ×, ÷).<br>
+  3️⃣ Enter the second fraction (example: 5/6).<br>
+  4️⃣ Click <b>Calculate</b> to see the result.<br>
+  5️⃣ Result will appear below in simplified form (e.g., 19/12 → 1 ^7⁄12).<br>
+  6️⃣ Use 🌙 or ☀️ button to toggle dark/light mode.
+</div>
+</div>
+<div class="container">
+<p>
+      Mathematics plays a crucial role in academics, engineering, and scientific research. Working with rational numbers, which are numbers that can be expressed as a fraction of two integers, is a common task. Performing operations like addition, subtraction, multiplication, and division manually can often be confusing and prone to mistakes. A <strong>Rational Calculator</strong> is a digital tool designed to simplify these operations, allowing users to calculate results accurately and instantly.
+</p>
+
+<p>
+      This project provides a user-friendly interface where users can input rational numbers in fraction form and perform various mathematical operations. The calculator automatically simplifies results, making it highly useful for students, teachers, engineers, and anyone working with rational numbers in practical applications.
+</p>
+
+<h3>Objective</h3>
+<p>
+      The primary goal of the Rational Calculator is to provide a simple, fast, and accurate tool for performing arithmetic operations on rational numbers. This calculator aims to:
+</p>
+<ul>
+      <li>Perform addition, subtraction, multiplication, and division of rational numbers quickly.</li>
+      <li>Provide accurate results without manual computation errors.</li>
+      <li>Simplify the results automatically to their lowest terms.</li>
+      <li>Offer an intuitive and easy-to-use interface suitable for students, teachers, and professionals.</li>
+      <li>Provide a foundation for future enhancements, such as handling mixed numbers or decimal conversion.</li>
+</ul>
+
+<h3>Problem Statement</h3>
+<p>
+      Performing arithmetic operations on rational numbers manually can be challenging, especially for students learning fractions or for professionals dealing with precise calculations. Mistakes in adding, subtracting, multiplying, or dividing fractions are common, particularly when the denominators are different. This can result in incorrect solutions and confusion. Therefore, a <strong>Rational Calculator</strong> is essential to simplify calculations, reduce errors, and save time.
+</p>
+
+<h3>Scope of the Project</h3>
+<p>
+      This calculator can be used in educational environments, tutoring sessions, competitive exams, engineering calculations, and scientific research. It can be implemented in web applications, desktop software, and mobile apps. Future enhancements may include support for mixed numbers, decimal conversion, complex rational expressions, and integration with educational platforms. The tool is flexible and can be extended to perform multiple operations at once or handle multiple rational numbers simultaneously.
+</p>
+
+<h3>Features</h3>
+<ul>
+      <li><strong>User-Friendly Interface:</strong> Simple input fields for numerators and denominators.</li>
+      <li><strong>Supports All Basic Operations:</strong> Addition, subtraction, multiplication, and division of rational numbers.</li>
+      <li><strong>Automatic Simplification:</strong> Provides results in the lowest terms.</li>
+      <li><strong>Input Validation:</strong> Accepts only valid integers for numerators and denominators.</li>
+      <li><strong>Supports Multiple Numbers:</strong> Can handle calculations involving more than two rational numbers.</li>
+      <li><strong>Responsive Design:</strong> Works seamlessly on mobile, tablet, and desktop devices.</li>
+      <li><strong>Clear Result Display:</strong> Shows results in fraction form with optional decimal conversion.</li>
+      <li><strong>Reset Option:</strong> Clear all fields to start a new calculation.</li>
+</ul>
+
+<h3>Technology Used</h3>
+<ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+      <li><strong>Backend (optional):</strong> Node.js, Python, or PHP for advanced storage and history features</li>
+      <li><strong>Development Tools:</strong> VS Code, Sublime Text, or any code editor</li>
+</ul>
+
+<h3>System Design and Working</h3>
+<p>The Rational Calculator works through a simple and intuitive flow:</p>
+<ul>
+      <li><strong>Input Section:</strong> User enters rational numbers by providing numerators and denominators.</li>
+      <li><strong>Operation Selection:</strong> User selects the arithmetic operation to perform: addition, subtraction, multiplication, or division.</li>
+      <li><strong>Calculation Engine:</strong> JavaScript processes the inputs, calculates the result, and simplifies it automatically.</li>
+      <li><strong>Result Display:</strong> Shows the result as a fraction and optionally converts it to a decimal for better understanding.</li>
+      <li><strong>Reset Function:</strong> Users can clear the inputs and results to start a new calculation.</li>
+</ul>
+
+<h3>Advantages</h3>
+<ul>
+      <li>Accurate and fast calculations for rational numbers.</li>
+      <li>Eliminates manual calculation errors.</li>
+      <li>Easy to use for students, teachers, and professionals alike.</li>
+      <li>Responsive interface works on all devices including smartphones and tablets.</li>
+      <li>Automatic simplification ensures results are always in the simplest form.</li>
+      <li>Supports multiple operations and can be extended for more complex calculations.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+      <li>Basic version does not store calculation history.</li>
+      <li>Does not handle irrational numbers, mixed numbers, or advanced algebraic rational expressions.</li>
+      <li>Decimal conversion beyond a certain precision may require additional functionality.</li>
+</ul>
+
+<h3>Future Scope</h3>
+<ul>
+      <li>Include support for mixed numbers and conversion between fractions and decimals.</li>
+      <li>Support complex rational expressions with multiple operations.</li>
+      <li>Provide step-by-step solution for educational purposes.</li>
+      <li>Save calculation history in the cloud or locally for reference.</li>
+      <li>Integrate with learning platforms for students and teachers.</li>
+      <li>Create a mobile app version for portability and on-the-go calculations.</li>
+      <li>Add additional features like fraction comparison, simplification tips, and error checking for common mistakes.</li>
+</ul>
+
+<h3>Conclusion</h3>
+<p>
+      The Rational Calculator is a highly useful and practical tool for anyone dealing with fractions or rational numbers. It provides accurate results instantly, reduces errors, and simplifies complex calculations. This tool is particularly valuable for students learning arithmetic, teachers preparing lessons, and professionals requiring precise calculations. With future enhancements, it can become a comprehensive solution for all rational number operations, educational purposes, and advanced mathematical applications. By digitalizing rational number calculations, this project saves time, improves accuracy, and makes mathematical tasks accessible to a wider audience.
+</p>
+</div>
+
+<style>
+h1,h2{text-align:center;color:#007bff;}
+h3{color:#333;border-left:4px solid #007bff;padding-left:10px;}
+p{text-align:justify;line-height:1.8;margin-bottom:15px;}
+ul{line-height:1.8;}
+li{margin-bottom:8px;}
+hr{border:0;border-top:2px solid #eee;margin:30px 0;}
+</style>
+
+
+<div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+  </div>
+</div>
+
+<script>
+
+// Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+document.querySelectorAll('.sidebar a').forEach(link=>{
+  link.addEventListener('click',()=>document.getElementById('sidebar').classList.remove('show'));
+});
+
+// Rational Calculator Logic
+function parseFraction(frac) {
+  let [num, den] = frac.split("/").map(Number);
+  if(!den || isNaN(num) || isNaN(den)){return null;}
+  return { num, den };
+}
+function gcd(a,b){ return b?gcd(b,a%b):a; }
+function simplify(num, den){
+  let g=gcd(Math.abs(num),Math.abs(den));
+  num/=g; den/=g;
+  return `${num}/${den}`;
+}
+function calculate(){
+  const f1=parseFraction(document.getElementById('num1').value.trim());
+  const f2=parseFraction(document.getElementById('num2').value.trim());
+  const op=document.getElementById('operator').value;
+  if(!f1 || !f2){document.getElementById('result').innerHTML="Please enter valid fractions.";return;}
+  let num, den;
+  switch(op){
+    case '+': num=f1.num*f2.den + f2.num*f1.den; den=f1.den*f2.den; break;
+    case '-': num=f1.num*f2.den - f2.num*f1.den; den=f1.den*f2.den; break;
+    case '*': num=f1.num*f2.num; den=f1.den*f2.den; break;
+    case '/': num=f1.num*f2.den; den=f1.den*f2.num; break;
+  }
+  document.getElementById('result').innerHTML = `Result: <b>${simplify(num, den)}</b>`;
+}
+</script>
+</body>
+</html>

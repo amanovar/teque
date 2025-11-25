@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Polygon Perimeter Calculator | BCA-HUB</title>
+  <style>
+
+    :root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+  
+}
+    *{box-sizing:border-box;font-family:"Poppins",Arial,sans-serif}
+    body{margin:0;background:var(--bg);color:var(--text);transition:background .2s,color .2s}
+    header{position:fixed;top:0;left:0;right:0;height:60px;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,#007bff,#007bff);color:#fff;z-index:1000;box-shadow:0 4px 10px rgba(0,0,0,.2)}
+
+    .toggle-mode{position:fixed;right:18px;top:12px;width:42px;height:48px;border-radius:50%;background-color:#007bff;color:#fff;border:none;z-index:1001;cursor:pointer;}
+    /* TOP LINKS */
+.scrollable-links{
+  display:flex;
+  overflow-x:auto;
+  background:#fff8e1;
+  padding:8px 0;
+  position:fixed;
+  top:58px;
+  width:100%;
+  scrollbar-width:thin;
+  z-index:999;
+}
+.scrollable-links a{
+  flex:0 0 auto;
+  margin:0 12px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+.scrollable-links a:hover{color:var(--primary);}
+
+    .container{max-width:900px;margin:140px auto 60px;padding:18px;border-radius:12px;background:var(--card-bg);box-shadow:0 10px 30px rgba(0,0,0,.08)}
+    h2{margin:0 0 10px;color:var(--primary)}
+    .grid{display:grid;gap:10px}
+    .two{grid-template-columns:1fr 1fr}
+    .three{grid-template-columns:1fr 1fr 1fr}
+    label{display:block;font-size:13px;margin-bottom:6px;color:var(--muted)}
+    input[type=number], input[type=text], select{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;font-size:15px;background:#fff}
+    .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    button{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-grey{background:#e0e0e0}
+    .btn-green{background:#007bff;color:#fff}
+    .result{margin-top:14px;padding:14px;border-radius:10px;background:#f7f7f7;border-left:4px solid var(--primary);white-space:pre-line;font-weight:600}
+    .info{margin-top:12px;padding:12px;background:#fff3cd;border-left:5px solid var(--primary);border-radius:8px;color:#333}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{padding:8px;border:1px solid #eaeaea;text-align:left;font-size:14px}
+    th{background:#fafafa}
+    .right{text-align:right}
+    .muted{color:var(--muted);font-size:13px}
+    .divider{height:1px;background:#eee;margin:10px 0;border-radius:2px}
+    @media(min-width:900px){ .container{padding:26px} .cols-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px} }
+    
+    /* SIDEBAR FIXED SCROLL */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px); /* top 80px ke baad remaining height */
+  background: #333333;
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto; /* vertical scroll */
+  overflow-x: hidden; /* horizontal scroll nahi chahiye */
+}
+
+.sidebar.show { left: 0; }
+
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+
+/* Optional: custom scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+    /* MAIN CONTENT */
+.main{
+  max-width:1200px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  
+}
+
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+  </style>
+</head>
+<body>
+<header>
+  <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+  
+  <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+  <div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+  <div class="container">
+    <h2>Polygon Perimeter Calculator</h2>
+
+    <!-- Mode selection -->
+    <div class="grid two">
+      <div>
+        <label>Polygon Type</label>
+        <select id="polyType">
+          <option value="regular">Regular Polygon (all sides equal)</option>
+          <option value="irregular">Irregular Polygon (enter each side)</option>
+        </select>
+      </div>
+      <div>
+        <label>Unit</label>
+        <select id="unitSelect">
+          <option value="m">Meters (m)</option>
+          <option value="ft">Feet (ft)</option>
+          <option value="yd">Yard (yd)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Regular polygon block -->
+    <div id="regularBlock" style="margin-top:8px">
+      <div class="grid three">
+        <div>
+          <label>Number of sides (n)</label>
+          <input type="number" id="regSides" min="3" value="3">
+        </div>
+        <div>
+          <label>Side length</label>
+          <input type="number" id="regSideLength" min="0" step="any" placeholder="e.g. 5">
+        </div>
+        <div>
+          <label>Compute Area too?</label>
+          <select id="computeArea">
+            <option value="no">No</option>
+            <option value="yes">Yes (regular polygon area)</option>
+          </select>
+        </div>
+      </div>
+      <div class="note muted" style="margin-top:6px">For regular polygon area we use formula: Area = (n * s²) / (4 * tan(π/n)).</div>
+    </div>
+
+    <!-- Irregular polygon block -->
+    <div id="irregularBlock" style="display:none;margin-top:12px">
+      <div class="grid two">
+        <div>
+          <label>Number of sides to input</label>
+          <input type="number" id="irrCount" min="3" value="3">
+        </div>
+        <div style="display:flex;align-items:end;gap:8px">
+          <button class="btn-primary" onclick="generateSideFields()">Generate Fields</button>
+          <button class="btn-grey" onclick="clearSideFields()">Clear Fields</button>
+        </div>
+      </div>
+
+      <div id="sidesContainer" style="margin-top:10px"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Actions -->
+    <div class="btn-row">
+      <button class="btn-primary" onclick="calculatePerimeter()">Calculate Perimeter</button>
+      <button class="btn-grey" onclick="resetAll()">Reset</button>
+      <button class="btn-green" onclick="printResult()">Print Result</button>
+      <button class="btn-grey" onclick="exportSidesCSV()">Export Sides CSV</button>
+    </div>
+
+    <div id="resultBox" class="result" style="display:none"></div>
+
+    <div class="info" style="margin-top:12px">
+      <strong>How to use:</strong><br>
+      • Choose Regular or Irregular polygon.<br>
+      • Regular: enter number of sides and one side length. Optionally compute area for regular polygons.<br>
+      • Irregular: set number of sides and generate fields; enter each side length.<br>
+      • Choose unit; perimeter result will show in chosen unit plus conversions to other units.<br>
+      • Print or export sides as CSV if needed.
+    </div>
+  </div>
+  <div class="container">
+<p>
+      Calculating the perimeter of polygons is an essential task in mathematics, engineering, and architecture. A polygon is a closed figure with multiple straight sides, and determining its perimeter manually requires summing the lengths of all its sides. A <strong>Polygon Perimeter Calculator</strong> is a digital tool designed to simplify this process, allowing users to quickly and accurately compute the perimeter of any polygon, whether regular or irregular.
+</p>
+
+<p>
+      This project provides a user-friendly interface where users can input the number of sides and their respective lengths. The calculator then sums these lengths to display the total perimeter. It is highly useful for students, architects, engineers, and anyone needing precise measurements for educational, construction, or design purposes.
+</p>
+
+<h3>Objective</h3>
+<p>
+      The main objective of the Polygon Perimeter Calculator is to provide a fast, accurate, and easy-to-use tool for calculating the perimeter of polygons. Specifically, it aims to:
+</p>
+<ul>
+      <li>Calculate the perimeter of regular and irregular polygons quickly.</li>
+      <li>Provide a simple and intuitive interface for all users.</li>
+      <li>Reduce errors compared to manual calculation methods.</li>
+      <li>Save time for students, architects, engineers, and professionals.</li>
+      <li>Enable future enhancements like graphical visualization, multi-polygon comparison, and advanced geometric calculations.</li>
+</ul>
+
+<h3>Problem Statement</h3>
+<p>
+      Manual calculation of polygon perimeters can be tedious, especially for irregular polygons with many sides or decimals. Errors in summing side lengths can lead to inaccuracies in academic problems, construction projects, or design layouts. Therefore, a <strong>Polygon Perimeter Calculator</strong> is necessary to provide instant, reliable, and precise results for both educational and professional use.
+</p>
+
+<h3>Scope of the Project</h3>
+<p>
+      This calculator is suitable for students, teachers, architects, engineers, designers, and anyone working with geometric figures. It can be implemented as a web-based tool, mobile app, or desktop software. Future extensions may include support for area calculation, graphical representation, multi-polygon calculations, and integration with CAD or design software. The tool is versatile and applicable for both educational and professional purposes.
+</p>
+
+<h3>Features</h3>
+<ul>
+      <li><strong>Simple Input:</strong> Users can enter the number of sides and their corresponding lengths.</li>
+      <li><strong>Instant Result:</strong> Calculates and displays the perimeter immediately.</li>
+      <li><strong>Supports Regular and Irregular Polygons:</strong> Works for polygons with equal sides as well as unequal sides.</li>
+      <li><strong>Responsive Design:</strong> Compatible with mobile, tablet, and desktop devices.</li>
+      <li><strong>Reset Option:</strong> Clears all inputs for a new calculation.</li>
+      <li><strong>Optional Features:</strong> Can include graphical visualization of the polygon and side lengths.</li>
+</ul>
+
+<h3>Technology Used</h3>
+<ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+      <li><strong>Backend (optional):</strong> Node.js, Python, or PHP for storing historical calculations or advanced polygon features</li>
+      <li><strong>Tools:</strong> VS Code or any text editor</li>
+</ul>
+
+<h3>System Design and Working</h3>
+<p>The Polygon Perimeter Calculator works in a simple and effective manner:</p>
+<ul>
+      <li><strong>Input Section:</strong> Users enter the number of sides and the length of each side.</li>
+      <li><strong>Calculation Engine:</strong> JavaScript or backend logic sums all side lengths to compute the total perimeter.</li>
+      <li><strong>Result Display:</strong> Shows the calculated perimeter clearly and accurately.</li>
+      <li><strong>Optional Features:</strong> Can display a visual representation of the polygon with labeled sides.</li>
+      <li><strong>Reset Function:</strong> Clears all inputs for new calculations.</li>
+</ul>
+
+<h3>Advantages</h3>
+<ul>
+      <li>Instant and accurate calculation of polygon perimeters.</li>
+      <li>Reduces errors compared to manual calculations.</li>
+      <li>Simple and user-friendly interface for all users.</li>
+      <li>Responsive design ensures usability on any device.</li>
+      <li>Supports regular and irregular polygons with ease.</li>
+      <li>Optional visual features help in understanding geometric shapes.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+      <li>Basic version does not calculate polygon area or internal angles.</li>
+      <li>Advanced visualization or multi-polygon comparisons require backend integration.</li>
+      <li>Does not store historical calculations without a database.</li>
+</ul>
+
+<h3>Future Scope</h3>
+<ul>
+      <li>Include polygon area calculation along with perimeter.</li>
+      <li>Graphical visualization of polygons with labeled sides and dimensions.</li>
+      <li>Support multi-polygon input for batch calculations.</li>
+      <li>Integration with CAD or architectural design software for professional use.</li>
+      <li>Mobile app version for on-the-go calculations and visualizations.</li>
+      <li>Store calculation history and allow comparisons between different polygons.</li>
+</ul>
+
+<h3>Conclusion</h3>
+<p>
+      The Polygon Perimeter Calculator is a practical and efficient tool for accurately determining the perimeter of any polygon. It simplifies calculations, reduces errors, and is highly useful for students, architects, engineers, and designers. With additional features like graphical visualization, area calculation, and mobile accessibility, the Polygon Perimeter Calculator can become a comprehensive geometric tool, enhancing learning, planning, and professional design processes.
+</p>
+</div>
+
+<style>
+h1,h2{text-align:center;color:#007bff;}
+h3{color:#333;border-left:4px solid #007bff;padding-left:10px;}
+p{text-align:justify;line-height:1.8;margin-bottom:15px;}
+ul{line-height:1.8;}
+li{margin-bottom:8px;}
+hr{border:0;border-top:2px solid #eee;margin:30px 0;}
+</style>
+
+  <div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+</div>
+</div>
+
+
+  <script>
+    // conversion constants
+    const M_TO_FT = 3.28084;
+    const FT_TO_M = 1 / M_TO_FT;
+    const YD_TO_FT = 3;
+    const FT_TO_YD = 1 / YD_TO_FT;
+
+    // DOM
+    const polyType = document.getElementById('polyType');
+    const regularBlock = document.getElementById('regularBlock');
+    const irregularBlock = document.getElementById('irregularBlock');
+    const unitSelect = document.getElementById('unitSelect');
+    const sidesContainer = document.getElementById('sidesContainer');
+
+    // Switch UI based on polygon type
+    polyType.addEventListener('change', () => {
+      if (polyType.value === 'regular') {
+        regularBlock.style.display = 'block';
+        irregularBlock.style.display = 'none';
+        sidesContainer.innerHTML = '';
+      } else {
+        regularBlock.style.display = 'none';
+        irregularBlock.style.display = 'block';
+      }
+      hideResult();
+    });
+
+    // generate side input fields for irregular polygon
+    function generateSideFields() {
+      const count = parseInt(document.getElementById('irrCount').value);
+      if (isNaN(count) || count < 3) {
+        alert('Enter a valid number of sides (≥ 3).');
+        return;
+      }
+      sidesContainer.innerHTML = '';
+      const grid = document.createElement('div');
+      grid.style.display = 'grid';
+      grid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(160px, 1fr))';
+      grid.style.gap = '8px';
+
+      for (let i = 1; i <= count; i++) {
+        const wrapper = document.createElement('div');
+        const label = document.createElement('label');
+        label.innerText = `Side ${i} length`;
+        label.style.fontSize = '13px';
+        label.style.color = '#666';
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.min = '0';
+        input.step = 'any';
+        input.placeholder = `Side ${i}`;
+        input.id = `side_${i}`;
+        input.style.padding = '8px';
+        input.style.borderRadius = '6px';
+        input.style.border = '1px solid #ccc';
+        input.style.width = '100%';
+        wrapper.appendChild(label);
+        wrapper.appendChild(input);
+        grid.appendChild(wrapper);
+      }
+      sidesContainer.appendChild(grid);
+      hideResult();
+    }
+
+    function clearSideFields() {
+      sidesContainer.innerHTML = '';
+      hideResult();
+    }
+
+    // Calculate perimeter (and area optionally)
+    function calculatePerimeter() {
+      const unit = unitSelect.value;
+
+      if (polyType.value === 'regular') {
+        const n = parseInt(document.getElementById('regSides').value);
+        const s = parseFloat(document.getElementById('regSideLength').value);
+        if (isNaN(n) || n < 3) { showError('Enter a valid number of sides (≥ 3).'); return; }
+        if (isNaN(s) || s <= 0) { showError('Enter a valid side length (> 0).'); return; }
+
+        const perimeter = n * s;
+        let areaText = '';
+        if (document.getElementById('computeArea').value === 'yes') {
+          // area formula for regular polygon: (n * s^2) / (4 * tan(pi/n))
+          const area = (n * s * s) / (4 * Math.tan(Math.PI / n));
+          areaText = `Area (regular polygon): ${formatNumber(area)} ${unit}²\n`;
+        }
+
+        const conversions = getPerimeterConversions(perimeter, unit);
+        const text =
+`${areaText}Perimeter: ${formatNumber(perimeter)} ${unit}
+Conversions:
+• ${formatNumber(conversions.m)} m
+• ${formatNumber(conversions.ft)} ft
+• ${formatNumber(conversions.yd)} yd
+(Regular polygon — n = ${n}, side = ${s} ${unit})`;
+        showResult(text);
+      } else {
+        // irregular
+        const inputs = sidesContainer.querySelectorAll('input[id^="side_"]');
+        if (inputs.length === 0) { showError('Generate side fields first (enter number of sides and click Generate Fields).'); return; }
+        let sum = 0;
+        for (let inp of inputs) {
+          const val = parseFloat(inp.value);
+          if (isNaN(val) || val <= 0) { showError('Enter valid positive lengths for all sides.'); return; }
+          sum += val;
+        }
+        const conversions = getPerimeterConversions(sum, unit);
+        // list sides optionally
+        let sidesList = '';
+        inputs.forEach((inp, idx) => {
+          sidesList += `Side ${idx+1}: ${formatNumber(parseFloat(inp.value))} ${unit}\n`;
+        });
+
+        const text =
+`Perimeter: ${formatNumber(sum)} ${unit}
+Conversions:
+• ${formatNumber(conversions.m)} m
+• ${formatNumber(conversions.ft)} ft
+• ${formatNumber(conversions.yd)} yd
+
+Sides:
+${sidesList}`;
+        showResult(text);
+      }
+    }
+
+    // conversions helper: returns perimeter in m, ft, yd
+    function getPerimeterConversions(value, fromUnit) {
+      let meters, feet, yards;
+      if (fromUnit === 'm') {
+        meters = value;
+        feet = value * M_TO_FT;
+        yards = feet * FT_TO_YD;
+      } else if (fromUnit === 'ft') {
+        feet = value;
+        meters = value * FT_TO_M;
+        yards = value * FT_TO_YD;
+      } else { // yd
+        yards = value;
+        feet = value * YD_TO_FT;
+        meters = feet * FT_TO_M;
+      }
+      return { m: meters, ft: feet, yd: yards };
+    }
+
+    // formatting helpers
+    function formatNumber(n) {
+      return Number(n).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:4});
+    }
+
+    // UI: show and hide result
+    function showResult(text) {
+      const box = document.getElementById('resultBox');
+      box.style.display = 'block';
+      box.style.borderLeftColor = 'var(--primary)';
+      box.style.color = '';
+      box.innerText = text;
+      box.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+    function showError(msg) {
+      const box = document.getElementById('resultBox');
+      box.style.display = 'block';
+      box.style.borderLeftColor = '#e53935';
+      box.style.color = '#e53935';
+      box.innerText = 'Error: ' + msg;
+      box.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+    function hideResult(){
+      const box = document.getElementById('resultBox');
+      box.style.display = 'none';
+      box.innerText = '';
+    }
+
+    // Reset all
+    function resetAll() {
+      document.getElementById('regSides').value = 3;
+      document.getElementById('regSideLength').value = '';
+      document.getElementById('irrCount').value = 3;
+      sidesContainer.innerHTML = '';
+      hideResult();
+    }
+
+    // Print result
+    function printResult() {
+      const box = document.getElementById('resultBox');
+      if (box.style.display === 'none' || !box.innerText.trim()) { alert('No result to print. Please calculate first.'); return; }
+      const w = window.open('', '', 'height=600,width=800');
+      const title = 'Polygon Perimeter Result';
+      w.document.write('<html><head><title>' + title + '</title></head><body>');
+      w.document.write('<pre style="font-size:16px;">' + box.innerText + '</pre>');
+      w.document.write('</body></html>');
+      w.document.close();
+      w.print();
+    }
+
+    // Export sides as CSV (for irregular polygon)
+    function exportSidesCSV(){
+      if (polyType.value === 'regular'){
+        const n = parseInt(document.getElementById('regSides').value);
+        const s = parseFloat(document.getElementById('regSideLength').value);
+        if (isNaN(n) || isNaN(s) || n<3 || s<=0){ alert('Enter valid regular polygon values to export.'); return; }
+        let csv = 'Side,Length\\n';
+        for (let i=1;i<=n;i++) csv += `${i},${s}\\n`;
+        downloadCSVContent(csv, 'regular_polygon_sides.csv');
+      } else {
+        const inputs = sidesContainer.querySelectorAll('input[id^="side_"]');
+        if (inputs.length === 0){ alert('Generate side fields first to export.'); return; }
+        let csv = 'Side,Length\\n';
+        inputs.forEach((inp, idx) => {
+          const val = parseFloat(inp.value) || 0;
+          csv += `${idx+1},${val}\\n`;
+        });
+        downloadCSVContent(csv, 'irregular_polygon_sides.csv');
+      }
+    }
+
+    function downloadCSVContent(csv, filename){
+      const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    // keyboard: Enter does not accidentally submit
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { /* do nothing to avoid accidental submits */ }
+    });
+
+    // placeholder sidebar
+    function toggleSidebar(){ alert('Sidebar clicked (placeholder).'); }
+
+    
+
+    // init
+    (function init(){ /* default state */ })();
+
+
+    // Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+  </script>
+</body>
+</html>

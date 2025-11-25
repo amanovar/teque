@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIP Calculator | BCA-HUB</title>
+<style>
+:root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+}
+body{
+  margin:0;
+  font-family:"Poppins",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:background .3s,color .3s;
+}
+
+
+/* HEADER */
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 18px;
+  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
+  color:#fff;
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:1001;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+}
+
+.sidebar-toggle{cursor:pointer;font-size:1.5rem;display:block;}
+
+/* TOP LINKS */
+.scrollable-links{
+  display:flex;
+  overflow-x:auto;
+  background:#fff8e1;
+  padding:8px 0;
+  position:fixed;
+  top:58px;
+  width:100%;
+  scrollbar-width:thin;
+  z-index:999;
+}
+.scrollable-links a{
+  flex:0 0 auto;
+  margin:0 12px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+.scrollable-links a:hover{color:var(--primary);}
+
+/* SIDEBAR FIXED SCROLL */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px); /* top 80px ke baad remaining height */
+  background: var(--sidebar-bg);
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  padding-top: 10px;
+  z-index: 998;
+  overflow-y: auto; /* vertical scroll */
+  overflow-x: hidden; /* horizontal scroll nahi chahiye */
+}
+
+.sidebar.show { left: 0; }
+
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,.1);
+  padding-left: 25px;
+}
+
+/* Optional: custom scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+
+/* MOBILE ADJUSTMENTS */
+@media(max-width:1024px){
+  .sidebar-toggle{display:block;}
+  .sidebar.closed{left:-220px;}
+  .sidebar{top:0;}
+  .main{margin-left:0;}
+}
+
+/* MAIN CONTENT */
+.container{
+  max-width:800px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  background-color: #f9fafb;
+  
+}
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+
+
+h1{color:var(--primary);margin-bottom:15px;text-align:center;}
+input[type="number"]{width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid #ccc;font-size:16px;}
+button{padding:10px 14px;border-radius:8px;border:none;font-weight:600;cursor:pointer;}
+.btn-primary{background:var(--primary);color:#fff;margin-right:5px;}
+.btn-secondary{background:#e0e0e0;margin-right:5px;}
+.result{margin-top:12px;padding:12px;border-radius:8px;background:#fffbe6;border-left:4px solid var(--primary);white-space:pre-wrap;}
+.info{margin-top:12px;padding:12px;background:#fff3cd;border-left:5px solid var(--primary);border-radius:8px;color:#333;}
+
+
+
+</style>
+</head>
+<body>
+
+<header>
+ <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
+
+
+<div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+
+<div class="main">
+  <div class="container">
+    <h1>SIP Calculator</h1>
+    <label>Monthly Investment (₹):</label>
+    <input type="number" id="monthly" placeholder="e.g. 5000">
+    <label>Annual Interest Rate (%):</label>
+    <input type="number" id="rate" placeholder="e.g. 12">
+    <label>Tenure (Years):</label>
+    <input type="number" id="tenure" placeholder="e.g. 10">
+    <button class="btn-primary" onclick="calculateSIP()">Calculate</button>
+    <button class="btn-secondary" onclick="clearSIP()">Clear</button>
+    <div id="result" class="result"></div>
+    <div class="info">
+      <strong>How to Use:</strong><br>
+      1️⃣ Enter monthly investment amount in ₹.<br>
+      2️⃣ Enter expected annual interest rate in %.<br>
+      3️⃣ Enter tenure in years.<br>
+      4️⃣ Click <b>Calculate</b> to see total investment, interest earned, and maturity value.<br>
+      5️⃣ Click <b>Clear</b> to reset inputs.<br>
+      6️⃣ Result will show below.
+    </div>
+  </div>
+</div>
+<div class="container">
+<p>
+      Investment planning is crucial for financial growth and long-term wealth creation. A Systematic Investment Plan (SIP) allows investors to invest a fixed amount regularly in mutual funds, stocks, or other investment instruments. However, calculating the potential returns of a SIP manually can be complex due to compounding and market variations. A <strong>SIP Calculator</strong> is a digital tool designed to simplify this process by estimating the future value of investments based on investment amount, duration, and expected rate of return.
+</p>
+
+<p>
+      This project provides a user-friendly interface where users can input the monthly investment amount, expected annual return rate, and investment duration. The calculator then computes the estimated corpus at the end of the investment period using the power of compounding. It is highly useful for individual investors, financial planners, and anyone interested in understanding the potential growth of their investments.
+</p>
+
+<h3>Objective</h3>
+<p>
+      The main objective of the SIP Calculator is to provide a simple, accurate, and fast tool to estimate future investment returns. Specifically, it aims to:
+</p>
+<ul>
+      <li>Calculate the potential future value of a systematic investment plan accurately.</li>
+      <li>Allow investors to plan their financial goals efficiently.</li>
+      <li>Provide a user-friendly interface suitable for beginners and experienced investors.</li>
+      <li>Save time compared to manual calculations using compounding formulas.</li>
+      <li>Enable future enhancements like graphical representation, comparison of multiple SIPs, and risk analysis.</li>
+</ul>
+
+<h3>Problem Statement</h3>
+<p>
+      Manual calculation of SIP returns is challenging, especially when considering monthly compounding, varying interest rates, and long-term investment horizons. Errors in calculation can lead to incorrect planning and financial decision-making. Therefore, a <strong>SIP Calculator</strong> is necessary to provide instant, reliable, and precise results for both beginners and seasoned investors, helping them make informed investment decisions.
+</p>
+
+<h3>Scope of the Project</h3>
+<p>
+      This calculator is useful for individual investors, financial advisors, and planners. It can be implemented as a web-based tool, mobile app, or desktop software. Future extensions may include features like comparing multiple SIP plans, integrating with stock or mutual fund data, showing projected returns graphically, or allowing tax and inflation adjustments. The tool is versatile and can be applied for both short-term and long-term financial planning.
+</p>
+
+<h3>Features</h3>
+<ul>
+      <li><strong>Simple Input:</strong> Users enter monthly investment amount, investment duration, and expected annual rate of return.</li>
+      <li><strong>Future Value Calculation:</strong> Calculates the estimated corpus using monthly compounding.</li>
+      <li><strong>Goal Planning:</strong> Helps users understand how much they need to invest to reach financial goals.</li>
+      <li><strong>Responsive Design:</strong> Works perfectly on mobile, tablet, and desktop devices.</li>
+      <li><strong>Instant Results:</strong> Displays estimated corpus immediately after input.</li>
+      <li><strong>Graphical Representation:</strong> Optional feature to show investment growth over time.</li>
+      <li><strong>Reset Option:</strong> Clears all inputs for a new calculation.</li>
+</ul>
+
+<h3>Technology Used</h3>
+<ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+      <li><strong>Backend (optional):</strong> Node.js, Python, or PHP for saving historical calculations or user profiles</li>
+      <li><strong>Tools:</strong> VS Code or any code editor</li>
+</ul>
+
+<h3>System Design and Working</h3>
+<p>The SIP Calculator works through a simple and effective process:</p>
+<ul>
+      <li><strong>Input Section:</strong> Users enter monthly investment amount, duration in months or years, and expected annual rate of return.</li>
+      <li><strong>Calculation Engine:</strong> JavaScript or backend logic calculates the future value using the formula for compound interest with monthly contributions.</li>
+      <li><strong>Result Display:</strong> Shows the estimated corpus clearly, along with total invested amount and total returns.</li>
+      <li><strong>Optional Graphs:</strong> Visual representation of investment growth over time for better understanding.</li>
+      <li><strong>Reset Function:</strong> Clears all fields for a new calculation.</li>
+</ul>
+
+<h3>Advantages</h3>
+<ul>
+      <li>Provides accurate and instant SIP return calculations.</li>
+      <li>Helps investors plan for financial goals efficiently.</li>
+      <li>Reduces errors compared to manual compounding calculations.</li>
+      <li>User-friendly interface suitable for beginners and professionals.</li>
+      <li>Responsive design ensures accessibility on any device.</li>
+      <li>Optional graphical features help visualize investment growth over time.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+      <li>Basic version does not account for changing interest rates or market volatility.</li>
+      <li>Advanced features like risk analysis, tax calculations, or inflation adjustment require backend integration.</li>
+      <li>Does not store historical investment data without backend support.</li>
+</ul>
+
+<h3>Future Scope</h3>
+<ul>
+      <li>Compare multiple SIP plans to choose the best investment option.</li>
+      <li>Include tax and inflation adjustment to provide more realistic projections.</li>
+      <li>Store historical SIP calculations for tracking financial progress.</li>
+      <li>Provide graphical visualization of investment growth and returns.</li>
+      <li>Integration with mutual fund or stock market APIs for real-time updates.</li>
+      <li>Mobile app version for on-the-go investment planning.</li>
+      <li>Enable goal-based investment planning with personalized recommendations.</li>
+</ul>
+
+<h3>Conclusion</h3>
+<p>
+      The SIP Calculator is an essential tool for investors aiming to grow their wealth systematically. It simplifies complex calculations, provides accurate results instantly, and helps users plan their financial goals efficiently. With future enhancements like comparison of multiple SIPs, graphical visualizations, tax adjustments, and mobile accessibility, the SIP Calculator can become a comprehensive financial planning tool. By digitalizing investment calculations, it empowers users to make informed decisions, save time, and maximize their returns effectively.
+</p>
+</div>
+
+<style>
+h1,h2{text-align:center;color:#2980b9;}
+h3{color:#333;border-left:4px solid #2980b9;padding-left:10px;}
+p{text-align:justify;line-height:1.8;margin-bottom:15px;}
+ul{line-height:1.8;}
+li{margin-bottom:8px;}
+hr{border:0;border-top:2px solid #eee;margin:30px 0;}
+</style>
+
+
+
+<div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+  </div>
+</div>
+
+
+<script>
+// Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+
+
+
+// SIP calculation
+function calculateSIP(){
+  const P=Number(document.getElementById('monthly').value);
+  const r=Number(document.getElementById('rate').value)/100/12;
+  const n=Number(document.getElementById('tenure').value)*12;
+  if(!P || !r || !n){ alert("Enter valid values"); return; }
+  const FV = P * (Math.pow(1+r,n)-1)/r * (1+r);
+  const totalInvest = P*n;
+  const interestEarned = FV - totalInvest;
+  document.getElementById('result').textContent=
+    `Total Investment: ₹${totalInvest.toFixed(2)}
+Interest Earned: ₹${interestEarned.toFixed(2)}
+Maturity Value: ₹${FV.toFixed(2)}`;
+}
+
+function clearSIP(){
+  document.getElementById('monthly').value='';
+  document.getElementById('rate').value='';
+  document.getElementById('tenure').value='';
+  document.getElementById('result').textContent='';
+}
+</script>
+
+</body>
+</html>

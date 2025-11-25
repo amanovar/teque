@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professional Bill Generator</title>
+<style>
+  body{font-family:Arial,sans-serif;margin:0;background:#f5f5f5;padding:20px;}
+  .bill-container{max-width:900px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 5px 20px rgba(0,0,0,0.1);}
+  h1,h2,h3,h4{margin:0;}
+  .header, .customer-details, .items, .totals, .footer{margin-bottom:20px;}
+  .flex{display:flex;gap:10px;}
+  .justify-between{justify-content:space-between;}
+  .editable{border-bottom:1px dashed #aaa;padding:2px 4px;}
+  table{width:100%;border-collapse:collapse;margin-top:10px;}
+  th,td{border-bottom:1px solid #ddd;padding:8px;text-align:left;}
+  th{text-align:left;background:#f0f0f0;}
+  .right{text-align:right;}
+  .btn{padding:8px 12px;background:#0b74df;color:white;border:none;border-radius:6px;cursor:pointer;margin-right:6px;}
+  .btn.red{background:#ef4444;}
+  @media print{
+    .btn, .no-print{display:none;}
+    body{background:white;padding:0;}
+    .bill-container{box-shadow:none;border-radius:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bill-container" id="bill">
+  <div class="header flex justify-between">
+    <div>
+      <h1 contenteditable="true" id="shopName" class="editable">Your Shop Name</h1>
+      <div contenteditable="true" id="shopAddress" class="editable">Shop Address, City</div>
+      <div contenteditable="true" id="shopGST" class="editable">GST: 00AAAAA0000A1Z0</div>
+      <div contenteditable="true" id="shopPhone" class="editable">Phone: 000-000-0000</div>
+    </div>
+    <div>
+      <div><strong>Invoice #:</strong> <span id="invoiceNo">INV001</span></div>
+      <div><strong>Date:</strong> <span id="invoiceDate"></span></div>
+    </div>
+  </div>
+
+  <div class="customer-details flex justify-between">
+    <div>
+      <h3>Bill To:</h3>
+      <div contenteditable="true" id="customerName" class="editable">Customer Name</div>
+      <div contenteditable="true" id="customerAddress" class="editable">Customer Address</div>
+      <div contenteditable="true" id="customerPhone" class="editable">Phone: 000-000-0000</div>
+      <div contenteditable="true" id="customerGST" class="editable">GST: </div>
+    </div>
+  </div>
+
+  <div class="items">
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Qty</th>
+          <th>Unit Price</th>
+          <th>Amount</th>
+          <th class="no-print">Action</th>
+        </tr>
+      </thead>
+      <tbody id="itemsBody">
+        <!-- Items will go here -->
+      </tbody>
+    </table>
+    <button class="btn" id="addItem">+ Add Item</button>
+    <button class="btn red" id="clearItems">Clear Items</button>
+  </div>
+
+  <div class="totals">
+    <table>
+      <tr>
+        <td>Subtotal</td>
+        <td class="right" id="subtotal">0</td>
+      </tr>
+      <tr>
+        <td>Discount</td>
+        <td class="right"><input type="number" id="discount" value="0" style="width:80px;"> <select id="discountType"><option value="amount">₹</option><option value="percent">%</option></select></td>
+      </tr>
+      <tr>
+        <td>Tax (%)</td>
+        <td class="right"><input type="number" id="taxPercent" value="18" style="width:60px;"></td>
+      </tr>
+      <tr>
+        <th>Total</th>
+        <th class="right" id="grandTotal">0</th>
+      </tr>
+    </table>
+  </div>
+
+  <div class="footer flex justify-between">
+    <div class="muted">Thank you for your business!</div>
+    <div>
+      <button class="btn" id="printBtn">Print / Save PDF</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // --- Initialize ---
+  const invoiceDate = document.getElementById("invoiceDate");
+  invoiceDate.innerText = new Date().toLocaleDateString();
+
+  const itemsBody = document.getElementById("itemsBody");
+  function createRow(desc='Item', qty=1, price=0){
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td contenteditable="true" class="desc">${desc}</td>
+      <td><input type="number" class="qty" value="${qty}" min="0"></td>
+      <td><input type="number" class="price" value="${price}" min="0" step="0.01"></td>
+      <td class="right amount">0</td>
+      <td class="no-print">
+        <button class="btn copyBtn">Copy</button>
+        <button class="btn red delBtn">Delete</button>
+      </td>
+    `;
+    itemsBody.appendChild(tr);
+
+    tr.querySelectorAll(".qty, .price, .desc").forEach(el=>el.addEventListener("input", recalc));
+    tr.querySelector(".delBtn").addEventListener("click", ()=>{ tr.remove(); recalc(); });
+    tr.querySelector(".copyBtn").addEventListener("click", ()=>{ createRow(tr.querySelector(".desc").innerText, tr.querySelector(".qty").value, tr.querySelector(".price").value); recalc(); });
+    recalc();
+  }
+
+  document.getElementById("addItem").addEventListener("click", ()=>createRow());
+  document.getElementById("clearItems").addEventListener("click", ()=>{ itemsBody.innerHTML=''; recalc(); });
+
+  // Totals
+  const discountEl = document.getElementById("discount");
+  const discountTypeEl = document.getElementById("discountType");
+  const taxPercentEl = document.getElementById("taxPercent");
+  const subtotalEl = document.getElementById("subtotal");
+  const grandTotalEl = document.getElementById("grandTotal");
+
+  [discountEl, discountTypeEl, taxPercentEl].forEach(el=>el.addEventListener("input", recalc));
+
+  function recalc(){
+    let subtotal=0;
+    itemsBody.querySelectorAll("tr").forEach(r=>{
+      const qty = parseFloat(r.querySelector(".qty").value)||0;
+      const price = parseFloat(r.querySelector(".price").value)||0;
+      const amt = qty*price;
+      r.querySelector(".amount").innerText = '₹ '+amt.toFixed(2);
+      subtotal += amt;
+    });
+    subtotalEl.innerText = '₹ '+subtotal.toFixed(2);
+
+    let discount = parseFloat(discountEl.value)||0;
+    if(discountTypeEl.value==='percent') discount = subtotal*discount/100;
+    const tax = ((subtotal-discount)*(parseFloat(taxPercentEl.value)||0)/100);
+    grandTotalEl.innerText = '₹ '+(subtotal-discount+tax).toFixed(2);
+  }
+
+  // Initial sample row
+  createRow('Sample Product',1,100);
+
+  // Print
+  document.getElementById("printBtn").addEventListener("click", ()=>{ window.print(); });
+</script>
+
+</body>
+</html>

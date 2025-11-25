@@ -1,431 +1,631 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GST Calculator — BCA‑HUB</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST Calculator | BCA-HUB</title>
+<style>
+:root {
+  --primary: #007bff;
+  --primary-dark: #0056d2;
+  --bg: #f9fafb;
+  --card: #fff;
+  --text: #222;
+  --sidebar-bg: #333;
+}
 
-  <!-- Primary meta -->
-  <meta name="description" content="GST Calculator — BCA‑HUB: Amount daal kar applicable GST aur total amount jaldi se calculate karein. 5%, 12%, 18%, 28% rates supported." />
-  <meta name="keywords" content="GST calculator, GST India, GST rate calculator, BCA-HUB, GST calculator online" />
-  <meta name="author" content="BCA-HUB Team" />
-  <meta name="robots" content="index, follow" />
+body {
+  margin: 0;
+  font-family: "Poppins", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background .3s, color .3s;
+}
 
-  <!-- Canonical (important: change domain if final domain different) -->
-  <link rel="canonical" href="https://bcatool-com-631401.hostingersite.com/GST-Calculator.html" />
+/* HEADER */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1001;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .3);
+}
 
-  <!-- Social / Open Graph -->
-  <meta property="og:title" content="GST Calculator — BCA‑HUB" />
-  <meta property="og:description" content="Calculate GST (5%,12%,18%,28%) and total amount quickly. Simple, mobile-friendly GST calculator by BCA-HUB." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://bcatool-com-631401.hostingersite.com/GST-Calculator.html" />
-  <!-- Replace the image URL if you have a preview image -->
-  <meta property="og:image" content="https://bcatool-com-631401.hostingersite.com/assets/preview-gst.png" />
+header a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="GST Calculator — BCA‑HUB" />
-  <meta name="twitter:description" content="Calculate GST and total amount quickly. Mobile friendly tool for students and users." />
-  <meta name="twitter:image" content="https://bcatool-com-631401.hostingersite.com/assets/preview-gst.png" />
+/* SCROLLABLE LINKS */
+.scrollable-links {
+  display: flex;
+  overflow-x: auto;
+  background: #fff8e1;
+  padding: 8px 0;
+  position: fixed;
+  top: 53px;
+  width: 100%;
+  scrollbar-width: thin;
+  z-index: 999;
+}
 
-  <!-- Mobile / theme -->
-  <meta name="theme-color" content="#0f172a" />
-  <meta name="mobile-web-app-capable" content="yes" />
+.scrollable-links a {
+  flex: 0 0 auto;
+  margin: 0 12px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color .3s;
+}
+.scrollable-links a:hover {
+  color: var(--primary);
+}
 
-  <!-- Favicon (add a real favicon at /favicon.ico or update path) -->
-  <link rel="icon" href="/favicon.ico" />
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 80px);
+  background: var(--sidebar-bg);
+  position: fixed;
+  top: 80px;
+  left: -220px;
+  transition: left .4s ease;
+  color: #fff;
+  z-index: 998;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.sidebar.show {
+  left: 0;
+}
+.sidebar a {
+  display: block;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, .2);
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.3s;
+}
+.sidebar a:hover {
+  background: rgba(255, 255, 255, .1);
+  padding-left: 25px;
+}
 
-  <!-- existing stylesheet and inline styles remain below (leave as-is) -->
-  <style>
-    :root{
-      --bg:#0f172a;        /* slate-900 */
-      --card:#111827ee; 
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background:
-        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
-        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
-        var(--bg);
-    }
-
-    /* HEADER */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background:
-        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
-        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
-        var(--bg);;
-      color: white;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .logo {
-      font-size: 1.5em;
-    }
-
-    .search-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
-
-    #search-bar {
-      padding: 8px;
-      width: 70%;
-      max-width: 300px;
-      border-radius: 5px;
-      border: none;
-    }
-
-    .sidebar-toggle {
-      font-size: 24px;
-      cursor: pointer;
-      margin-left: 10px;
-    }
-
-    /* SIDEBAR */
-    .sidebar {
-      width: 160px;
-      background:
-        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
-        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
-        var(--bg);
-      color: white;
-      height: 100vh;
-      position: fixed;
-      top: 60px;
-      left: -160px;
-      transition: left 0.3s ease;
-      overflow-y: auto;
-      z-index: 998;
-    }
-
-    .sidebar.show {
-      left: 0;
-    }
-
-    .sidebar a {
-      display: block;
-      padding: 12px 18px;
-      border-bottom: 1px solid #444;
-      color: white;
-      text-decoration: none;
-      font-size: 0.95em;
-    }
-
-    .sidebar a:hover {
-       background:
-        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
-        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
-        var(--bg);
-    }
-
-    /* SCROLLABLE LINKS */
-    .scrollable-links {
-      position: fixed;
-      top: 55px;
-      left: 0;
-      right: 0;
-      background:
-        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
-        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
-        var(--bg);
-      overflow-x: auto;
-      white-space: nowrap;
-      padding-left: 0;
-      z-index: 999;
-    }
-
-    .scrollable-links a {
-      display: inline-block;
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 15px;
-    }
-
-    .scrollable-links a:hover {
-     background:
-        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
-        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
-        var(--bg);
-      color: white;
-    }
-
-
-    
-    /* MAIN CONTENT */
-    .main {
-      padding: 20px;
-      margin-top: 130px;
-    }
-
-    .quastion{
-        
-            display: grid;
-            gap: 10px;
-            background-color: #eef;
-            padding: 20px;
-            width: 400px;
-            border: 4px solid rgb(222, 211, 211);
-    }
-       
-
-    .quastion a{
-          
-            text-decoration: none;
-            padding: 5px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            text-align: center;
-            border-radius: 4px;
-    }
-    
-     .quastion a:hover {
-      color: #1682c5;
-    }
-
-
-    
-  
-    
-
-
-    /* FOOTER */
-    footer {
-      background:
-        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
-        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
-        var(--bg);
-      color: white;
-      text-align: center;
-      padding: 25px;
-      
-      margin-top: 50px;
-    }
-
-    /* DESKTOP STYLES */
-    @media (min-width: 768px) {
-      .sidebar {
-        left: 0;
-      }
-
-      .sidebar-toggle {
-        display: none;
-      }
-
-      .main {
-        margin-left: 250px;
-      }
-
-      .scrollable-links {
-        padding-left: 160px;
-      }
-    }
-
-    @media (max-width: 600px) {
-  .quastion {
-    width: 100%;
-    padding: 10px;
-    font-size: 15px;
-  }
-  .quastion a {
-    font-size: 15px;
-    padding: 8px;
+/* MAIN */
+.main {
+  text-align: center;
+  padding: 100px 20px 50px 20px;
+  transition: margin-left .3s;
+}
+@media(max-width: 1024px) {
+  .main {
+    margin-left: 0;
+    padding-top: 130px;
   }
 }
 
-    .quastion{
-      background:
-        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
-        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
-        var(--bg);
-      color: #eef;
-      border: none;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    }
-  </style>
+/* FORM & INPUTS */
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: var(--card);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.1);
+}
+
+h1 {
+  text-align: center;
+  color: var(--primary-dark);
+}
+
+label {
+  font-weight: 500;
+  display: block;
+  margin-top: 10px;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  margin-right: 5px;
+}
+.btn-secondary {
+  background: #e0e0e0;
+}
+.result {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fffbe6;
+  border-left: 4px solid var(--primary);
+  white-space: pre-line;
+  font-weight: 500;
+}
+.info {
+  margin-top: 12px;
+  padding: 12px;
+  background: #fff3cd;
+  border-left: 5px solid var(--primary);
+  border-radius: 8px;
+  color: #333;
+  font-size: 15px;
+}
+
+/* ALL CALCULATORS GRID */
+.calculator-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.1);
+  text-align: center;
+  transition: transform .3s;
+  cursor: pointer;
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+.card h2 {
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.card p {
+  color: #555;
+  font-size: 14px;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  font-size: 15px;
+  color: #555;
+}
+
+h1,h2{text-align:center;color:#007bff;}
+h3{color:#333;border-left:4px solid #007bff;padding-left:10px;}
+p{text-align:justify;line-height:1.8;margin-bottom:15px;}
+ul{line-height:1.8;}
+li{margin-bottom:8px;}
+hr{border:0;border-top:2px solid #eee;margin:30px 0;}
+</style>
 </head>
 <body>
+<header>
+  <div style="font-size: 23px;" class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+ <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 50px;">BCA-HUB</a>
+</header>
 
-  <!-- HEADER -->
-  <header>
-    <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
-    <div class="logo">BCA-HUB</div>
-    
-    </div>
-  </header>
-
-   <!-- SCROLLABLE LINKS -->
 <div class="scrollable-links">
-   <a href="index.html">Home</a>
-  <a href="allinone.html">All-in-One Utility</a>
-  <a href="GST-Calculator.html">All Calculator</a>
-  <a href="BCA-101-Mathematics-I.html">BCA All Semester</a>
-  
-  <a href="C++Programming-Quiz.html">C Language Quiz</a>
-  <a href="Editor1.html">HTML Editor</a>
-  <a href="Notes-Maker.html">Whiteboard</a>
-  <a href="clanguage.html">C Language</a>
-  <a href="Project-Ideas.html">Project Ideas</a>
-  <a href="Image-to-PDF-Converter.html">Image to PDF Converter</a>
-  <a href="PDF-Library.html">Notes PDF Library</a>
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
 </div>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar" id="sidebar">
-   <a href="c cons.html">C </a>
-  <br>
-      
-    <a href="GST-Calculator.html">GST CALCULATOR</a>
-        <a href="EMI-Calculator.html">EMI CALCULATOR</a>
-        <a href="BMI-Calculator.html">BMI CALCULATOR</a>
-        <a href="SIP-Calculator.html">SIP CALCULATOR</a>
-        <a href="age-calculator.html">AGE CALCULATOR</a>
-        <a href="Percentage-Calculator.html">Percentage CALCULATOR</a>
-        <a href="Discount-Calculator.html">Discount CALCULATOR</a>
-      
-  </div>
+<div class="sidebar" id="sidebar">
+  <a href="index.html"></a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
 
-  <!-- MAIN CONTENT -->
-  <div class="main">
-          <h1 style="background:
-        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
-        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
-        var(--bg);; text-align: center; font-size: 40px; color: #eef;">BCA-HUB</h1>
-     <!-- GST Calculator -->
-  <section class="calc-section">
-    <h2 id="gst">1 GST Calculator</h2>
-    <p>The GST (Goods and Services Tax) Calculator helps you calculate the applicable GST on a given amount. It is useful for businesses and consumers to determine the tax and total amount after GST is added.</p>
-               <br>
-    <input type="number" id="gstAmount" placeholder="Amount (₹)">
-    <select id="gstRate">
+
+  <br>
+<br>
+<br>
+</div>
+
+<div class="main">
+  <div class="container">
+    <h1>GST Calculator</h1>
+    <label>Enter Amount (₹):</label>
+    <input type="number" id="amount" placeholder="Enter price">
+
+    <label>GST Rate (%):</label>
+    <select id="rate">
       <option value="5">5%</option>
       <option value="12">12%</option>
       <option value="18" selected>18%</option>
       <option value="28">28%</option>
     </select>
-    <button onclick="calculateGST()">Calculate GST</button>
-    <div id="gstResult"></div>
-  </section>
-  <br>
 
+    <label>Price Type:</label>
+    <select id="type">
+      <option value="exclusive">Exclusive of GST</option>
+      <option value="inclusive">Inclusive of GST</option>
+    </select>
 
-  
-    <br>
-    <br>
-    
+    <label>Tax Type:</label>
+    <select id="taxType">
+      <option value="cgst">CGST + SGST</option>
+      <option value="igst">IGST</option>
+    </select>
 
-  
+    <button class="btn-primary" onclick="calculateGST()">Calculate</button>
+    <button class="btn-secondary" onclick="clearGST()">Clear</button>
 
-
-  <br>
-  <br>
-  <style>
-      .calc-section {
-  background:
-        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
-        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
-        var(--bg);
-  padding: 20px;
-  color: #eef;
-  margin-bottom: 30px;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
-}
-.calc-section h2 {
-  margin-bottom: 15px;
-}
-.calc-section input, .calc-section select, .calc-section button {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-}
-.calc-section button {
- background:
-        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
-        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
-        var(--bg);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-.calc-section button:hover {
-  background-color: #222;
-}
-</style>
-
-  <div class="quastion">
-    
-    <h2 style="color: rgb(36, 136, 193);">Other Calculators</h2>
-    <a href="GST-Calculator.html">GST CALCULATOR</a>
-        <a href="EMI-Calculator.html">EMI CALCULATOR</a>
-        <a href="BMI-Calculator.html">BMI CALCULATOR</a>
-        <a href="SIP-Calculator.html">SIP CALCULATOR</a>
-        <a href="age-calculator.html">AGE CALCULATOR</a>
-        <a href="Percentage-Calculator.html">Percentage CALCULATOR</a>
-        <a href="Discount-Calculator.html">Discount CALCULATOR</a>
+    <div id="result" class="result"></div>
+    <div class="info">
+      <b>How to Use:</b><br>
+      ➤ Enter amount and GST rate.<br>
+      ➤ Choose Exclusive or Inclusive mode.<br>
+      ➤ Select Tax Type (CGST+SGST / IGST).<br>
+      ➤ Click <b>Calculate</b> to view result.
+    </div>
   </div>
+  <div class="container">
+<p>
+      In today’s fast-moving business world, calculating taxes accurately is crucial for both individuals and businesses. Many
+      people struggle with determining the exact Goods and Services Tax (GST) for products and services. A <strong>GST
+      Calculator</strong> is a digital tool designed to make this process simple, fast, and error-free. It allows users to
+      instantly calculate GST amounts and the final payable price without manually working out percentages or totals.
+</p>
 
- 
+<p>
+      This project provides an easy-to-use interface where users can input the base price of a product or service, select the
+      applicable GST rate, and instantly view the calculated tax and total amount. It is ideal for shopkeepers, students,
+      accountants, and anyone who wants to quickly compute GST.
+</p>
+
+<h3>Objective</h3>
+<p>
+      The key objective of the GST Calculator is to create a fast, accurate, and accessible solution for computing taxes. The
+      system is designed to:
+</p>
+<ul>
+      <li>Provide an instant calculation of GST and final price.</li>
+      <li>Reduce errors in manual tax computations.</li>
+      <li>Support various GST rates as defined by government regulations.</li>
+      <li>Offer a user-friendly interface suitable for non-technical users.</li>
+      <li>Allow easy future integration with billing and invoicing systems.</li>
+</ul>
+
+<h3>Problem Statement</h3>
+<p>
+      Traditionally, GST is calculated manually using calculators or paper, which is not only time-consuming but also prone
+      to errors. This problem becomes more significant in busy shops or businesses handling multiple transactions. Keeping
+      track of tax for multiple items manually is difficult and can result in financial inaccuracies. Therefore, a
+      <strong>digital GST Calculator</strong> is needed to ensure fast, precise, and user-friendly tax computation.
+</p>
+
+<h3>Scope of the Project</h3>
+<p>
+      The GST Calculator can be applied in various business scenarios such as retail stores, small businesses, and online
+      marketplaces. It can be further extended to calculate taxes for multiple items, generate invoices, and provide
+      monthly GST summaries. The tool can handle multiple GST slabs such as 5%, 12%, 18%, and 28%, and can be customized for
+      different business requirements.
+</p>
+
+<h3>Features</h3>
+<ul>
+      <li><strong>Simple Interface:</strong> Intuitive layout that requires no technical expertise.</li>
+      <li><strong>Multiple GST Slabs:</strong> Supports common GST rates like 5%, 12%, 18%, and 28%.</li>
+      <li><strong>Real-Time Calculation:</strong> Instantly computes GST and total price as user inputs data.</li>
+      <li><strong>Inclusive and Exclusive GST:</strong> Can calculate GST on base price or extract GST from total price.</li>
+      <li><strong>Clear Output:</strong> Displays subtotal, tax amount, and total clearly for easy understanding.</li>
+      <li><strong>Reset Function:</strong> Quickly clears all inputs for a new calculation.</li>
+      <li><strong>Mobile-Friendly:</strong> Fully responsive and usable on smartphones, tablets, and desktops.</li>
+      <li><strong>Input Validation:</strong> Checks for valid numeric values to prevent errors.</li>
+</ul>
+
+<h3>Technology Used</h3>
+<ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+      <li><strong>Backend (optional):</strong> PHP, Python, or Node.js for storing records and advanced reporting</li>
+      <li><strong>Development Tools:</strong> VS Code, Sublime Text, or any text editor</li>
+</ul>
+
+<h3>System Design and Working</h3>
+<p>The GST Calculator operates through the following steps:</p>
+<ul>
+      <li><strong>User Input:</strong> Enter the product price and select the applicable GST rate.</li>
+      <li><strong>Calculation Logic:</strong> JavaScript computes the GST and final amount instantly.</li>
+      <li><strong>Output Display:</strong> Shows the GST amount, subtotal, and total amount in a clear format.</li>
+      <li><strong>Reset Option:</strong> Allows users to clear all fields to calculate new values.</li>
+</ul>
+
+<h3>Advantages</h3>
+<ul>
+      <li>Saves time by performing calculations instantly.</li>
+      <li>Reduces human error in GST computation.</li>
+      <li>Easy to use for students, shopkeepers, and accountants.</li>
+      <li>Mobile-responsive and works on any device.</li>
+      <li>Cost-effective compared to full accounting software.</li>
+      <li>Clean display ensures clarity and professionalism.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+      <li>Does not store transaction history in the basic version.</li>
+      <li>Advanced features like multiple items, reporting, and database storage require backend support.</li>
+      <li>Offline version requires manual update if GST rates change.</li>
+</ul>
+
+<h3>Future Scope</h3>
+<p>Future enhancements for the GST Calculator can include:</p>
+<ul>
+      <li>Support for multiple items and quantity-based calculations.</li>
+      <li>Integration with billing, invoicing, and inventory management systems.</li>
+      <li>Generate printable GST receipts or summaries.</li>
+      <li>Store historical data and monthly GST reports in the cloud.</li>
+      <li>Automatic updates for new GST rates and regulations.</li>
+      <li>Mobile application for on-the-go GST calculation.</li>
+      <li>Multi-currency support for international businesses.</li>
+</ul>
+
+<h3>Conclusion</h3>
+<p>
+      The GST Calculator is a practical tool for accurate and fast tax calculation. It reduces manual errors, saves time, and
+      provides a user-friendly interface suitable for individuals and small businesses. With additional features and future
+      enhancements, it can become a complete solution for billing, accounting, and GST reporting. This project highlights
+      how digital tools can simplify complex financial calculations and improve overall efficiency.
+</p>
 </div>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>&copy; 2025 BCA-HUB</p>
-  </footer>
 
-  <!-- JS --
-  <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('show');
-    }
-  </script>-->
-  <script>
-  function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('show');
+  <div class="container">
+  <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+
+  </div>
+</div>
+
+
+
+</div>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const toggleBtn = document.querySelector('.sidebar-toggle');
+  if (sidebar.classList.contains('show') && !sidebar.contains(e.target) && !toggleBtn.contains(e.target)) {
+    sidebar.classList.remove('show');
+  }
+});
+
+function calculateGST() {
+  const amount = parseFloat(document.getElementById('amount').value);
+  const rate = parseFloat(document.getElementById('rate').value);
+  const type = document.getElementById('type').value;
+  const taxType = document.getElementById('taxType').value;
+  const result = document.getElementById('result');
+
+  if (isNaN(amount) || amount <= 0) {
+    alert("Enter valid amount");
+    return;
   }
 
-  // Sidebar close on outside touch (for mobile)
-  document.addEventListener('touchstart', function (event) {
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.querySelector('.sidebar-toggle');
+  let base, gst, total, half;
+  if (type === "exclusive") {
+    gst = amount * (rate / 100);
+    total = amount + gst;
+    base = amount;
+  } else {
+    base = amount / (1 + rate / 100);
+    gst = amount - base;
+    total = amount;
+  }
 
-    // agar sidebar open hai aur user ne sidebar aur toggle button ke bahar click kiya
-    if (
-      sidebar.classList.contains('show') &&
-      !sidebar.contains(event.target) &&
-      !toggleBtn.contains(event.target)
-    ) {
-      sidebar.classList.remove('show');
-    }
-  });
+  let output = `Base Amount: ₹${base.toFixed(2)}\nGST @${rate}%: ₹${gst.toFixed(2)}\n`;
+  if (taxType === "cgst") {
+    half = (gst / 2).toFixed(2);
+    output += `CGST: ₹${half}\nSGST: ₹${half}\n`;
+  } else {
+    output += `IGST: ₹${gst.toFixed(2)}\n`;
+  }
+  output += `Total Amount: ₹${total.toFixed(2)}`;
+  result.textContent = output;
+}
+
+function clearGST() {
+  document.getElementById('amount').value = '';
+  document.getElementById('rate').value = '18';
+  document.getElementById('result').textContent = '';
+}
 </script>
-
-
-  <script>
-function calculateGST() {
-  let amt = parseFloat(document.getElementById("gstAmount").value);
-  let rate = parseFloat(document.getElementById("gstRate").value);
-  if (isNaN(amt)) return document.getElementById("gstResult").innerText = "Enter amount";
-  let gst = amt * rate / 100;
-  document.getElementById("gstResult").innerHTML = `GST: ₹${gst.toFixed(2)}<br>Total: ₹${(amt + gst).toFixed(2)}`;
-}</script>
-
 </body>
 </html>

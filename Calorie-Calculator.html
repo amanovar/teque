@@ -1,0 +1,676 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calorie Calculator | BCA-HUB</title>
+  <style>
+    :root {
+  --primary:#007bff;
+  --primary-dark:#007bff;
+  --bg:#f9fafb;
+  --card:#fff;
+  --text:#222;
+  --sidebar-bg:#333333;
+  
+}
+
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: linear-gradient(90deg,#007bff,#007bff);
+      color: #fff;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-right: 80px;
+    }
+
+    .sidebar-toggle {
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* SCROLLABLE LINKS */
+    .scrollable-links {
+      display: flex;
+      position: fixed;
+      overflow-x: auto;
+      background: #fff3cd;
+      padding: 10px 0;
+      top: 61px;
+      scrollbar-width: thin;
+      width: 100%;
+    }
+
+    .scrollable-links a {
+      flex: 0 0 auto;
+      margin: 0 15px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .scrollable-links a:hover {
+      color: var(--primary);
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 220px;
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color: white;
+      height: 100vh;
+      position: fixed;
+      top: 60px;
+      left: -220px;
+      transition: left 0.4s ease;
+      overflow-y: auto;
+      z-index: 998;
+      padding-top: 10px;
+    }
+
+    .sidebar.show {
+      left: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 12px 18px;
+      border-bottom: 1px solid #333;
+      color: white;
+      text-decoration: none;
+      font-size: 1em;
+      transition: background 0.3s, padding-left 0.3s;
+    }
+
+    .sidebar a:hover {
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      padding-left: 25px;
+    }
+
+    /* CONTAINER */
+    .container {
+      background: var(--card-bg);
+      padding: 25px 20px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      margin: 30px auto;
+      margin-top: 120px;
+      transition: 0.3s;
+    }
+
+    h2 {
+      color: var(--primary);
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+    }
+
+    input, select, button {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .btn-calc {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-calc:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-reset {
+      background: #e0e0e0;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-reset:hover {
+      background: #ccc;
+    }
+
+    .btn-print {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-print:hover {
+      background: #007bff;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      white-space: pre-line;
+      color: var(--text);
+    }
+
+    .info {
+      margin: 25px auto;
+      padding: 15px;
+      background: #fff3cd;
+      border-left: 5px solid var(--primary);
+      border-radius: 10px;
+      font-size: 15px;
+      color: #555;
+      text-align: left;
+      max-width: 420px;
+      width: 90%;
+    }
+
+    .toggle-mode {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 1002;
+    }
+
+    .toggle-mode:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Dark Mode */
+    body.dark {
+      --bg: #121212;
+      --card-bg: #1e1e1e;
+      --text: #f5f5f5;
+      --sidebar-bg: #1a1a1a;
+    }
+
+    body.dark .info {
+      background: #333;
+      color: #ddd;
+    }
+
+    /* CONTAINER WIDTH for laptop/desktop */
+    @media (min-width: 1024px) {
+      .container {
+        max-width: 600px;
+        padding: 35px 30px;
+      }
+      input, button {
+        width: 90%;
+        padding: 14px;
+        font-size: 18px;
+      }
+      h2 { font-size: 2rem; }
+      #result { font-size: 20px; }
+      .info {
+        max-width: 600px;
+        font-size: 16px;
+        padding: 20px;
+      }
+    }
+
+    
+    /* MAIN CONTENT */
+.container{
+  max-width:800px;
+  margin:130px auto 50px auto;
+  padding:0 20px;
+  
+}
+h1{color:var(--primary);margin-bottom:20px;text-align:center;}
+.calculator-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  text-align:center;
+  transition:transform .3s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-5px);}
+.card h2{margin:10px 0;color:var(--primary);}
+.card p{color:#555;font-size:14px;}
+
+  </style>
+</head>
+<body>
+<header>
+  <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+  <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;font-size:1.3rem;margin-right: 80px;">BCA-HUB</a>
+</header>
+
+  <div class="scrollable-links">
+  <a href="index.html">Home</a>
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+</div>
+
+<div class="sidebar" id="sidebar">
+ <a href="Polygon-Perimeter-Calculator.html">Polygon Perimeter Calculator</a>
+  <a href="Calorie-Calculator.html">Calorie Calculator</a>
+  <a href="Date-Calculator.html">Date Calculator </a>
+  <a href="Time-Calculator.html">Time Calculator</a>
+  <a href="SIP-Calculator.html">SIP Calculator</a>
+  <a href="emi.html">EMI Calculator</a>
+  <a href="prcentage.html">Percentage Calculator </a>
+    <a href="Age.html">Age Calculator</a>
+    <a href="BMI.html">BMI Calculator</a>
+<a href="rational-calculator.html">Rational Calculator</a>
+  <a href="Dynamic-GPA-Calculator.html">Dynamic GPA Calculator</a>
+  <a href="Fuel-Consumption-Calculator.html">Fuel Consumption Calculator</a>
+  <a href="Land-Value-Manager.html">Advanced Land Value Manager </a>
+  <a href="multiplication.html">Multiplication Calculator </a>
+  <a href="Square-Plot-Calculator.html">Square Plot Calculator</a>
+  <a href="fraction-addition-calculator.html">Fraction Addition Calculator</a>
+  <a href="hexa-to-decimal-calculator.html">Hexa to Decimal Calculator</a>
+  <a href="QR-Code-Generator.html">QR Code Generator</a>
+  <a href="ecommerce-invoice.html">E-commerce Invoice Generator</a>
+
+
+  <br>
+<br>
+<br>
+</div>
+
+  <div class="container">
+    <h2>Calorie Calculator</h2>
+    <input type="number" id="weight" placeholder="Weight (kg)">
+    <input type="number" id="height" placeholder="Height (cm)">
+    <input type="number" id="age" placeholder="Age (years)">
+    <select id="gender">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+    <select id="activity">
+      <option value="1.2">Sedentary (Little or no exercise)</option>
+      <option value="1.375">Lightly active (Light exercise)</option>
+      <option value="1.55">Moderately active (Moderate exercise)</option>
+      <option value="1.725">Very active (Hard exercise)</option>
+      <option value="1.9">Extra active (Very hard exercise)</option>
+    </select>
+    <button class="btn-calc" onclick="calculateCalories()">Calculate</button>
+    <button class="btn-reset" onclick="resetForm()">Reset</button>
+    <button class="btn-print" onclick="printResult()">Print Result</button>
+    <div id="result"></div>
+  </div>
+
+  <!-- INFO -->
+  <div class="info">
+    <strong>How to Use:</strong><br />
+    1️⃣ Enter your weight in kilograms (kg).<br />
+    2️⃣ Enter your height in centimeters (cm).<br />
+    3️⃣ Enter your age in years.<br />
+    4️⃣ Select your gender (Male/Female).<br />
+    5️⃣ Select your activity level:<br />
+       - Sedentary: Little or no exercise<br />
+       - Lightly active: Light exercise<br />
+       - Moderately active: Moderate exercise<br />
+       - Very active: Hard exercise<br />
+       - Extra active: Very hard exercise<br />
+    6️⃣ Click <b>Calculate</b> to see your daily calorie requirement.<br />
+    7️⃣ Use the result below or save/print as needed.
+  </div>
+<div class="container">
+<p>
+      Maintaining a healthy lifestyle requires careful monitoring of calorie intake and expenditure. Understanding how many calories are consumed versus burned is essential for weight management, fitness, and overall health. A <strong>Calorie Calculator</strong> is a digital tool designed to help users estimate their daily calorie requirements based on personal information such as age, weight, height, gender, and activity level.
+</p>
+
+<p>
+      This project provides an intuitive interface where users can input their personal details and lifestyle activity. The calculator then computes the recommended daily calorie intake to maintain, lose, or gain weight according to the user’s goals. It is particularly useful for fitness enthusiasts, nutritionists, dieticians, and anyone aiming to manage their diet effectively.
+</p>
+
+<h3>Objective</h3>
+<p>
+      The primary aim of the Calorie Calculator is to offer a simple and accurate tool for monitoring calorie needs. Its objectives include:
+</p>
+<ul>
+      <li>Calculate daily calorie requirements based on user-specific data.</li>
+      <li>Assist users in weight management goals such as losing, maintaining, or gaining weight.</li>
+      <li>Provide a clear and easy-to-understand interface for users of all ages.</li>
+      <li>Reduce the confusion associated with manual calorie calculations.</li>
+      <li>Enable future enhancements such as meal planning, nutrient tracking, and progress monitoring.</li>
+</ul>
+
+<h3>Problem Statement</h3>
+<p>
+      Many individuals struggle with understanding how many calories they need each day. Manual calculations using formulas like BMR (Basal Metabolic Rate) and TDEE (Total Daily Energy Expenditure) can be complex and time-consuming. Errors in calculation can lead to improper diet plans, ineffective weight management, or health issues. Therefore, a <strong>Calorie Calculator</strong> is necessary to simplify these calculations, provide accurate results, and help users make informed dietary choices.
+</p>
+
+<h3>Scope of the Project</h3>
+<p>
+      This calculator is suitable for individuals aiming to manage their weight, fitness trainers, dieticians, and health-conscious users. It can be implemented as a web application, mobile app, or desktop software. Future enhancements may include tracking daily calorie intake, creating personalized meal plans, providing food suggestions, integrating with wearable fitness devices, and monitoring progress over time.
+</p>
+
+<h3>Features</h3>
+<ul>
+      <li><strong>Simple Input:</strong> Users can enter age, gender, weight, height, and activity level easily.</li>
+      <li><strong>Daily Calorie Calculation:</strong> Provides recommended calorie intake for maintaining, losing, or gaining weight.</li>
+      <li><strong>Activity Level Adjustment:</strong> Accounts for sedentary, lightly active, moderately active, and highly active lifestyles.</li>
+      <li><strong>Responsive Design:</strong> Works well on mobile, tablet, and desktop screens.</li>
+      <li><strong>Instant Results:</strong> Calculates and displays results immediately after input.</li>
+      <li><strong>Clear Display:</strong> Shows calorie requirements in a user-friendly format.</li>
+      <li><strong>Reset Option:</strong> Allows clearing all inputs for a new calculation.</li>
+</ul>
+
+<h3>Technology Used</h3>
+<ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+      <li><strong>Backend (optional):</strong> Node.js, Python, or PHP for saving user data and progress tracking</li>
+      <li><strong>Tools:</strong> VS Code or any code editor</li>
+</ul>
+
+<h3>System Design and Working</h3>
+<p>The Calorie Calculator follows a straightforward process:</p>
+<ul>
+      <li><strong>Input Section:</strong> Users enter personal details such as age, weight, height, gender, and activity level.</li>
+      <li><strong>Calculation Engine:</strong> JavaScript or backend logic calculates Basal Metabolic Rate (BMR) and adjusts it according to activity level to find total daily calorie needs.</li>
+      <li><strong>Result Display:</strong> Shows recommended daily calories for maintaining, losing, or gaining weight.</li>
+      <li><strong>Reset Function:</strong> Users can clear all inputs and start a new calculation.</li>
+</ul>
+
+<h3>Advantages</h3>
+<ul>
+      <li>Accurate estimation of daily calorie requirements.</li>
+      <li>Helps in planning diet and managing weight effectively.</li>
+      <li>Time-saving compared to manual calculations.</li>
+      <li>User-friendly interface suitable for everyone.</li>
+      <li>Responsive and accessible on all devices.</li>
+      <li>Can be extended for personalized meal suggestions and nutrition tracking.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+      <li>Basic version does not track daily calorie consumption or history.</li>
+      <li>Does not include micronutrient or macronutrient analysis.</li>
+      <li>Advanced features like integrating wearable devices or AI-based recommendations require backend and database integration.</li>
+</ul>
+
+<h3>Future Scope</h3>
+<ul>
+      <li>Integration with mobile apps and wearable fitness devices for real-time calorie tracking.</li>
+      <li>Personalized meal plans and nutrition suggestions based on calculated calorie needs.</li>
+      <li>Track user progress over time and provide visual reports.</li>
+      <li>Include macronutrient distribution and micronutrient recommendations.</li>
+      <li>Allow goal setting for weight loss, muscle gain, or maintenance.</li>
+      <li>Integration with fitness trackers to adjust calorie requirements dynamically.</li>
+      <li>Create a cloud-based platform for multiple users and advanced analytics.</li>
+</ul>
+
+<h3>Conclusion</h3>
+<p>
+      The Calorie Calculator is an essential tool for anyone interested in maintaining a healthy lifestyle. It simplifies the process of calculating daily calorie needs, helps users plan their diet effectively, and provides instant and accurate results. With future enhancements such as tracking, meal planning, and wearable device integration, it can become a comprehensive health and fitness management tool. By digitalizing calorie calculations, the project empowers users to make informed decisions, save time, and achieve their fitness goals efficiently.
+</p>
+</div>
+
+<style>
+h1,h2{text-align:center;color:#007bff;}
+h3{color:#333;border-left:4px solid #007bff;padding-left:10px;}
+p{text-align:justify;line-height:1.8;margin-bottom:15px;}
+ul{line-height:1.8;}
+li{margin-bottom:8px;}
+hr{border:0;border-top:2px solid #eee;margin:30px 0;}
+</style>
+
+<div class="container">
+   <h1>All Calculators</h1>
+  <div class="calculator-grid">
+    <div class="card" onclick="location.href='polygon-perimeter-calculator.html'">
+      <h2>Prime Calculator</h2>
+      <p>Check prime numbers and get advanced features like factorization and range.</p>
+    </div>
+    <div class="card" onclick="location.href='multiplication.html'">
+      <h2>Multiplication Calculator</h2>
+      <p>Multiply two numbers quickly and easily with result display.</p>
+    </div>
+    <div class="card" onclick="location.href='bmi.html'">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index (BMI) using weight and height.</p>
+    </div>
+    <div class="card" onclick="location.href='EMI.html'">
+      <h2>EMI Calculator</h2>
+      <p>Calculate monthly EMI for loans with principal, rate, and tenure.</p>
+    </div>
+    <div class="card" onclick="location.href='SIP-Calculator.html'">
+      <h2>SIP Calculator</h2>
+      <p>Estimate your mutual fund returns using SIP investment details.</p>
+    </div>
+    <div class="card" onclick="location.href='Age.html'">
+      <h2>Age Calculator</h2>
+      <p>Find your age in years, months, and days based on your date of birth.</p>
+    </div>
+    <div class="card" onclick="location.href='prcentage.html'">
+      <h2>Percentage Calculator</h2>
+      <p>Calculate percentage, percentage increase/decrease, and related values.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='time-calculator.html'">
+      <h2>Time Calculator</h2>
+  <p>Calculate duration, add/subtract hours and minutes, and find total time easily.</p>
+    </div>
+
+
+     <div class="card" onclick="location.href='calorie-calculator.html'">
+        <h2>Calorie Calculator</h2>
+  <p>Calculate daily calorie needs based on weight, height, age, gender, and activity level.</p>
+ </div>
+
+     <div class="card" onclick="location.href='date-calculator.html'">
+        <h2>Date Calculator</h2>
+  <p>Calculate difference between dates or find a future/past date quickly.</p>
+    </div>
+
+     <div class="card" onclick="location.href='dynamic-gpa-calculator.html'">
+      <h2>Dynamic GPA Calculator</h2>
+  <p>Calculate GPA dynamically for multiple subjects with different credits and grades.</p>
+    </div>
+
+     <div class="card" onclick="location.href='fuel-consumption-calculator.html'">
+      <h2>Fuel Consumption Calculator</h2>
+  <p>Calculate fuel consumption, mileage, and fuel costs for your vehicle efficiently.</p>
+    </div>
+
+
+    <div class="card" onclick="location.href='rational-calculator.html'">
+  <h2>Rational Calculator</h2>
+  <p>Perform addition, subtraction, multiplication, and division of fractions.</p>
+</div>
+
+<div class="card" onclick="location.href='fraction-addition-calculator.html'">
+  <h2>Fraction Addition Calculator</h2>
+  <p>Add two fractions and get the simplified result.</p>
+</div>
+
+<div class="card" onclick="location.href='hexa-to-decimal-calculator.html'">
+  <h2>Hexa to Decimal Calculator</h2>
+  <p>Convert any hexadecimal number into its decimal value instantly.</p>
+</div>
+
+<div class="card" onclick="location.href='GST-Calculator.html'">
+  <h2>GST Calculator</h2>
+  <p>Quickly calculate GST for any amount — inclusive or exclusive, with CGST/SGST or IGST options.</p>
+</div>
+
+<div class="card" onclick="location.href='resume-builder.html'">
+  <h2>Resume Builder</h2>
+  <p>Create professional resumes quickly — fill your details and download as PDF instantly.</p>
+</div>
+
+
+<div class="card" onclick="location.href='qr-code-generator.html'">
+  <h2>QR Code Generator</h2>
+  <p>Generate QR codes instantly for URLs, text, or contact info — ready to download or share.</p>
+</div>
+
+
+<!-- Grocery Bill Generator -->
+<div class="card" onclick="location.href='Grocery-Bill-Generator.html'">
+  <h2>Grocery / Retail Bill Generator</h2>
+  <p>Create bills for grocery or retail stores with quantity, GST, discounts, and PDF download.</p>
+</div>
+
+
+<!-- Utility Bill Generator -->
+<div class="card" onclick="location.href='Utility-Bill-Generator.html'">
+  <h2>Utility Bill Generator</h2>
+  <p>Generate electricity, water, or gas bills with consumption, taxes, and PDF export.</p>
+</div>
+
+
+<!-- Service Invoice Generator -->
+<div class="card" onclick="location.href='Service-Invoice-Generator.html'">
+  <h2>Service Invoice Generator</h2>
+  <p>Create invoices for services like freelance work or company projects with GST and PDF download.</p>
+</div>
+
+
+
+
+<!-- E-commerce Invoice Generator -->
+<div class="card" onclick="location.href='ecommerce-invoice.html'">
+  <h2>E-commerce / Online Store Invoice Generator</h2>
+  <p>Generate invoices for online orders with product list, taxes, discounts, shipping, and PDF.</p>
+</div>
+
+
+
+
+<!-- Medical Bill Generator -->
+<div class="card" onclick="location.href='medical-bill.html'">
+  <h2>Medical / Pharmacy Bill Generator</h2>
+  <p>Create medical bills with medicine list, quantity, GST, discounts, and PDF download.</p>
+</div>
+
+<div class="calculator-grid">
+  <div class="card" onclick="location.href='restaurant-bill-generator.html'">
+    <h2>Restaurant / Cafe Bill Generator</h2>
+    <p>Generate bills for restaurant or cafe orders. Add menu items, quantity, price, GST & discounts. Download PDF instantly.</p>
+  </div>
+  </div>
+
+
+  <script>
+    function calculateCalories() {
+      let weight = parseFloat(document.getElementById("weight").value);
+      let height = parseFloat(document.getElementById("height").value);
+      let age = parseFloat(document.getElementById("age").value);
+      let gender = document.getElementById("gender").value;
+      let activity = parseFloat(document.getElementById("activity").value);
+
+      if (isNaN(weight) || isNaN(height) || isNaN(age)) {
+        document.getElementById("result").innerText = "Enter all values!";
+        return;
+      }
+
+      let BMR = gender === "male"
+        ? 10*weight + 6.25*height - 5*age + 5
+        : 10*weight + 6.25*height - 5*age - 161;
+
+      let calories = BMR * activity;
+      document.getElementById("result").innerText = `Daily Calorie Requirement: ${calories.toFixed(2)} kcal`;
+    }
+
+    function resetForm() {
+      document.getElementById("weight").value = "";
+      document.getElementById("height").value = "";
+      document.getElementById("age").value = "";
+      document.getElementById("gender").selectedIndex = 0;
+      document.getElementById("activity").selectedIndex = 0;
+      document.getElementById("result").innerText = "";
+    }
+
+    
+    function printResult() {
+      const resultText = document.getElementById("result").innerText;
+      if (!resultText) {
+        alert("No result to print! Please calculate first.");
+        return;
+      }
+      const printWindow = window.open('', '', 'height=400,width=600');
+      printWindow.document.write('<html><head><title>Print Result</title></head><body>');
+      printWindow.document.write('<pre style="font-size:18px;">' + resultText + '</pre>');
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.print();
+    }
+
+    // Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
+document.addEventListener('click',function(event){
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.querySelector('.sidebar-toggle');
+  if(sidebar.classList.contains('show') && !sidebar.contains(event.target) && !toggleBtn.contains(event.target)){
+    sidebar.classList.remove('show');
+  }
+});
+  </script>
+</body>
+</html>
