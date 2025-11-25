@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>C Language Assignment (Toggle Answers)</title>
+  <style>
+     :root{
+      --bg:#0f172a;        /* slate-900 */
+      --card:#111827ee;    /* gray-900 */
+      --text:#e5e7eb;  
+     }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+       background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+    }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 2em;
+    }
+
+    .search-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    #search-bar {
+      padding: 8px;
+      width: 70%;
+      max-width: 300px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    .sidebar-toggle {
+      font-size: 24px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 160px;
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color: white;
+      height: 100vh;
+      position: fixed;
+      top: 60px;
+      left: -160px;
+      transition: left 0.3s ease;
+      overflow-y: auto;
+      z-index: 998;
+    }
+
+    .sidebar.show {
+      left: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 12px 18px;
+      border-bottom: 1px solid #444;
+      color: white;
+      text-decoration: none;
+      font-size: 0.95em;
+    }
+
+    .sidebar a:hover {
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+    }
+
+    /* SCROLLABLE LINKS */
+    .scrollable-links {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      overflow-y: auto;
+      white-space: nowrap;
+      padding-left: 0;
+      z-index: 999;
+    }
+
+    .scrollable-links a {
+      display: inline-block;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 15px;
+    }
+
+    .scrollable-links a:hover {
+       background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color: white;
+    }
+
+    /* MAIN CONTENT */
+    .main {
+      padding: 20px;
+      margin-top: 130px;
+      
+    }
+
+    
+    /* FOOTER */
+    footer {
+     background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color: white;
+      text-align: center;
+      padding: 25px;
+      
+      margin-top: 50px;
+    }
+
+    /* DESKTOP STYLES */
+    @media (min-width: 768px) {
+      .sidebar {
+        left: 0;
+      }
+
+      .sidebar-toggle {
+        display: none;
+      }
+
+      .main {
+        margin-left: 250px;
+      }
+
+      .scrollable-links {
+        padding-left: 160px;
+      }
+    }
+
+
+    .list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 30px auto 0;
+  max-width: 400px;
+  background: rgba(17,24,39,0.7);
+  border-radius: 10px;
+  padding: 18px 12px;
+  box-shadow: 0 2px 10px #0002;
+}
+
+.list a {
+  display: block;
+  color: #fff;
+  background: #1e293b;
+  text-decoration: none;
+  padding: 12px 10px;
+  border-radius: 7px;
+  font-size: 16px;
+  text-align: center;
+  transition: background 0.2s, color 0.2s;
+  border: 1px solid #334155;
+}
+
+.list a:hover {
+  background: #334155;
+  color: #ffd700;
+}
+
+@media (max-width: 600px) {
+  .list {
+    max-width: 100%;
+    padding: 10px 4px;
+    border-radius: 7px;
+    gap: 7px;
+  }
+  .list a {
+    font-size: 15px;
+    padding: 10px 4px;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+    <div class="logo">BCA-HUB</div>
+   
+  </header>
+
+   <!-- SCROLLABLE LINKS -->
+<div class="scrollable-links">
+   <a href="index.html">Home</a>
+  <a href="allinone.html">All-in-One Utility</a>
+  <a href="GST-Calculator.html">All Calculator</a>
+  <a href="BCA-101-Mathematics-I.html">BCA All Semester</a>
+  
+  <a href="C++Programming-Quiz.html">C Language Quiz</a>
+  <a href="Editor1.html">HTML Editor</a>
+  <a href="Notes-Maker.html">Whiteboard</a>
+  <a href="clanguage.html">C Language</a>
+  <a href="Project-Ideas.html">Project Ideas</a>
+  <a href="Image-to-PDF-Converter.html">Image to PDF Converter</a>
+  <a href="PDF-Library.html">Notes PDF Library</a>
+</div>
+
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+   <a href="c cons.html">C </a>
+  <br>
+  <a href="Editor1.html">HTML Editor</a>
+       <a href="C++ Programming Quiz.html">1 C++ Quiz</a>
+        <a href="Data Structures Quiz.html">2 DATA Structure Quiz</a>
+        <a href="DBMS Quiz.html">3 DBMS Quiz</a>
+        <a href="Networking Quiz.html">4 Networking Quiz</a>
+        <a href="OS Quiz.html">5 OS Quiz</a>
+        <a href="clanguage.html">C language Sample Answers</a>
+     
+  </div>
+    
+ 
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+
+
+
+  <style>
+h1 {
+    color: #317ac2;
+    text-align: center;
+  }
+  .question {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background: #e1ecf9;
+    border-left: 5px solid #222;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  .question:hover {
+    background-color: #c7dbf7;
+  }
+  .answer {
+    background: #f1f5fb;
+    border-left: 5px solid #222;
+    margin: 0 0 15px 20px;
+    padding: 15px 20px;
+    font-family: Consolas, monospace;
+    color: #1a1a1a;
+    white-space: pre-wrap;
+    display: none;
+  }
+  code {
+    background-color: #ddd;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: Consolas, monospace;
+  }
+</style>
+
+
+<h1>C Language Assignment with Sample Answers</h1>
+
+<div class="container">
+
+  <div class="qa">
+    <div class="question">1. C Language kya hai?</div>
+    <div class="answer">
+C ek general-purpose programming language hai jo Dennis Ritchie ne 1972 mein develop ki thi. Yeh fast, powerful, aur system programming ke liye bahut useful hai. Operating systems, embedded systems, aur applications banane ke liye use hoti hai.
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="question">2. C Language ke Features kya hain?</div>
+    <div class="answer">
+- Simple aur flexible language 
+- Portable (alag-alag machines par chal sakti hai) 
+- Fast execution 
+- Low-level access (memory management ke liye) 
+- Rich set of operators 
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="question">3. C Program ka Basic Structure kya hota hai?</div>
+    <div class="answer">
+<pre>
+#include &lt;stdio.h&gt;
+
+int main() {
+    // Program ka code yahan likhen
+    return 0;
+}
+</pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="question">4. Hello World Program likho:</div>
+    <div class="answer">
+<pre>
+#include &lt;stdio.h&gt;
+
+int main() {
+    printf("Hello, World!\\n");
+    return 0;
+}
+</pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="question">5. Variables aur Data Types:</div>
+    <div class="answer">
+Variables memory locations hain jisme data store hota hai. 
+Common data types: 
+- <code>int</code> — integers ke liye 
+- <code>float</code> — decimal numbers ke liye 
+- <code>char</code> — single characters ke liye 
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="question">6. Operators in C:</div>
+    <div class="answer">
+Arithmetic operators numbers par calculations karte hain. 
+Examples: 
+- <code>+</code> (addition) 
+- <code>-</code> (subtraction) 
+- <code>*</code> (multiplication) 
+- <code>/</code> (division) 
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="question">7. Comments kaise likhte hain C mein?</div>
+    <div class="answer">
+- Single line comment: <code>// Yeh ek comment hai</code> 
+- Multi-line comment: 
+<pre>
+/* 
+Yeh multi-line 
+comment hai 
+*/
+</pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="question">8. C Language ka Use Kahan Hoti Hai?</div>
+    <div class="answer">
+- Operating systems (jaise Linux, Windows ka kernel) 
+- Embedded systems (microcontrollers, devices) 
+- Game development 
+- Compilers aur interpreters 
+    </div>
+  </div>
+
+
+
+
+   
+
+  <div class="qa">
+    <div class="question">Bonus Question: C Language ki History:</div>
+    <div class="answer">
+C language Dennis Ritchie ne Bell Labs mein 1972 mein develop ki thi. Yeh Unix operating system ko banane ke liye design ki gayi thi.
+    </div>
+  </div>
+<br>
+<br>
+<br>
+
+ <div class="list">
+   <a href="all.html">1 C++ Quiz</a>
+        <a href="adata.html">2 DATA Structure Quiz</a>
+        <a href="dbmss.html">3 DBMS Quiz</a>
+        <a href="netw.html">4 Networking Quiz</a>
+        <a href="os.html">5 OS Quiz</a>
+        <a href="toggle.html">C language Sample Answers</a>
+  </div>
+</div>
+
+<script>
+  // Select all question elements
+  const questions = document.querySelectorAll('.question');
+
+  questions.forEach(q => {
+    q.addEventListener('click', () => {
+      const answer = q.nextElementSibling;
+      // Toggle display of answer
+      if (answer.style.display === 'block') {
+        answer.style.display = 'none';
+      } else {
+        answer.style.display = 'block';
+      }
+    });
+  });
+</script>
+
+
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 BCA-HUB</p>
+  </footer>
+
+  <!-- JS --
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('show');
+    }
+  </script>-->
+  <script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('show');
+  }
+
+  // Sidebar close on outside touch (for mobile)
+  document.addEventListener('touchstart', function (event) {
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.querySelector('.sidebar-toggle');
+
+    // agar sidebar open hai aur user ne sidebar aur toggle button ke bahar click kiya
+    if (
+      sidebar.classList.contains('show') &&
+      !sidebar.contains(event.target) &&
+      !toggleBtn.contains(event.target)
+    ) {
+      sidebar.classList.remove('show');
+    }
+  });
+</script>
+
+
+</body>
+</html>

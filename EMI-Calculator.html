@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EMI Calculator</title>
+  <style>
+    :root{
+      --bg:#0f172a;        /* slate-900 */
+      --card:#111827ee;    /* gray-900 */
+      --text:#e5e7eb; 
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+     background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+    }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.5em;
+    }
+
+    .search-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    #search-bar {
+      padding: 8px;
+      width: 70%;
+      max-width: 300px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    .sidebar-toggle {
+      font-size: 24px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 160px;
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color: white;
+      height: 100vh;
+      position: fixed;
+      top: 60px;
+      left: -160px;
+      transition: left 0.3s ease;
+      overflow-y: auto;
+      z-index: 998;
+    }
+
+    .sidebar.show {
+      left: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 12px 18px;
+      border-bottom: 1px solid #444;
+      color: white;
+      text-decoration: none;
+      font-size: 0.95em;
+    }
+
+    .sidebar a:hover {
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+    }
+
+    /* SCROLLABLE LINKS */
+    .scrollable-links {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-left: 0;
+      z-index: 999;
+    }
+
+    .scrollable-links a {
+      display: inline-block;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 15px;
+    }
+
+    .scrollable-links a:hover {
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color: white;
+    }
+
+    
+    /* MAIN CONTENT */
+    .main {
+      padding: 20px;
+      margin-top: 130px;
+    }
+
+    .quastion{
+        
+            display: grid;
+            gap: 10px;
+            background-color: #eef;
+            padding: 20px;
+            width: 400px;
+            border: 4px solid rgb(222, 211, 211);
+    }
+       
+
+    .quastion a{
+          
+            text-decoration: none;
+            padding: 5px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            text-align: center;
+            border-radius: 4px;
+    }
+    
+     .quastion a:hover {
+      color: #1682c5;
+    }
+
+
+    /* FOOTER */
+    footer {
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color: white;
+      text-align: center;
+      padding: 25px;
+      
+      margin-top: 50px;
+    }
+
+    /* DESKTOP STYLES */
+    @media (min-width: 768px) {
+      .sidebar {
+        left: 0;
+      }
+
+      .sidebar-toggle {
+        display: none;
+      }
+
+      .main {
+        margin-left: 250px;
+      }
+
+      .scrollable-links {
+        padding-left: 160px;
+      }
+    }
+
+     @media (max-width: 600px) {
+  .quastion {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+  }
+  .quastion a {
+    font-size: 15px;
+    padding: 8px;
+  }
+}
+
+    .quastion{
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color: #eef;
+      border: none;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+    <div class="logo">BCAHUB</div>
+    
+    </div>
+  </header>
+
+   <!-- SCROLLABLE LINKS -->
+<div class="scrollable-links">
+   <a href="index.html">Home</a>
+  <a href="allinone.html">All-in-One Utility</a>
+  <a href="GST-Calculator.html">All Calculator</a>
+  <a href="BCA-101-Mathematics-I.html">BCA All Semester</a>
+  
+  <a href="C++Programming-Quiz.html">C Language Quiz</a>
+  <a href="Editor1.html">HTML Editor</a>
+  <a href="Notes-Maker.html">Whiteboard</a>
+  <a href="clanguage.html">C Language</a>
+  <a href="Project-Ideas.html">Project Ideas</a>
+  <a href="Image-to-PDF-Converter.html">Image to PDF Converter</a>
+  <a href="PDF-Library.html">Notes PDF Library</a>
+</div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+   <a href="c cons.html">C </a>
+  <br>
+           
+       <a href="GST-Calculator.html">GST CALCULATOR</a>
+        <a href="EMI-Calculator.html">EMI CALCULATOR</a>
+        <a href="BMI-Calculator.html">BMI CALCULATOR</a>
+        <a href="SIP-Calculator.html">SIP CALCULATOR</a>
+        <a href="age-calculator.html">AGE CALCULATOR</a>
+        <a href="Percentage-Calculator.html">Percentage CALCULATOR</a>
+        <a href="Discount-Calculator.html">Discount CALCULATOR</a>
+      
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+          <h1 style="background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg); text-align: center; font-size: 40px;color: #eef;">BCA-HUB</h1>
+     <!-- EMI Calculator -->
+   
+   <section class="calc-section">
+    <h2 id="emi">2 EMI Calculator</h2>
+    <p>The EMI (Equated Monthly Installment) Calculator helps you estimate your monthly loan repayment amount based on the loan amount, interest rate, and tenure. It is useful for home, car, and personal loans.</p>
+    <input type="number" id="loanAmount" placeholder="Loan Amount (₹)">
+    <input type="number" id="interestRate" placeholder="Interest Rate (%)">
+    <input type="number" id="loanTenure" placeholder="Tenure (months)">
+    <button onclick="calculateEMI()">Calculate EMI</button>
+    <div id="emiResult"></div>
+  </section>
+
+
+  
+    <br>
+    <br>
+   
+<br>
+<br>
+
+        <style>
+            .calc-section {
+  background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+        color: white;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+.calc-section h2 {
+  margin-bottom: 15px;
+}
+.calc-section input, .calc-section select, .calc-section button {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+}
+.calc-section button {
+  background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+.calc-section button:hover {
+  background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+}
+
+        </style>
+     
+ 
+       
+
+
+<script>function calculateEMI() {
+  let P = parseFloat(document.getElementById("loanAmount").value);
+  let R = parseFloat(document.getElementById("interestRate").value) / 12 / 100;
+  let N = parseInt(document.getElementById("loanTenure").value);
+  if (isNaN(P) || isNaN(R) || isNaN(N)) return document.getElementById("emiResult").innerText = "Enter valid values";
+  let emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+  document.getElementById("emiResult").innerHTML = `Monthly EMI: ₹${emi.toFixed(2)}`;
+}</script>
+
+
+ <div class="quastion">
+    
+    <h2 style="color: rgb(36, 136, 193);">Other Calculators</h2>
+    <a href="GST-Calculator.html">GST CALCULATOR</a>
+        <a href="EMI-Calculator.html">EMI CALCULATOR</a>
+        <a href="BMI-Calculator.html">BMI CALCULATOR</a>
+        <a href="SIP-Calculator.html">SIP CALCULATOR</a>
+        <a href="age-calculator.html">AGE CALCULATOR</a>
+        <a href="Percentage-Calculator.html">Percentage CALCULATOR</a>
+        <a href="Discount-Calculator.html">Discount CALCULATOR</a>
+  </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 BCA-HUB</p>
+  </footer>
+
+  <!-- JS --
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('show');
+    }
+  </script>-->
+  <script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('show');
+  }
+
+  // Sidebar close on outside touch (for mobile)
+  document.addEventListener('touchstart', function (event) {
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.querySelector('.sidebar-toggle');
+
+    // agar sidebar open hai aur user ne sidebar aur toggle button ke bahar click kiya
+    if (
+      sidebar.classList.contains('show') &&
+      !sidebar.contains(event.target) &&
+      !toggleBtn.contains(event.target)
+    ) {
+      sidebar.classList.remove('show');
+    }
+  });
+</script>
+
+
+</body>
+</html>

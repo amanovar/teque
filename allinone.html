@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>All-in-One Utility – HTML/CSS/JS</title>
+<meta name="description" content="All‑in‑One Utility: typing test, BMI, age calculator, to‑do, stopwatch, quiz, weather (Open‑Meteo) and memory game — lightweight, offline friendly tools built with HTML/CSS/JS." />
+<link rel="canonical" href="https://yourdomain.com/allinone.html" />
+<meta name="robots" content="index, follow" />
+
+<!-- Open Graph / Twitter -->
+<meta property="og:title" content="All-in-One Utility – HTML/CSS/JS" />
+<meta property="og:description" content="Typing test, BMI calculator, age calculator, to-do list, stopwatch, quiz, weather and more — free, offline friendly tools." />
+<meta property="og:url" content="https://yourdomain.com/allinone.html" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://yourdomain.com/assets/og-allinone.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="All-in-One Utility – HTML/CSS/JS" />
+<meta name="twitter:description" content="Useful small web tools: typing test, BMI, age, todo, stopwatch, quiz, weather, memory game." />
+
+
+
+  <style>
+    :root{
+      --bg:#0f1222;      /* dark background */
+      --card:#171a2b;    /* card background */
+      --muted:#9aa4b2;   /* muted text */
+      --text:#b8a7b8;    /* main text */
+      --brand:#6c9cff;   /* brand accent */
+      --ok:#35d399;      /* success */
+      --warn:#ffcc66;    /* warning */
+      --bad:#ff6b6b;     /* danger */
+      --ring: 0 0 0 3px rgba(108,156,255,.25);
+    }
+
+    *{
+        box-sizing:border-box
+    }
+
+    html,body{height:100%}
+    body{
+      margin:0; 
+      background:var(--bg); 
+      color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;
+      line-height:1.5;
+    }
+    
+    header{
+      
+       top:0; z-index:20;
+      backdrop-filter:saturate(1.2) blur(10px);
+      background:linear-gradient(180deg, rgba(15,18,34,.9), rgba(15,18,34,.6));
+      border-bottom:1px solid #22263e;
+    }
+
+    .wrap{
+    max-width:1100px; 
+    margin:0 auto;
+     padding:14px 16px;
+     }
+
+    .brand{
+        display:flex; 
+        align-items:center; 
+        gap:10px; 
+        font-weight:700
+    }
+    
+    .logo{
+        width:34px; 
+        height:34px;
+         border-radius:10px; 
+         background:conic-gradient(from 90deg, var(--brand), #9f7aea, #22d3ee, var(--brand));
+        }
+
+    nav{
+        display:flex; 
+        gap:10px; 
+        flex-wrap:wrap
+    }
+
+    nav a{
+        padding:8px 12px;
+         border-radius:12px;
+          text-decoration:none;
+           color:var(--text);
+            font-size:14px;
+             opacity:.9
+            }
+
+    nav a.active, nav a:hover{
+        background:rgba(108,156,255,.15);
+         outline:1px solid rgba(108,156,255,.35)
+        }
+
+    .topbar{
+        display:flex; 
+        align-items:center;
+         justify-content:space-between;
+          gap:16px
+        }
+
+    .search{
+        flex:1; 
+        display:flex;
+         align-items:center;
+         
+           background:var(--card);
+            padding:8px 12px;
+            border-radius:14px;
+             border:1px solid #22263e
+            }
+
+    .search input{
+        flex:1;
+         background:transparent;
+          border:0;
+           outline:0;
+            color:var(--text)
+        }
+
+    .btn{
+        cursor:pointer;
+         border:0;
+          background:var(--brand);
+         
+            padding:10px 14px;
+             border-radius:12px;
+              font-weight:600
+            }
+
+    .btn.ghost{
+        background:transparent;
+         color:var(--text);
+          outline:1px solid #2a2f4b
+        }
+
+    .btn:focus{
+        box-shadow:var(--ring)
+    }
+
+    main{
+        max-width:1100px;
+         margin:18px auto;
+          padding:0 16px 60px}
+    .grid{display:grid;
+         grid-template-columns:1fr;
+          gap:16px
+        }
+
+
+    @media(min-width:768px){
+        .grid{
+            grid-template-columns:260px 1fr
+        }
+
+        @media (max-width: 600px) {
+  header {
+    position: static;
+    padding: 0;
+    border-radius: 0;
+    min-width: 100vw;
+  }
+  .wrap.topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 8px;
+  }
+  .brand {
+    font-size: 18px;
+    gap: 8px;
+  }
+  .logo {
+    width: 28px;
+    height: 28px;
+  }
+  .btn, .btn.ghost {
+    font-size: 14px;
+    padding: 8px 10px;
+    border-radius: 10px;
+  }
+  nav {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  nav a {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+}
+
+        /* ...existing CSS... */
+
+
+@media (max-width: 600px) {
+  .wrap, main {
+    max-width: 100%;
+    padding: 8px;
+  }
+  .sidebar {
+    position: static;
+    width: 100%;
+    flex-direction: row;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .side-link {
+    flex: 1;
+    font-size: 13px;
+    padding: 8px 6px;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .card {
+    padding: 10px;
+    border-radius: 10px;
+  }
+  nav {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  nav a {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+  .row {
+    flex-direction: column;
+    gap: 6px;
+  }
+  input, textarea, select {
+    font-size: 15px;
+    padding: 8px 8px;
+  }
+  .pill, .tag {
+    font-size: 12px;
+    padding: 6px;
+  }
+}
+
+/* ...existing CSS... */
+
+
+    }
+
+    .sidebar{
+      
+         top:72px;
+          align-self:start;
+           display:flex;
+            flex-direction:column;
+             gap:10px
+            }
+
+    .side-link{
+        display:flex;
+         align-items:center;
+          gap:10px;
+           padding:10px 12px;
+            border-radius:12px;
+             background:var(--card);
+              border:1px solid #22263e;
+               cursor:pointer
+            }
+
+    .side-link.active{
+        outline:2px solid rgba(108,156,255,.35)
+    }
+
+    .card{
+        background:var(--card);
+         border:1px solid #22263e;
+          border-radius:16px;
+           padding:16px
+        }
+
+    .card h2{
+        margin:0 0 8px
+    }
+
+    .muted{
+        color:var(--muted)
+    }
+
+    .row{
+        display:flex;
+         gap:10px;
+          flex-wrap:wrap
+        }
+        
+    input[type="text"],input[type="number"],input[type="date"],textarea,select{
+      width:100%; background:#0c0f1d;
+       color:var(--text);
+        border:1px solid #22263e;
+      border-radius:12px;
+       padding:10px 12px; 
+       outline:0;
+    }
+
+    textarea{
+        min-height:110px
+    }
+
+    .section{
+        display:none
+
+    }
+
+    .section.active{
+        display:block
+    }
+
+    .tag{
+        display:inline-block;
+         padding:2px 8px;
+          border-radius:999px;
+           font-size:12px; 
+           background:#0c0f1d;
+            border:1px solid #22263e;
+             color:var(--muted)
+            }
+
+    .stat{
+        display:grid;
+         grid-template-columns:repeat(3,1fr);
+          gap:10px; margin-top:12px
+        }
+
+    .pill{
+        background:#0c0f1d;
+         border:1px solid #22263e;
+          border-radius:12px; 
+          padding:10px;
+           text-align:center;
+        }
+
+    /* Tables & lists */
+    .todo-item{display:flex; align-items:center; gap:10px; padding:10px; border:1px solid #22263e; border-radius:12px; background:#0c0f1d}
+    .todo-item.done .text{text-decoration:line-through; color:var(--muted)}
+    .todo-actions{margin-left:auto; display:flex; gap:8px}
+
+    /* Memory game */
+    .grid-memory{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px}
+    .card-mem{aspect-ratio:1/1; border-radius:14px; background:#0c0f1d; border:1px solid #22263e; display:grid; place-items:center; font-size:28px; cursor:pointer; transition:transform .2s}
+    .card-mem.flipped{background:#131733}
+    .card-mem.matched{background:#0f2a23; border-color:#174c3f}
+
+    footer{
+        opacity:.7;
+         text-align:center;
+          padding:24px 16px
+        }
+
+
+  .scrollable-links {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  
+  padding: 10px 16px;
+  background: #0b1220cc; /* dark bar */
+  border-bottom: 1px solid #ffffff20;
+  scrollbar-width: none; /* Firefox hide scrollbar */
+}
+.scrollable-links::-webkit-scrollbar {
+  display: none; /* Chrome hide scrollbar */
+  
+}
+.scrollable-links a {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border: 1px solid #ffffff25;
+  border-radius: 999px;
+  font-size: 14px;
+  color: #e5e7eb;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .2s, border-color .2s;
+}
+.scrollable-links a:hover {
+  background: #1f2937;
+  border-color: #ffffff55;
+}
+
+
+
+
+
+        @media (max-width: 600px) {
+  header {
+    width: 100vw;
+    min-width: 100vw;
+    position: static;
+    padding: 0;
+    border-radius: 0;
+  }
+  .wrap.topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 8px;
+  }
+  .brand {
+    font-size: 18px;
+    gap: 8px;
+  }
+  .logo {
+    width: 28px;
+    height: 28px;
+  }
+  .btn, .btn.ghost {
+    font-size: 14px;
+    padding: 8px 10px;
+    border-radius: 10px;
+  }
+  nav {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  nav a {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+}
+
+body, main, .card, .sidebar, .side-link, nav a, .btn, .btn.ghost, .pill, .tag, .muted, h1, h2, h3, h4, h5, h6, label, input, textarea, select {
+  color: #fff !important;
+}
+
+input, textarea, select {
+  background: #0c0f1d;
+  color: #fff !important;
+}
+
+nav a, .side-link {
+  color: #fff !important;
+}
+
+nav a.active, nav a:hover, .side-link.active {
+  color: #fff !important;
+}
+
+::-webkit-input-placeholder { color: #fff !important; opacity: 0.7; }
+::-moz-placeholder { color: #fff !important; opacity: 0.7; }
+:-ms-input-placeholder { color: #fff !important; opacity: 0.7; }
+::placeholder { color: #fff !important; opacity: 0.7; }
+  </style>
+  
+</head>
+<body>
+  <header>
+    <div class="wrap topbar">
+      <div class="brand"><div class="logo"></div> All‑in‑One Utility</div>
+      <div class="search"><input id="searchTools" placeholder="All‑in‑One Utility"/></div>
+      <button class="btn ghost" id="themeToggle" title="Toggle theme">🌗 Theme</button>
+    </div>
+    <div class="wrap" style="padding-top:0; padding-bottom:12px">
+      <nav id="topNav"></nav>
+    </div>
+  </header>
+
+ <!-- SCROLLABLE LINKS -->
+<div class="scrollable-links">
+   <a href="index.html">Home</a>
+  <a href="allinone.html">All-in-One Utility</a>
+  <a href="GST-Calculator.html">All Calculator</a>
+  <a href="BCA-101-Mathematics-I.html">BCA All Semester</a>
+  
+  <a href="C++Programming-Quiz.html">C Language Quiz</a>
+  <a href="Editor1.html">HTML Editor</a>
+  <a href="Notes-Maker.html">Whiteboard</a>
+  <a href="clanguage.html">C Language</a>
+  <a href="Project-Ideas.html">Project Ideas</a>
+  <a href="Image-to-PDF-Converter.html">Image to PDF Converter</a>
+  <a href="PDF-Library.html">Notes PDF Library</a>
+</div>
+
+
+  <main class="grid">
+    <aside class="sidebar" id="sideNav"></aside>
+
+    <section>
+      <!-- ================= Typing Speed Tester ================= -->
+      <div class="card section active" id="sec-typing">
+        <h2>Typing Speed Test <span class="tag">WPM + Accuracy</span></h2>
+        <p class="muted">60 seconds test. Type the text below as fast and accurately as you can.</p>
+        <div class="card" style="background:#0c0f1d">
+          <p id="typingText" style="margin:0; font-size:16px"></p>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <textarea id="typingInput" placeholder="Start typing here…" disabled></textarea>
+        </div>
+        <div class="row">
+          <button class="btn" id="typingStart">Start Test</button>
+          <button class="btn ghost" id="typingReset">Reset</button>
+        </div>
+        <div class="stat">
+          <div class="pill">⏳ Time: <b id="typingTime">60</b>s</div>
+          <div class="pill">⚡ WPM: <b id="typingWpm">0</b></div>
+          <div class="pill">🎯 Accuracy: <b id="typingAcc">0%</b></div>
+        </div>
+      </div>
+
+      <!-- ================= BMI Calculator ================= -->
+      <div class="card section" id="sec-bmi">
+        <h2>BMI Calculator <span class="tag">Health</span></h2>
+        <div class="row">
+          <div style="flex:1; min-width:240px;">
+            <label>Weight (kg)</label>
+            <input type="number" id="bmiWeight" min="1" placeholder="e.g., 70"/>
+          </div>
+          <div style="flex:1; min-width:240px">
+            <label>Height (cm)</label>
+            <input type="number" id="bmiHeight" min="50" placeholder="e.g., 170"/>
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="bmiCalc">Calculate</button>
+          <button class="btn ghost" id="bmiClear">Clear</button>
+        </div>
+        <div class="stat">
+          <div class="pill">📈 BMI: <b id="bmiOut">–</b></div>
+          <div class="pill">🧭 Status: <b id="bmiStatus">–</b></div>
+          <div class="pill">💡 Tip: <b id="bmiTip">–</b></div>
+        </div>
+      </div>
+
+      <!-- ================= Age Calculator ================= -->
+      <div class="card section" id="sec-age">
+        <h2>Age Calculator <span class="tag">DOB → Age</span></h2>
+        <div class="row">
+          <div style="min-width:240px; flex:1">
+            <label>Date of Birth</label>
+            <input type="date" id="ageDob"/>
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="ageCalc">Calculate</button>
+          <button class="btn ghost" id="ageClear">Clear</button>
+        </div>
+        <div class="stat">
+          <div class="pill">🗓 Years: <b id="ageYears">–</b></div>
+          <div class="pill">📅 Months: <b id="ageMonths">–</b></div>
+          <div class="pill">⏱ Days: <b id="ageDays">–</b></div>
+        </div>
+      </div>
+
+      <!-- ================= To‑Do List ================= -->
+      <div class="card section" id="sec-todo">
+        <h2>To‑Do List <span class="tag">Offline (LocalStorage)</span></h2>
+        <div class="row">
+          <input id="todoInput" placeholder="Add a new task…"/>
+          <button class="btn" id="todoAdd">Add</button>
+          <button class="btn ghost" id="todoClearAll">Clear All</button>
+        </div>
+        <div id="todoList" style="margin-top:12px; display:grid; gap:8px"></div>
+      </div>
+
+      <!-- ================= Stopwatch & Timer ================= -->
+      <div class="card section" id="sec-timer">
+        <h2>Stopwatch & Timer <span class="tag">Focus</span></h2>
+        <div class="card">
+          <h3 style="margin-top:0">Stopwatch</h3>
+          <div class="row">
+            <div class="pill" style="font-size:22px; flex:1" id="swDisplay">00:00.00</div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button class="btn" id="swStart">Start</button>
+            <button class="btn ghost" id="swPause">Pause</button>
+            <button class="btn ghost" id="swReset">Reset</button>
+          </div>
+        </div>
+        <div class="card" style="margin-top:12px">
+          <h3 style="margin-top:0">Countdown Timer</h3>
+          <div class="row">
+            <input type="number" id="tmMin" min="0" placeholder="Minutes" style="max-width:160px">
+            <input type="number" id="tmSec" min="0" max="59" placeholder="Seconds" style="max-width:160px">
+            <div class="pill" style="font-size:22px; flex:1" id="tmDisplay">00:00</div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button class="btn" id="tmStart">Start</button>
+            <button class="btn ghost" id="tmPause">Pause</button>
+            <button class="btn ghost" id="tmReset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= Quiz Game ================= -->
+      <div class="card section" id="sec-quiz">
+        <h2>Quiz Game <span class="tag">MCQ</span></h2>
+        <div id="quizBox" class="card">
+          <div id="quizQ" style="font-weight:700; margin-bottom:8px"></div>
+          <div id="quizOptions" style="display:grid; gap:8px"></div>
+          <div class="row" style="margin-top:10px">
+            <button class="btn" id="quizNext">Next</button>
+            <span class="pill" id="quizProgress">Q 1/1</span>
+            <span class="pill" id="quizScore">Score: 0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= Weather (No API Key) ================= -->
+      <div class="card section" id="sec-weather">
+        <h2>Weather Finder <span class="tag">Open‑Meteo API (No Key)</span></h2>
+        <div class="row">
+          <input id="cityInput" placeholder="Enter city (e.g., Noida, Delhi, Mumbai)"/>
+          <button class="btn" id="weatherBtn">Get Weather</button>
+        </div>
+        <div id="weatherOut" class="stat" style="margin-top:12px"></div>
+        <p class="muted" id="weatherNote"></p>
+      </div>
+
+      <!-- ================= Memory Card Game ================= -->
+      <div class="card section" id="sec-memory">
+        <h2>Memory Match Game <span class="tag">4×4</span></h2>
+        <div class="row">
+          <button class="btn" id="memStart">New Game</button>
+          <span class="pill">Moves: <b id="memMoves">0</b></span>
+          <span class="pill">Time: <b id="memTime">0s</b></span>
+        </div>
+        <div class="grid-memory" id="memGrid" style="margin-top:12px"></div>
+        <p class="muted" id="memMsg"></p>
+      </div>
+
+    </section>
+  </main>
+
+ 
+  <script>
+    // ---------- Utility: section/nav setup ----------
+    const SECTIONS = [
+      { id:'typing', label:'Typing Test' },
+      { id:'bmi', label:'BMI' },
+      { id:'age', label:'Age' },
+      { id:'todo', label:'To‑Do' },
+      { id:'timer', label:'Stopwatch/Timer' },
+      { id:'quiz', label:'Quiz' },
+      { id:'weather', label:'Weather' },
+      { id:'memory', label:'Memory Game' },
+    ];
+
+    const topNav = document.getElementById('topNav');
+    const sideNav = document.getElementById('sideNav');
+    const searchTools = document.getElementById('searchTools');
+
+    function renderNav(filter=''){
+      const f = filter.trim().toLowerCase();
+      topNav.innerHTML = '';
+      sideNav.innerHTML = '';
+      SECTIONS.filter(s => s.label.toLowerCase().includes(f) || s.id.includes(f)).forEach(s => {
+        const a=document.createElement('a'); a.href='#'+s.id; a.textContent=s.label; a.onclick=(e)=>{e.preventDefault(); activate(s.id)}; a.className=''; topNav.appendChild(a);
+        const b=document.createElement('button'); b.className='side-link'; b.textContent=s.label; b.onclick=()=>activate(s.id); sideNav.appendChild(b);
+      });
+      markActive(current);
+    }
+
+    function markActive(id){
+      [...topNav.children].forEach(a=>{a.classList.toggle('active', a.textContent===labelOf(id))});
+      [...sideNav.children].forEach(b=>{b.classList.toggle('active', b.textContent===labelOf(id))});
+    }
+    function labelOf(id){return SECTIONS.find(s=>s.id===id)?.label}
+
+    let current='typing';
+    function activate(id){
+      current = id;
+      document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('active'));
+      document.getElementById('sec-'+id).classList.add('active');
+      markActive(id);
+      history.replaceState(null,'','#'+id);
+    }
+
+    searchTools.addEventListener('input', e=>renderNav(e.target.value));
+
+    // Theme toggle (dark <-> slightly lighter)
+    const themeBtn=document.getElementById('themeToggle');
+    let light=false; themeBtn.onclick=()=>{
+      light=!light; document.documentElement.style.setProperty('--bg', light?'#f4f6fb':'#0f1222');
+      document.documentElement.style.setProperty('--card', light?'#ffffff':'#171a2b');
+      document.documentElement.style.setProperty('--text', light?'#0a1020':'#e8ecf1');
+      document.documentElement.style.setProperty('--muted', light?'#5b6572':'#9aa4b2');
+    };
+
+    // Restore hash deep-link
+    window.addEventListener('load',()=>{
+      renderNav('');
+      const h=location.hash.replace('#',''); if(SECTIONS.some(s=>s.id===h)) activate(h);
+    });
+
+    // ---------- Typing Test ----------
+    const typingParas=[
+      'Once upon a time, there was a poor woodcutter who lived near a river. Every day, he went into the forest to cut wood and sell it in the market',
+      'One day, while cutting a tree near the river, his axe slipped from his hands and fell into the deep water. The woodcutter was very sad because the axe was his only tool to earn money.',
+      'Suddenly, a kind angel appeared and asked him, “Why are you crying?” The woodcutter explained everything. The angel dived into the river and came back with a golden axe.',
+      'The woodcutter said, “This is not mine.” The angel then brought a silver axe, but again the woodcutter said, “This is not mine either.” Finally,the angel brought his old iron axe',
+      'The woodcutter smiled and said.Yes, this one is mine The angel was pleased with his honesty and gave him all three axes as a reward. From that day, the woodcutter lived a happy life.'
+    ];
+    const tpText = document.getElementById('typingText');
+    const tpInput = document.getElementById('typingInput');
+    const tpStart = document.getElementById('typingStart');
+    const tpReset = document.getElementById('typingReset');
+    const tpTime = document.getElementById('typingTime');
+    const tpWpm = document.getElementById('typingWpm');
+    const tpAcc = document.getElementById('typingAcc');
+    let tpTimer=null, tpLeft=60, tpStarted=false, tpStr='';
+
+    function loadTyping(){
+      tpStr = typingParas[Math.floor(Math.random()*typingParas.length)];
+      tpText.innerHTML = tpStr.split('').map((ch,i)=>`<span id="tp-${i}">${ch}</span>`).join('');
+      tpInput.value='';
+      tpInput.disabled=true; tpLeft=60; tpTime.textContent=tpLeft; tpWpm.textContent='0'; tpAcc.textContent='0%';
+      if(tpTimer) clearInterval(tpTimer); tpTimer=null; tpStarted=false;
+    }
+    loadTyping();
+
+    tpStart.onclick=()=>{
+      if(tpStarted) return; tpStarted=true; tpInput.disabled=false; tpInput.focus();
+      tpTimer=setInterval(()=>{
+        tpLeft--; tpTime.textContent=tpLeft;
+        calcTyping();
+        if(tpLeft<=0){ clearInterval(tpTimer); tpInput.disabled=true; tpStarted=false; }
+      },1000);
+    };
+    tpReset.onclick=loadTyping;
+
+    tpInput.addEventListener('input', calcTyping);
+    function calcTyping(){
+      const val = tpInput.value;
+      let correct=0;
+      for(let i=0;i<tpStr.length;i++){
+        const s=document.getElementById('tp-'+i);
+        const ch=val[i];
+        s.style.background=''; s.style.color='';
+        if(ch==null) continue;
+        if(ch===tpStr[i]){ s.style.color='#35d399'; correct++; }
+        else{ s.style.color='#ff6b6b'; }
+      }
+      const elapsed = 60 - tpLeft; const minutes = Math.max(elapsed,1)/60; // avoid 0
+      const wpm = Math.round((correct/5)/minutes);
+      const acc = val.length? Math.round((correct/val.length)*100):0;
+      tpWpm.textContent=String(wpm);
+      tpAcc.textContent=acc+"%";
+    }
+
+    // ---------- BMI ----------
+    const w=document.getElementById('bmiWeight');
+    const h=document.getElementById('bmiHeight');
+    const o=document.getElementById('bmiOut');
+    const s=document.getElementById('bmiStatus');
+    const t=document.getElementById('bmiTip');
+    document.getElementById('bmiCalc').onclick=()=>{
+      const kg=parseFloat(w.value), cm=parseFloat(h.value);
+      if(!kg||!cm){o.textContent='–'; s.textContent='–'; t.textContent='Enter valid numbers'; return}
+      const m=cm/100; const bmi=kg/(m*m); o.textContent=bmi.toFixed(1);
+      let status, tip;
+      if(bmi<18.5){status='Underweight'; tip='Increase calories, add protein';}
+      else if(bmi<25){status='Normal'; tip='Maintain with balanced diet';}
+      else if(bmi<30){status='Overweight'; tip='Add cardio + watch sugars';}
+      else {status='Obese'; tip='Consult professional, structured plan';}
+      s.textContent=status; t.textContent=tip;
+    };
+    document.getElementById('bmiClear').onclick=()=>{w.value=''; h.value=''; o.textContent='–'; s.textContent='–'; t.textContent='–';};
+
+    // ---------- Age ----------
+    const dob=document.getElementById('ageDob');
+    document.getElementById('ageCalc').onclick=()=>{
+      if(!dob.value) return;
+      const birth=new Date(dob.value);
+      const now=new Date();
+      let years=now.getFullYear()-birth.getFullYear();
+      let months=now.getMonth()-birth.getMonth();
+      let days=now.getDate()-birth.getDate();
+      if(days<0){
+        const prevMonth=new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+        days+=prevMonth; months--; 
+      }
+      if(months<0){ months+=12; years--; }
+      document.getElementById('ageYears').textContent=years;
+      document.getElementById('ageMonths').textContent=months;
+      document.getElementById('ageDays').textContent=days;
+    };
+    document.getElementById('ageClear').onclick=()=>{
+      dob.value=''; ['ageYears','ageMonths','ageDays'].forEach(id=>document.getElementById(id).textContent='–');
+    };
+
+    // ---------- To‑Do (LocalStorage) ----------
+    const todoKey='multi_todo_items_v1';
+    const todoList=document.getElementById('todoList');
+    const todoInput=document.getElementById('todoInput');
+    function loadTodos(){
+      const arr=JSON.parse(localStorage.getItem(todoKey)||'[]');
+      renderTodos(arr);
+    }
+    function saveTodos(arr){ localStorage.setItem(todoKey, JSON.stringify(arr)); }
+    function renderTodos(arr){
+      todoList.innerHTML='';
+      arr.forEach((it,i)=>{
+        const row=document.createElement('div'); row.className='todo-item'+(it.done?' done':'');
+        const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=it.done; cb.onchange=()=>{it.done=cb.checked; saveTodos(arr); renderTodos(arr)};
+        const span=document.createElement('div'); span.className='text'; span.textContent=it.text; span.style.flex='1';
+        const del=document.createElement('button'); del.className='btn ghost'; del.textContent='Delete'; del.onclick=()=>{arr.splice(i,1); saveTodos(arr); renderTodos(arr)};
+        row.append(cb, span, del); todoList.appendChild(row);
+      });
+    }
+    document.getElementById('todoAdd').onclick=()=>{
+      const text=todoInput.value.trim(); if(!text) return; const arr=JSON.parse(localStorage.getItem(todoKey)||'[]');
+      arr.push({text, done:false}); saveTodos(arr); todoInput.value=''; renderTodos(arr);
+    };
+    document.getElementById('todoClearAll').onclick=()=>{ if(confirm('Clear all tasks?')){ saveTodos([]); renderTodos([]);} };
+    loadTodos();
+
+    // ---------- Stopwatch ----------
+    let swInt=null, swTime=0; // in ms
+    function fmtSw(ms){ const m=Math.floor(ms/60000); const s=Math.floor((ms%60000)/1000); const cs=Math.floor((ms%1000)/10); return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(cs).padStart(2,'0')}` }
+    function updSw(){ document.getElementById('swDisplay').textContent=fmtSw(swTime); }
+    document.getElementById('swStart').onclick=()=>{ if(swInt) return; const start=Date.now()-swTime; swInt=setInterval(()=>{ swTime=Date.now()-start; updSw(); }, 10) };
+    document.getElementById('swPause').onclick=()=>{ clearInterval(swInt); swInt=null };
+    document.getElementById('swReset').onclick=()=>{ clearInterval(swInt); swInt=null; swTime=0; updSw(); };
+    updSw();
+
+    // ---------- Timer ----------
+    let tmInt=null, tmLeft=0; // seconds
+    const tmDisplay=document.getElementById('tmDisplay');
+    function fmtMMSS(sec){ const m=Math.floor(sec/60), s=sec%60; return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}` }
+    function updTimer(){ tmDisplay.textContent=fmtMMSS(tmLeft); }
+    document.getElementById('tmStart').onclick=()=>{
+      const m=parseInt(document.getElementById('tmMin').value||'0');
+      const s=parseInt(document.getElementById('tmSec').value||'0');
+      if(tmInt==null && tmLeft===0){ tmLeft=m*60+s; }
+      if(tmLeft<=0) return; if(tmInt) return;
+      tmInt=setInterval(()=>{
+        tmLeft--; updTimer(); if(tmLeft<=0){ clearInterval(tmInt); tmInt=null; tmLeft=0; updTimer(); try{ new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABYAAAACAAACAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==').play(); }catch(e){} alert('Time\'s up!'); }
+      },1000);
+    };
+    document.getElementById('tmPause').onclick=()=>{ clearInterval(tmInt); tmInt=null };
+    document.getElementById('tmReset').onclick=()=>{ clearInterval(tmInt); tmInt=null; tmLeft=0; updTimer(); };
+    updTimer();
+
+    // ---------- Quiz ----------
+    const quiz=[
+      {q:'Which language runs in the browser?', opts:['Python','Java','C++','JavaScript'], a:3},
+      {q:'What does CSS stand for?', opts:['Central Style Sheets','Cascading Style Sheets','Computer Style Sheets','Creative Styling System'], a:1},
+      {q:'Which HTML tag is used for the largest heading?', opts:['<h6>','<heading>','<h1>','<head>'], a:2},
+      {q:'Which method fetches data in JS?', opts:['get()','pull()','fetch()','http()'], a:2},
+      {q:'LocalStorage stores data…', opts:['On the server','In the browser','In RAM','In cookies only'], a:1}
+    ];
+    let qi=0, score=0, picked=null;
+    const qEl=document.getElementById('quizQ');
+    const oEl=document.getElementById('quizOptions');
+    const pEl=document.getElementById('quizProgress');
+    const sEl=document.getElementById('quizScore');
+
+    function renderQ(){
+      const item=quiz[qi]; qEl.textContent=item.q; oEl.innerHTML=''; picked=null;
+      item.opts.forEach((opt,idx)=>{
+        const btn=document.createElement('button'); btn.className='btn ghost'; btn.textContent=opt; btn.style.textAlign='left'; btn.onclick=()=>{ picked=idx; [...oEl.children].forEach(b=>b.style.outline='1px solid #2a2f4b'); btn.style.outline='2px solid rgba(108,156,255,.8)'; };
+        oEl.appendChild(btn);
+      });
+      pEl.textContent=`Q ${qi+1}/${quiz.length}`;
+      sEl.textContent=`Score: ${score}`;
+    }
+    renderQ();
+    document.getElementById('quizNext').onclick=()=>{
+      if(picked==null) return alert('Select an answer');
+      if(picked===quiz[qi].a) score++;
+      if(qi<quiz.length-1){ qi++; renderQ(); }
+      else{ qEl.textContent='Finished!'; oEl.innerHTML=`<div class="pill">You scored <b>${score}</b> / ${quiz.length}</div>`; pEl.textContent='—'; sEl.textContent=`Final: ${score}`; }
+    };
+
+    // ---------- Weather (Open‑Meteo) ----------
+    async function fetchWeather(city){
+      const enc=encodeURIComponent(city);
+      const g=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${enc}&count=1&language=en&format=json`);
+      const gj=await g.json();
+      if(!gj.results || !gj.results.length) throw new Error('City not found');
+      const {latitude, longitude, name, country} = gj.results[0];
+      const w=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m`);
+      const wj=await w.json();
+      return {place:`${name}, ${country}`, cur: wj.current};
+    }
+    const wBtn=document.getElementById('weatherBtn');
+    const cityInp=document.getElementById('cityInput');
+    const wOut=document.getElementById('weatherOut');
+    const wNote=document.getElementById('weatherNote');
+    wBtn.onclick=async()=>{
+      const city=cityInp.value.trim(); if(!city) return;
+      wOut.innerHTML='<div class="pill">Loading…</div>';
+      try{
+        const data=await fetchWeather(city);
+        const c=data.cur;
+        wOut.innerHTML='';
+        wOut.insertAdjacentHTML('beforeend', `<div class="pill">📍 <b>${data.place}</b></div>`);
+        wOut.insertAdjacentHTML('beforeend', `<div class="pill">🌡 Temp: <b>${c.temperature_2m}</b> °C</div>`);
+        wOut.insertAdjacentHTML('beforeend', `<div class="pill">💧 Humidity: <b>${c.relative_humidity_2m}</b>%</div>`);
+        wOut.insertAdjacentHTML('beforeend', `<div class="pill">🌬 Wind: <b>${c.wind_speed_10m}</b> km/h</div>`);
+        wNote.textContent='Powered by Open‑Meteo (no API key needed).';
+      }catch(err){ wOut.innerHTML=''; wNote.textContent='Error: '+err.message; }
+    };
+
+    // ---------- Memory Game ----------
+    const memGrid=document.getElementById('memGrid');
+    const memMoves=document.getElementById('memMoves');
+    const memTime=document.getElementById('memTime');
+    const memMsg=document.getElementById('memMsg');
+    let memTimer=null, memElapsed=0, memLock=false, memFirst=null, memPairs=0;
+
+    function newBoard(){
+      const icons=['🍎','🎧','🚗','🎲','⚽','🌙','🔥','🎁'];
+      const arr=[...icons, ...icons].sort(()=>Math.random()-0.5);
+      memGrid.innerHTML=''; memMoves.textContent='0'; memTime.textContent='0s'; memMsg.textContent='';
+      memElapsed=0; memPairs=0; memLock=false; memFirst=null; if(memTimer){clearInterval(memTimer)}
+      memTimer=setInterval(()=>{memElapsed++; memTime.textContent=memElapsed+'s'},1000);
+      arr.forEach((sym,i)=>{
+        const d=document.createElement('button'); d.className='card-mem'; d.setAttribute('data-sym', sym); d.textContent='?';
+        d.onclick=()=>flip(d);
+        memGrid.appendChild(d);
+      });
+    }
+    function flip(card){ if(memLock || card.classList.contains('matched') || card.classList.contains('flipped')) return; card.classList.add('flipped'); card.textContent=card.dataset.sym; if(!memFirst){ memFirst=card; return; }
+      memLock=true; memMoves.textContent=String(parseInt(memMoves.textContent)+1);
+      setTimeout(()=>{
+        if(card.dataset.sym===memFirst.dataset.sym){ card.classList.add('matched'); memFirst.classList.add('matched'); memPairs++; if(memPairs===8){ clearInterval(memTimer); memMsg.textContent=`Great! Completed in ${memMoves.textContent} moves and ${memElapsed}s.` }
+        } else { card.classList.remove('flipped'); memFirst.classList.remove('flipped'); card.textContent='?'; memFirst.textContent='?'; }
+        memFirst=null; memLock=false; }, 550);
+    }
+    document.getElementById('memStart').onclick=newBoard;
+    newBoard();
+
+  </script>
+
+
+</body>
+</html>

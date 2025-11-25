@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <title>10 Projects — Name & Full Code, html projects ideas</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+        :root{
+      --bg:#0f172a;        /* slate-900 */
+      --card:#111827ee;    /* gray-900 */
+      --text:#e5e7eb; 
+    }
+  
+
+  
+    body{
+      margin:0;
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color:var(--text);
+      padding:24px;
+    }
+    header{
+      text-align:center;
+      margin-bottom:18px;
+    }
+    h1{margin:0;font-size:24px;}
+    p.lead{margin:6px 0 18px;color:var(--text)}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+      gap:14px;
+    }
+    .card{
+      background:var(--card);
+      padding:14px;
+      border-radius:10px;
+      box-shadow:0 6px 18px rgba(32, 60, 131, 0.06);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .proj-name{
+      font-weight:600;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      user-select:none;
+    }
+    .proj-name:hover{color:var(--accent)}
+    .code-area{
+      width:100%;
+      min-height:260px;
+      resize:vertical;
+      padding:12px;
+      border-radius:8px;
+      border:1px solid #e2e6ee;
+      font-family: "Courier New", monospace;
+      font-size:13px;
+      display:none;
+      
+      color:#dfefff;
+    }
+    .hint{font-size:12px;color:var(--muted)}
+    .small-btn{
+      background:transparent;
+      border:1px solid #ddd;
+      padding:6px 10px;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:13px;
+      color:#fff;           /* <-- Add this line */
+    }
+    .small-btn:hover {
+  background: #1f2937;
+  border-color: #ffffff55;
+  color: #fff;           /* <-- Add this line for hover as well */
+}
+    .controls{display:flex;gap:8px;align-items:center}
+    @media (max-width:560px){
+      .grid{grid-template-columns:1fr}
+    }
+
+    .scrollable-links {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #0b1220cc; /* dark bar */
+  border-bottom: 1px solid #ffffff20;
+  scrollbar-width: none; /* Firefox hide scrollbar */
+}
+.scrollable-links::-webkit-scrollbar {
+  display: none; /* Chrome hide scrollbar */
+  
+}
+.scrollable-links a {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border: 1px solid #ffffff25;
+  border-radius: 999px;
+  font-size: 14px;
+  color: #e5e7eb;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .2s, border-color .2s;
+}
+.scrollable-links a:hover {
+  background: #1f2937;
+  border-color: #ffffff55;
+}
+
+
+  </style>
+</head>
+<body>
+  <!-- SCROLLABLE LINKS -->
+<div class="scrollable-links">
+   <a href="index.html">Home</a>
+  <a href="allinone.html">All-in-One Utility</a>
+  <a href="GST-Calculator.html">All Calculator</a>
+  <a href="BCA-101-Mathematics-I.html">BCA All Semester</a>
+  
+  <a href="C++Programming-Quiz.html">C Language Quiz</a>
+  <a href="Editor1.html">HTML Editor</a>
+  <a href="Notes-Maker.html">Whiteboard</a>
+  <a href="clanguage.html">C Language</a>
+  <a href="Project-Ideas.html">Project Ideas</a>
+  <a href="Image-to-PDF-Converter.html">Image to PDF Converter</a>
+  <a href="PDF-Library.html">Notes PDF Library</a>
+</div>
+
+
+<style>
+.wrap {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 16px;
+      margin-top: 10px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 800;
+      margin-bottom: 28px;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .grid {
+      display: grid;
+     background-color: #0f1724;
+     color: #e5e7eb;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 18px;
+    }
+    @media (min-width: 600px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 900px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      transition: background .2s ease, transform .2s ease;
+    }
+    .card:hover { background: var(--card-hover); transform: translateY(-3px); }
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      color: var(--accent-2);
+    }
+    .card ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .card ul li { margin-bottom: 6px; }
+  </style>
+
+  <div class="wrap">
+    <h1>BCA Project Ideas</h1>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Web Development Projects</h2>
+        <ul>
+          <li>Online Library Management System</li>
+          <li>Student Result Management System</li>
+          <li>College Admission Portal</li>
+          <li>Online Voting System</li>
+          <li>Job Portal Website</li>
+          <li>E-Commerce Store (Mini Amazon)</li>
+          <li>Event Management Website</li>
+          <li>Travel & Tourism Website</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Application Projects</h2>
+        <ul>
+          <li>Typing Master (HTML, CSS, JS)</li>
+          <li>Simple Notepad Clone</li>
+          <li>Music Player App</li>
+          <li>Weather Forecast App (using API)</li>
+          <li>Expense Tracker Application</li>
+          <li>Chat Application (Local Storage Based)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Educational / Utility Projects</h2>
+        <ul>
+          <li>All-in-One Calculator (GST, EMI, BMI, etc.)</li>
+          <li>Quiz Application (MCQ based)</li>
+          <li>Dictionary App (Word Meaning Finder)</li>
+          <li>Translator (English ↔ Hindi)</li>
+          <li>Online Code Editor</li>
+          <li>Unit Converter (Kg ↔ Pound, °C ↔ °F, etc.)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Database Projects</h2>
+        <ul>
+          <li>Inventory Management System</li>
+          <li>Hospital Management System</li>
+          <li>Payroll Management System</li>
+          <li>Online Banking System</li>
+          <li>Attendance Management System</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>🎨 Creative & Fun Projects</h2>
+        <ul>
+          <li>Pixel Art Maker.</li>
+          <li>Name Logo Generator</li>
+          <li>AI Quote Generator (random + editable)</li>
+          <li>Random Color Palette Generator</li>
+          <li>Digital Clock with Neon Effect</li>
+          <li>Music Beat Visualizer</li>
+          <li>Mood Lamp (changes color with time)</li>
+          <li>3D Card Flip Gallery</li>
+        </ul>
+      </div>
+
+<div class="card">
+        <h2>🌍 Science & Engineering Projects</h2>
+        <ul>
+          <li>Rocket Launch Simulator (basic gravity + thrust JS animation)</li>
+          <li>Magnet Field Visualizer</li>
+          <li>Sound Wave Visualizer (audio frequency + CSS animation)</li>
+          <li>Temperature Heat Map Generator</li>
+          <li>Bridge Stress Simulation (weight input → bending animation)</li>
+          <li>3D Object Rotation Demo (CSS transform & JS controls)</li>
+          <li>Pendulum Motion Simulator</li>
+          <li>Planet Orbit Visualizer (Sun, Earth, Moon animation)</li>
+        </ul>
+      </div>
+
+
+      <div class="card">
+        <h2>⚙️ Converters / Calculators (Real-world use ke liye)</h2>
+        <ul>
+          <li>Pressure Converter — Pascal ⇄ Bar ⇄ PSI</li>
+          <li>Voltage Divider Calculator — for electronics learners</li>
+          <li>Solar Panel Efficiency Calculator</li>
+          <li>Resistor Color Code Decoder</li>
+          <li>Torque ⇄ Horsepower Converter</li>
+          <li>Hydraulic Pressure Calculator</li>
+          <li>Distance to Time Calculator (Speed-based)</li>
+          <li>Fuel Consumption Converter — km/l ⇄ mpg ⇄ l/100km</li>
+          <li>Luminous Intensity Converter — lumen ⇄ candela</li>
+          <li>Metal Density Calculator</li>
+        </ul>
+      </div>
+
+
+      <div class="card">
+        <h2>💡 Technology & Tool-Based Projects</h2>
+        <ul>
+          <li>Unit Converter Pro+ — single web app for all unit conversions (length, area, volume, energy, etc.)</li>
+          <li>QR Code Generator & Scanner</li>
+          <li>Image to Text (OCR) Extractor (using JS + API)</li>
+          <li>Speech to Text Notepad</li>
+          <li>Text to Speech Reader</li>
+          <li>Online Code Runner (HTML, CSS, JS live preview)</li>
+          <li>Password Generator & Strength Checker</li>
+          <li>File Compressor (text-based)</li>
+          <li>URL Shortener Tool</li>
+          <li>Clipboard Manager Web App</li>
+        </ul>
+      </div>
+
+
+    </div>
+  </div>
+
+
+  <style>
+  .about {
+    max-width: 800px;         /* text width limit */
+    margin: 40px auto;        /* center align with spacing */
+    padding: 20px 30px;       /* inner spacing */
+    background: #f9f9f9;      /* light background */
+    border-radius: 12px;      /* smooth corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* soft shadow */
+    font-family: "Segoe UI", Arial, sans-serif;
+    line-height: 1.8;         /* good readability */
+    color: #333;
+  }
+
+  .about h2 {
+    text-align: center;
+    color: #0066cc;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+
+  .about p {
+    margin-bottom: 15px;
+    font-size: 16px;
+  }
+
+  .about strong {
+    color: #0066cc; /* blue highlight */
+  }
+
+  .about em {
+    color: #d63384; /* pink italic highlight */
+  }
+</style>
+
+
+<div class="about">
+  <h2>Project Ideas </h2>
+
+  <p>
+    This page presents a collection of innovative <em>project ideas</em> related to the field of 
+    <strong>BCA (Bachelor of Computer Applications)</strong>. These projects are designed to 
+    enhance practical knowledge, improve problem-solving skills, and give students real-world 
+    exposure to software development.
+  </p>
+
+  <p>
+    Each project focuses on different areas of technology such as web development, programming, 
+    databases, networking, and problem-solving applications. By working on these ideas, students 
+    can not only strengthen their technical skills but also prepare themselves for future career 
+    opportunities in the <strong>IT industry</strong>.
+  </p>
+</div>
+
+<header>
+  <h1>10 Projects — Name & Full Code</h1>
+  <p class="lead">नाम पर क्लिक करें — नीचे पूरा HTML / CSS / JS कोड दिखेगा। आप textarea से कॉपी कर सकते हैं।</p>
+</header>
+
+<div class="grid">
+
+  <!-- Project 1 -->
+  <div class="card">
+    <div class="proj-name" onclick="toggle('code1')">
+      <span>Project 1: Simple Calculator (HTML + CSS + JS)</span>
+      <span class="controls"><button class="small-btn" onclick="downloadCode(event,'calculator.html','code1txt')">Download</button></span>
+    </div>
+    <textarea id="code1txt" class="code-area" readonly>
+<!-- calculator.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Simple Calculator</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{--bg:#f3f6fb;--card:#ffffff;--accent:#0b6cff}
+  body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);padding:40px;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+  .calc{background:var(--card);padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(10,20,50,0.08);width:320px}
+  h2{margin:0 0 12px;font-size:18px}
+  .row{display:flex;gap:8px;margin-bottom:10px}
+  input[type="number"]{flex:1;padding:10px;border-radius:8px;border:1px solid #dde6f0;font-size:15px}
+  button{padding:10px 12px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}
+  .ops{display:flex;gap:8px;margin-top:8px}
+  .result{margin-top:12px;font-weight:700}
+</style>
+</head>
+<body>
+  <div class="calc">
+    <h2>Simple Calculator</h2>
+    <div class="row">
+      <input id="a" type="number" placeholder="First number">
+      <input id="b" type="number" placeholder="Second number">
+    </div>
+    <div class="ops">
+      <button onclick="compute('+')">Add +</button>
+      <button onclick="compute('-')">Sub -</button>
+      <button onclick="compute('*')">Mul ×</button>
+      <button onclick="compute('/')">Div ÷</button>
+    </div>
+    <div class="result" id="res">Result: —</div>
+  </div>
+
+<script>
+  function compute(op){
+    const a = parseFloat(document.getElementById('a').value) || 0;
+    const b = parseFloat(document.getElementById('b').value) || 0;
+    let r = 0;
+    if(op==='+') r = a + b;
+    if(op==='-') r = a - b;
+    if(op==='*') r = a * b;
+    if(op==='/') r = b === 0 ? 'Error (div by 0)' : a / b;
+    document.getElementById('res').innerText = 'Result: ' + r;
+  }
+</script>
+</body>
+</html>
+    </textarea>
+  </div>
+
+  <!-- Project 2 -->
+  <div class="card">
+    <div class="proj-name" onclick="toggle('code2')">
+      <span>Project 2: Digital Clock (HTML + CSS + JS)</span>
+      <span class="controls"><button class="small-btn" onclick="downloadCode(event,'digital-clock.html','code2txt')">Download</button></span>
+    </div>
+    <textarea id="code2txt" class="code-area" readonly>
+<!-- digital-clock.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Digital Clock</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  body{display:flex;align-items:center;justify-content:center;height:100vh;margin:0;font-family:Arial,Helvetica,sans-serif;background:#0f1724;color:#e6eef8}
+  .clock{background:rgba(255,255,255,0.03);padding:28px;border-radius:12px;text-align:center;box-shadow:0 6px 24px rgba(2,6,23,0.6)}
+  .time{font-size:48px;font-weight:700;letter-spacing:2px}
+  .date{margin-top:8px;color:#bcd1f3}
+</style>
+</head>
+<body>
+  <div class="clock">
+    <div class="time" id="time">--:--:--</div>
+    <div class="date" id="date">Loading...</div>
+  </div>
+
+<script>
+  function updateClock(){
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    const ss = String(now.getSeconds()).padStart(2,'0');
+    document.getElementById('time').innerText = hh + ':' + mm + ':' + ss;
+    document.getElementById('date').innerText = now.toDateString();
+  }
+  setInterval(updateClock,1000);
+  updateClock();
+</script>
+</body>
+</html>
+    </textarea>
+  </div>
+
+  <!-- Project 3 -->
+  <div class="card">
+    <div class="proj-name" onclick="toggle('code3')">
+      <span>Project 3: To-Do List (HTML + CSS + JS)</span>
+      <span class="controls"><button class="small-btn" onclick="downloadCode(event,'todo.html','code3txt')">Download</button></span>
+    </div>
+    <textarea id="code3txt" class="code-area" readonly>
+<!-- todo.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>To-Do List</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;background:#f0f3f7;padding:36px;margin:0}
+  .app{max-width:640px;margin:0 auto;background:#fff;padding:18px;border-radius:10px;box-shadow:0 8px 30px rgba(10,20,50,0.06)}
+  h2{margin:0 0 12px}
+  .form{display:flex;gap:10px}
+  input[type="text"]{flex:1;padding:10px;border-radius:8px;border:1px solid #d7e0ee}
+  button{padding:10px 12px;border-radius:8px;border:none;background:#797d82;color:#fff}
+  ul{margin-top:12px;padding-left:18px}
+  li{padding:8px 6px;border-bottom:1px solid #f1f4f8;display:flex;justify-content:space-between;align-items:center}
+  .del{background:#ff4d4f;border:none;color:#fff;padding:6px 8px;border-radius:6px;cursor:pointer}
+</style>
+</head>
+<body>
+  <div class="app">
+    <h2>To-Do List</h2>
+    <div class="form">
+      <input id="taskInput" type="text" placeholder="New task...">
+      <button onclick="addTask()">Add</button>
+    </div>
+    <ul id="taskList"></ul>
+  </div>
+
+<script>
+  function addTask(){
+    const v = document.getElementById('taskInput').value.trim();
+    if(!v) return alert('Enter task');
+    const li = document.createElement('li');
+    li.innerHTML = '<span>'+escapeHtml(v)+'</span><button class="del" onclick="removeTask(this)">Delete</button>';
+    document.getElementById('taskList').appendChild(li);
+    document.getElementById('taskInput').value='';
+  }
+  function removeTask(btn){ btn.parentElement.remove(); }
+  function escapeHtml(s){ return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+</script>
+</body>
+</html>
+    </textarea>
+  </div>
+
+  <!-- Project 4 -->
+  <div class="card">
+    <div class="proj-name" onclick="toggle('code4')">
+      <span>Project 4: Typing Speed Test (HTML + CSS + JS)</span>
+      <span class="controls"><button class="small-btn" onclick="downloadCode(event,'typing-test.html','code4txt')">Download</button></span>
+    </div>
+    <textarea id="code4txt" class="code-area" readonly>
+<!-- typing-test.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Typing Speed Test</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  body{font-family:Arial;background:#f6f8fb;padding:40px;margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh}
+  .box{background:#fff;padding:20px;border-radius:10px;box-shadow:0 8px 24px rgba(12,20,40,0.06);width:720px;max-width:96%}
+  .sample{padding:12px;border-radius:6px;background:#f1f5fb;border:1px solid #e6eefc;margin-bottom:12px}
+  textarea#input{width:100%;height:120px;padding:10px;font-size:16px;border-radius:8px;border:1px solid #dbe9ff;resize:vertical}
+  .meta{display:flex;gap:12px;align-items:center;margin-top:10px}
+  .btn{padding:8px 12px;border-radius:8px;border:none;background:#0b73ff;color:#fff;cursor:pointer}
+</style>
+</head>
+<body>
+  <div class="box">
+    <h3>Typing Speed Test</h3>
+    <div class="sample" id="sampleText">The quick brown fox jumps over the lazy dog.</div>
+    <textarea id="input" placeholder="Start typing here..."></textarea>
+    <div class="meta">
+      <button class="btn" onclick="startTest()">Start</button>
+      <button class="btn" onclick="resetTest()">Reset</button>
+      <div id="result" style="margin-left:auto;font-weight:700">WPM: — &nbsp; ACC: —%</div>
+    </div>
+  </div>
+
+<script>
+  let started=false, startTime=0;
+  function startTest(){
+    const text = document.getElementById('sampleText').innerText;
+    const input = document.getElementById('input');
+    input.focus();
+    if(!started){ started=true; startTime = Date.now(); }
+    input.oninput = () => {
+      const typed = input.value;
+      if(typed.endsWith(' ') || typed.length >= text.length){
+        const durationMin = (Date.now() - startTime) / 60000;
+        const wordsTyped = typed.trim().split(/\s+/).length;
+        const wpm = Math.round(wordsTyped / Math.max(durationMin,0.01));
+        const correctChars = countCorrectChars(text, typed);
+        const acc = Math.round((correctChars / typed.length) * 100) || 0;
+        document.getElementById('result').innerText = 'WPM: ' + wpm + '   ACC: ' + acc + '%';
+      }
+    };
+  }
+  function resetTest(){
+    started=false; startTime=0;
+    document.getElementById('input').value='';
+    document.getElementById('result').innerText='WPM: —   ACC: —%';
+  }
+  function countCorrectChars(sample, typed){
+    let c=0;
+    for(let i=0;i<typed.length && i<sample.length;i++){
+      if(typed[i]===sample[i]) c++;
+    }
+    return c;
+  }
+</script>
+</body>
+</html>
+    </textarea>
+  </div>
+
+  <!-- Project 5 -->
+  <div class="card">
+    <div class="proj-name" onclick="toggle('code5')">
+      <span>Project 5: Quiz App (HTML + CSS + JS)</span>
+      <span class="controls"><button class="small-btn" onclick="downloadCode(event,'quiz-app.html','code5txt')">Download</button></span>
+    </div>
+    <textarea id="code5txt" class="code-area" readonly>
+<!-- quiz-app.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quiz App</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  body{font-family:Arial;background:#eef4fb;padding:36px;margin:0}
+  .card{max-width:700px;margin:0 auto;background:#fff;padding:18px;border-radius:10px;box-shadow:0 8px 30px rgba(10,20,50,0.06)}
+  h2{margin:0 0 12px}
+  .q{margin:12px 0}
+  .opt{display:block;margin:8px 0;padding:8px;border-radius:8px;border:1px solid #e3eaf8;cursor:pointer}
+  .opt.correct{background:#dff6e0;border-color:#8be18f}
+  .opt.wrong{background:#ffdede;border-color:#ff8f8f}
+  button{padding:10px 12px;border-radius:8px;border:none;background:#0b73ff;color:#fff;cursor:pointer}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h2>Quiz App</h2>
+    <div id="quiz"></div>
+    <div style="margin-top:12px">
+      <button onclick="next()">Next</button>
+      <span id="score" style="margin-left:12px;font-weight:700"></span>
+    </div>
+  </div>
+
+<script>
+  const questions = [
+    {q:'2 + 2 = ?', opts:['3','4','5'], a:1},
+    {q:'Capital of India?', opts:['Mumbai','New Delhi','Kolkata'], a:1},
+    {q:'HTML stands for?', opts:['Hyper Text Markup Language','High Text Mode Language','None'], a:0}
+  ];
+  let idx=0, sc=0;
+  function render(){
+    const container = document.getElementById('quiz');
+    container.innerHTML='';
+    const item = questions[idx];
+    const qEl = document.createElement('div'); qEl.className='q';
+    qEl.innerHTML = '<strong>Q'+(idx+1)+'.</strong> '+item.q;
+    container.appendChild(qEl);
+    item.opts.forEach((op,i)=>{
+      const b = document.createElement('button');
+      b.className='opt';
+      b.innerText = op;
+      b.onclick = () => {
+        if(i===item.a){ sc++; b.classList.add('correct'); }
+        else { b.classList.add('wrong'); /* show correct */ 
+          // highlight correct
+          Array.from(container.querySelectorAll('.opt'))[item.a].classList.add('correct');
+        }
+        // disable options
+        Array.from(container.querySelectorAll('.opt')).forEach(btn=>btn.disabled=true);
+      };
+      container.appendChild(b);
+    });
+    document.getElementById('score').innerText = 'Score: ' + sc;
+  }
+  function next(){
+    if(idx < questions.length-1){ idx++; render(); }
+    else { alert('Quiz finished. Final score: ' + sc + '/' + questions.length); idx=0; sc=0; render(); }
+  }
+  render();
+</script>
+</body>
+</html>
+    </textarea>
+  </div>
+
+  <!-- Project 6 -->
+  <div class="card">
+    <div class="proj-name" onclick="toggle('code6')">
+      <span>Project 6: Background Changer (HTML + CSS + JS)</span>
+      <span class="controls"><button class="small-btn" onclick="downloadCode(event,'background-changer.html','code6txt')">Download</button></span>
+    </div>
+    <textarea id="code6txt" class="code-area" readonly>
+<!-- background-changer.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Background Changer</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  body{font-family:Arial;margin:0;padding:40px;background:#f4f7fb}
+  .wrap{max-width:720px;margin:0 auto;background:#fff;padding:18px;border-radius:10px;box-shadow:0 8px 24px rgba(10,20,50,0.06)}
+  .palette{display:flex;gap:8px;flex-wrap:wrap}
+  .sw{width:80px;height:48px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;cursor:pointer}
+  .info{margin-top:12px;font-weight:700}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h3>Background Changer</h3>
+    <div class="palette">
+      <div class="sw" style="background:#0b73ff" onclick="change('#0b73ff')">Blue</div>
+      <div class="sw" style="background:#06c167" onclick="change('#06c167')">Green</div>
+      <div class="sw" style="background:#ff7a59" onclick="change('#ff7a59')">Orange</div>
+      <div class="sw" style="background:#6f42c1" onclick="change('#6f42c1')">Purple</div>
+      <div class="sw" style="background:#222" onclick="change('#222')">Dark</div>
+    </div>
+    <div class="info" id="cur">Current: default</div>
+  </div>
+
+<script>
+  function change(c){
+    document.body.style.background = c;
+    document.getElementById('cur').innerText = 'Current: ' + c;
+  }
+</script>
+</body>
+</html>
+    </textarea>
+  </div>
+
+  <!-- Project 7 -->
+  <div class="card">
+    <div class="proj-name" onclick="toggle('code7')">
+      <span>Project 7: Counter App (HTML + CSS + JS)</span>
+      <span class="controls"><button class="small-btn" onclick="downloadCode(event,'counter.html','code7txt')">Download</button></span>
+    </div>
+    <textarea id="code7txt" class="code-area" readonly>
+<!-- counter.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Counter App</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  body{display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;font-family:Arial;background:#f2f6fb}
+  .card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 12px 30px rgba(10,20,50,0.06);text-align:center}
+  .num{font-size:48px;margin:12px 0;font-weight:800}
+  button{padding:10px 14px;border-radius:10px;border:none;background:#0b73ff;color:#fff;font-weight:700;cursor:pointer;margin:0 6px}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h3>Counter</h3>
+    <div class="num" id="num">0</div>
+    <div>
+      <button onclick="change(1)">+1</button>
+      <button onclick="change(-1)">-1</button>
+      <button onclick="reset()">Reset</button>
+    </div>
+  </div>
+
+<script>
+  let n = 0;
+  function change(d){ n += d; document.getElementById('num').innerText = n; }
+  function reset(){ n = 0; document.getElementById('num').innerText = n; }
+</script>
+</body>
+</html>
+    </textarea>
+  </div>
+
+  <!-- Project 8 -->
+  <div class="card">
+    <div class="proj-name" onclick="toggle('code8')">
+      <span>Project 8: Random Quote Generator (HTML + CSS + JS)</span>
+      <span class="controls"><button class="small-btn" onclick="downloadCode(event,'quote.html','code8txt')">Download</button></span>
+    </div>
+    <textarea id="code8txt" class="code-area" readonly>
+<!-- quote.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Random Quote Generator</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  body{font-family:Arial;background:#fbfcff;padding:40px;margin:0}
+  .card{max-width:640px;margin:0 auto;background:#fff;padding:18px;border-radius:10px;box-shadow:0 10px 30px rgba(10,20,50,0.06);text-align:center}
+  .quote{font-size:20px;padding:14px;border-radius:8px;background:#f1f7ff;border:1px solid #e6f0ff}
+  button{margin-top:12px;padding:10px 14px;border-radius:8px;border:none;background:#0b73ff;color:#fff;cursor:pointer}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h3>Random Quote</h3>
+    <div class="quote" id="q">Click for a quote</div>
+    <button onclick="newQuote()">New Quote</button>
+  </div>
+
+<script>
+  const quotes = [
+    "Be the change you wish to see.",
+    "Keep going; everything you need will come.",
+    "Focus on the good.",
+    "Practice makes progress.",
+    "Learning never stops."
+  ];
+  function newQuote(){
+    document.getElementById('q').innerText = quotes[Math.floor(Math.random()*quotes.length)];
+  }
+  newQuote();
+</script>
+</body>
+</html>
+    </textarea>
+  </div>
+
+  <!-- Project 9 -->
+  <div class="card">
+    <div class="proj-name" onclick="toggle('code9')">
+      <span>Project 9: Light On/Off (HTML + CSS + JS)</span>
+      <span class="controls"><button class="small-btn" onclick="downloadCode(event,'light.html','code9txt')">Download</button></span>
+    </div>
+    <textarea id="code9txt" class="code-area" readonly>
+<!-- light.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Light On/Off</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  body{font-family:Arial;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#eef3ff}
+  .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 8px 28px rgba(10,20,50,0.06);text-align:center}
+  img{width:120px;height:auto;display:block;margin:0 auto 12px}
+  .btn{padding:10px 14px;border-radius:8px;border:none;background:#0b73ff;color:#fff;cursor:pointer;margin:0 6px}
+</style>
+</head>
+<body>
+  <div class="card">
+    <img id="bulb" src="https://www.w3schools.com/js/pic_bulboff.gif" alt="bulb">
+    <div>
+      <button class="btn" onclick="on()">Turn On</button>
+      <button class="btn" onclick="off()">Turn Off</button>
+    </div>
+  </div>
+
+<script>
+  function on(){ document.getElementById('bulb').src = 'https://www.w3schools.com/js/pic_bulbon.gif'; }
+  function off(){ document.getElementById('bulb').src = 'https://www.w3schools.com/js/pic_bulboff.gif'; }
+</script>
+</body>
+</html>
+    </textarea>
+  </div>
+
+  <!-- Project 10 -->
+  <div class="card">
+    <div class="proj-name" onclick="toggle('code10')">
+      <span>Project 10: Form Validation (HTML + CSS + JS)</span>
+      <span class="controls"><button class="small-btn" onclick="downloadCode(event,'form-validate.html','code10txt')">Download</button></span>
+    </div>
+    <textarea id="code10txt" class="code-area" readonly>
+<!-- form-validate.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Form Validation</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  body{font-family:Arial;background:#22517f;padding:40px;margin:0}
+  .card{max-width:520px;margin:0 auto;background:#fff;padding:18px;border-radius:10px;box-shadow:0 8px 30px rgba(10,20,50,0.06)}
+  label{display:block;margin-top:10px;font-weight:600}
+  input{width:100%;padding:10px;border-radius:8px;border:1px solid #e1e8f5;margin-top:6px}
+  .error{color:#d33;margin-top:6px;font-size:13px}
+  button{margin-top:12px;padding:10px 12px;border-radius:8px;border:none;background:#0b73ff;color:#fff;cursor:pointer}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h3>Form Validation</h3>
+    <form id="myForm" onsubmit="return validateForm()">
+      <label>Name</label>
+      <input id="name" type="text" placeholder="Your name">
+      <div id="errName" class="error"></div>
+
+      <label>Email</label>
+      <input id="email" type="email" placeholder="you@example.com">
+      <div id="errEmail" class="error"></div>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+<script>
+  function validateForm(){
+    let ok = true;
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    document.getElementById('errName').innerText = '';
+    document.getElementById('errEmail').innerText = '';
+
+    if(name.length < 2){ document.getElementById('errName').innerText = 'Name must be at least 2 characters'; ok=false; }
+    if(!/^\S+@\S+\.\S+$/.test(email)){ document.getElementById('errEmail').innerText = 'Enter a valid email'; ok=false; }
+
+    if(ok) alert('Form submitted (demo).');
+    return false; // prevent real submit for demo
+  }
+</script>
+</body>
+</html>
+    </textarea>
+  </div>
+
+</div>
+
+<script>
+  function toggle(id){
+    // hide others if open (optional), but keep per requirement show code for clicked
+    const el = document.getElementById(id + 'txt');
+    if(!el) return;
+    el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    // scroll into view when showing
+    if(el.style.display === 'block') setTimeout(()=> el.scrollIntoView({behavior:'smooth',block:'center'}),160);
+  }
+
+  // Download helper: takes event, filename, textarea id
+  function downloadCode(e, filename, textareaId){
+    e.stopPropagation(); // prevent toggle
+    const txt = document.getElementById(textareaId).value;
+    const blob = new Blob([txt], {type:'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    a.remove(); URL.revokeObjectURL(url);
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C Language Q&A — Simple Interactive Site</title>
+  <style>
+    :root{
+      --bg:#0b1020; --panel:#0f1730; --muted:#8ea2c6; --text:#e6ecff; --brand:#6aa3ff; --accent:#9be579; --border:#233153;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif; background:var(--bg); color:var(--text);}
+    .app{display:grid; grid-template-columns:280px 1fr; min-height:100dvh; margin-top: 50px;}
+    aside{background:var(--panel); border-right:1px solid var(--border); padding:18px; position:sticky; top:0; height:100dvh; overflow:auto}
+    header{display:flex; align-items:center; gap:10px; margin-bottom:18px}
+    .logo{width:36px;height:36px; border-radius:12px; background:linear-gradient(135deg,var(--brand),#7f66ff); display:grid; place-items:center; font-weight:700; color:#fff}
+    h1{font-size:18px; margin:0}
+    .search{position:relative; margin:10px 0 16px}
+    .search input{width:100%; padding:12px 14px 12px 38px; border-radius:12px; border:1px solid var(--border); background:#0b1530; color:var(--text)}
+    .search svg{position:absolute; left:10px; top:50%; transform:translateY(-50%); opacity:.8}
+    .filters h3{font-size:13px; letter-spacing:.4px; color:var(--muted); margin:14px 0 8px}
+    .cat{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-radius:10px; cursor:pointer; color:#dbe6ff; border:1px solid transparent}
+    .cat:hover{background:#0c1a39}
+    .cat.active{background:#0c1e46; border-color:#1e3566}
+    .count{font-size:12px; color:var(--muted)}
+    .main{padding:22px}
+    .topbar{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap}
+    .crumbs{font-size:13px; color:var(--muted)}
+    .controls{display:flex; gap:10px}
+    button, .btn{background:#10224a; color:#dbe6ff; border:1px solid var(--border); padding:10px 12px; border-radius:12px; cursor:pointer}
+    button:hover{background:#12305f}
+    .grid{margin-top:16px; display:grid; grid-template-columns:1fr; gap:10px}
+    .qa{border:1px solid var(--border); background:#0b1530; border-radius:16px; overflow:hidden}
+    .q{display:flex; align-items:flex-start; gap:12px; padding:14px}
+    .q h4{margin:0; font-size:16px}
+    .badge{font-size:11px; background:#0e2a5e; padding:4px 8px; border-radius:999px; border:1px solid var(--border); color:#c7d7ff}
+    .ans{display:none; border-top:1px dashed var(--border); padding:14px}
+    .ans.open{display:block}
+    pre{margin:10px 0; padding:12px; background:#08122a; border:1px solid var(--border); border-radius:12px; overflow:auto}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size:13px;}
+    .qa-actions{display:flex; gap:8px; margin-left:auto}
+    .copy{font-size:12px}
+    .no-results{opacity:.8; padding:28px; text-align:center}
+    .mobilebar{display:none; position:sticky; top:0; z-index:3; background:var(--panel); border-bottom:1px solid var(--border); padding:10px}
+    @media (max-width: 920px){
+      .app{grid-template-columns:1fr}
+      aside{position:fixed; left:0; top:0; bottom:0; width:84%; max-width:360px; transform:translateX(-100%); transition:.25s ease; z-index:5}
+      aside.open{transform:translateX(0)}
+      .overlay{content:""; position:fixed; inset:0; background:rgba(0,0,0,.5); display:none; z-index:4}
+      .overlay.show{display:block}
+      .mobilebar{display:flex; align-items:center; justify-content:space-between}
+      .main{padding:16px}
+    }
+    a{color:var(--brand); text-decoration:none}
+    footer{margin:28px 0 12px; text-align:center; color:var(--muted); font-size:12px}
+
+    
+  </style>
+</head>
+<body>
+  <div class="mobilebar">
+    <button id="menuBtn">☰ मेनू</button>
+    <strong>C Language Q&A</strong>
+    <span></span>
+  </div>
+
+  
+  <div class="app">
+    <aside id="sidebar">
+      <header>
+        <div class="logo">C</div>
+        <div>
+          <h1>C Language Q&A</h1>
+          <div style="font-size:12px; color:var(--muted)">सारे सवाल–जवाब एक जगह</div>
+        </div>
+      </header>
+      <div class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/></svg>
+        <input id="search" placeholder="खोजें: pointer, array, file..." />
+      </div>
+      <div class="filters">
+        <h3>श्रेणियाँ</h3>
+        <div id="cats"></div>
+      </div>
+      <footer>Made with ❤ for learners</footer>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="crumbs" id="crumbs">Home ▸ All</div>
+        <div class="controls">
+         <a href="index.html">
+            <button>home</button>
+         </a>
+         <a href="C++Programming-Quiz.html">
+            <button>C language Quiz</button>
+         </a>
+         
+          <button id="clear">फ़िल्टर साफ़ करें</button>
+          <button id="expand">सब खोलें</button>
+          <button id="collapse">सब बंद करें</button>
+        </div>
+      </div>
+
+      <section class="grid" id="list"></section>
+      <div class="no-results" id="empty" style="display:none">कोई परिणाम नहीं मिला। अलग शब्द आज़माएँ।</div>
+    </main>
+  </div>
+  <div class="overlay" id="overlay"></div>
+
+  <script>
+    // --- Data: Add/modify questions easily ---
+    const QA = [
+      {cat:'Basics', q:'C language क्या है और इसे क्यों सीखें?', a:`C एक general-purpose, compiled language है. OS kernels (Linux), embedded systems, high-performance tools तक में उपयोग होता है. C सीखने से memory, pointers, compilation, performance जैसे core CS concepts clear होते हैं.`},
+      {cat:'Basics', q:'Hello World कैसे लिखें?', a:`
+<pre><code>#include <stdio.h>
+int main(void){
+    printf("Hello, World!\n");
+    return 0;
+}
+</code></pre>`},
+      {cat:'Control Flow', q:'if-else और ternary operator में अंतर?', a:`if-else statements multi-line branching देता है, जबकि ternary (?:) एक expression है जो value return करता है: <code>int x = (a>b) ? a : b;</code>`},
+      {cat:'Loops', q:'for, while, do-while कब use करें?', a:`\n- निश्चित iterations: <code>for</code>\n- condition driven: <code>while</code>\n- कम से कम एक बार चलना हो: <code>do..while</code>`},
+      {cat:'Functions', q:'Function prototype क्यों ज़रूरी है?', a:`Compiler को function का signature पहले पता होना चाहिए ताकि type-checking हो सके और implicit int जैसे पुराने issues न आएँ.`},
+      {cat:'Pointers', q:'Pointer क्या होता है?', a:`Pointer एक variable है जो memory address रखता है. Example: <code>int *p = &x;</code>. Dereference: <code>*p</code>. Address-of: <code>&x</code>.`},
+      {cat:'Pointers', q:'Null pointer क्या है?', a:`ऐसा pointer जो किसी valid object/func को point नहीं करता. C में <code>NULL</code>. इसे dereference करना UB (undefined behavior) है.`},
+      {cat:'Arrays & Strings', q:'Array और pointer का relation?', a:`Array decay to pointer: expression में array का नाम पहले element के address में बदल जाता है, पर array खुद mod-size object है (size स्थिर).`},
+      {cat:'Arrays & Strings', q:'C string का अंत कैसे पहचाना जाता है?', a:`C string null-terminated होती है: आख़िर में <code>\0</code>. इसलिए length के लिए <code>strlen</code> traverse करता है.`},
+      {cat:'Memory', q:'malloc/free कैसे करें?', a:`
+<pre><code>#include <stdlib.h>
+int *a = malloc(10 * sizeof *a);
+if(!a){ /* handle error */ }
+/* ... use a ... */
+free(a);
+</code></pre>`},
+      {cat:'Memory', q:'Dangling pointer क्या होता है?', a:`जब pointer valid object के lifetime के बाद भी use हो रहा हो (जैसे free के बाद). यह UB है.`},
+      {cat:'Structs', q:'struct और typedef struct pattern', a:`
+<pre><code>typedef struct {
+    int id; char name[32];
+} Student;
+
+Student s = {1, "Ada"};
+</code></pre>`},
+      {cat:'Pointers', q:'Pointer to pointer (double pointer) क्यों?', a:`2D arrays, dynamic arrays of pointers, या function को pointer बदलवाने के लिए (e.g., <code>int **pp</code>).`},
+      {cat:'File I/O', q:'File read/write का simple example?', a:`
+<pre><code>#include <stdio.h>
+int main(){
+    FILE *f = fopen("data.txt","w");
+    if(!f) return 1;
+    fprintf(f, "Hello\n");
+    fclose(f);
+    return 0;
+}
+</code></pre>`},
+      {cat:'Preprocessor', q:'#define और const में फर्क?', a:`<code>#define</code> textual substitution है (preprocessor), <code>const</code> typed variable/qualifier है जो scope/rules follow करता है.`},
+      {cat:'Compilation', q:'Compilation steps?', a:`Preprocessing → Compilation → Assembly → Linking. GCC: <code>gcc file.c -o app</code>`},
+      {cat:'Arrays & Strings', q:'Buffer overflow कैसे रोकें?', a:`Bounded functions (<code>fgets</code>), size checks, correct format specifiers, and avoiding gets (deprecated/unsafe).`},
+      {cat:'Misc', q:'undefined behavior (UB) क्या होता है?', a:`ऐसा code जिसका व्यवहार standard ने define नहीं किया. Compiler कुछ भी कर सकता है — crash भी, शांत भी.`},
+      {cat:'Misc', q:'main का सही signature?', a:`<code>int main(void)</code> या <code>int main(int argc, char **argv)</code>. Return value exit status है.`},
+      {cat:'Pointers', q:'Pointer arithmetic कैसे काम करती है?', a:`Address +/- n * sizeof(*ptr). इसलिए <code>p+1</code> अगले element पर jump करता है.`},
+    ];
+
+    // --- State ---
+    let activeCat = 'All';
+
+    // Build categories
+    const catsBox = document.getElementById('cats');
+    function renderCats(){
+      const groups = QA.reduce((m, x)=>{m[x.cat]=(m[x.cat]||0)+1; return m;},{});
+      const allCount = QA.length;
+      const items = ['All', ...Object.keys(groups)];
+      catsBox.innerHTML = items.map(c=>`<div class="cat ${c===activeCat?'active':''}" data-cat="${c}"><span>${c}</span><span class="count">${c==='All'?allCount:groups[c]}</span></div>`).join('');
+      catsBox.querySelectorAll('.cat').forEach(el=>{
+        el.addEventListener('click', ()=>{ activeCat = el.dataset.cat; document.getElementById('search').value=''; renderList(); renderCats(); updateCrumbs(); closeSidebar(); });
+      });
+    }
+
+    function updateCrumbs(){
+      document.getElementById('crumbs').textContent = `Home ▸ ${activeCat}`;
+    }
+
+    // Build list
+    const list = document.getElementById('list');
+    const empty = document.getElementById('empty');
+
+    function escapeHtml(s){ return s.replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+    function renderList(){
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      const rows = QA.filter(item => (activeCat==='All' || item.cat===activeCat))
+                     .filter(item => !q || item.q.toLowerCase().includes(q) || item.a.toLowerCase().includes(q));
+      if(!rows.length){ list.innerHTML=''; empty.style.display='block'; return; }
+      empty.style.display='none';
+      list.innerHTML = rows.map((item,idx)=>{
+        return `
+        <article class="qa" data-idx="${idx}">
+          <div class="q">
+            <span class="badge">${item.cat}</span>
+            <h4>${item.q}</h4>
+            <div class="qa-actions">
+              <button class="btn toggle">देखें</button>
+            </div>
+          </div>
+          <div class="ans" id="ans-${idx}">${item.a}</div>
+        </article>`;
+      }).join('');
+
+      // wire events
+      list.querySelectorAll('.toggle').forEach((btn,i)=>{
+        btn.addEventListener('click', ()=>{
+          const el = document.getElementById('ans-'+i);
+          el.classList.toggle('open');
+          btn.textContent = el.classList.contains('open') ? 'छुपाएँ' : 'देखें';
+        });
+      });
+
+      // copy buttons for code blocks
+      list.querySelectorAll('pre').forEach(pre=>{
+        const copy = document.createElement('button');
+        copy.className='btn copy';
+        copy.textContent='कॉपी';
+        copy.style.float='right';
+        copy.addEventListener('click', async ()=>{
+          await navigator.clipboard.writeText(pre.innerText);
+          copy.textContent='कॉपीड!'; setTimeout(()=>copy.textContent='कॉपी', 1200);
+        });
+        pre.prepend(copy);
+      });
+    }
+
+    // Search
+    document.getElementById('search').addEventListener('input', ()=>{ renderList(); });
+
+    // Controls
+    document.getElementById('clear').addEventListener('click', ()=>{ activeCat='All'; document.getElementById('search').value=''; renderCats(); renderList(); updateCrumbs(); });
+    document.getElementById('expand').addEventListener('click', ()=>{ document.querySelectorAll('.ans').forEach(x=>x.classList.add('open')); document.querySelectorAll('.toggle').forEach(b=>b.textContent='छुपाएँ'); });
+    document.getElementById('collapse').addEventListener('click', ()=>{ document.querySelectorAll('.ans').forEach(x=>x.classList.remove('open')); document.querySelectorAll('.toggle').forEach(b=>b.textContent='देखें'); });
+
+    // Mobile sidebar
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('show'); }
+    function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+    document.getElementById('menuBtn').addEventListener('click', openSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    // Init
+    renderCats();
+    renderList();
+    updateCrumbs();
+  </script>
+</body>
+</html>

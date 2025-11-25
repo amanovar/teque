@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BCA-HUB — Learn • Practice • Build, hello manohar ji</title>
+  <meta name="description" content="BCA-HUB: BCA students ke liye notes, quizzes, code examples, calculators aur project ideas — sab ek jagah. Learn, practice aur build with free tools." />
+  <meta name="keywords" content="BCA, BCA Notes, BCA Quiz, BCA Projects, BCA Calculators, BCA-HUB, BCA Study Material, BCA Learning, BCA Tools" />
+  <meta name="author" content="BCA-HUB Team" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="en" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="canonical" href="https://lavenderblush-snail-560509.hostingersite.com/index.html" />
+</head>
+
+</head>
+<body>
+  
+  <style>
+    :root{
+      --bg:#0f172a;        /* slate-900 */
+      --card:#111827ee;    /* gray-900 */
+      --text:#e5e7eb;      /* gray-200 */
+      --muted:#9ca3af;     /* gray-400 */
+      --brand:#22d3ee;     /* cyan-400 */
+      --accent:#a78bfa;    /* violet-400 */
+      --ring:#22d3ee55;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --max: 1100px;
+    }
+    *{
+      box-sizing:border-box
+    }
+    html,body{
+      height:100%
+    }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+    a{
+      color:inherit;
+      text-decoration:none
+    }
+    .wrap{max-width:var(--max);margin:auto;padding:20px}
+    header{
+      position:sticky; top:0;
+       z-index:10;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, rgba(17,24,39,.85), rgba(17,24,39,.35));
+      border-bottom:1px solid #ffffff10;
+    }
+    .nav{
+      display:flex;
+      align-items:center;justify-content:space-between;
+      gap:12px}
+    .brand{display:flex;
+      align-items:center;gap:10px;font-weight:700;
+      letter-spacing:.3px}
+    .logo{
+      width:36px;height:36px;
+      border-radius:10px;
+      background: conic-gradient(from 180deg, var(--brand), var(--accent), var(--brand));
+      box-shadow: 0 0 0 4px #ffffff10, 0 8px 25px #00000070;
+    }
+    .nav a.btn{padding:10px 14px;border:1px solid #ffffff25;border-radius:12px}
+    .nav a.btn:hover{border-color:#ffffff55}
+    .hero{
+      display:grid; gap:22px; align-items:center;
+      grid-template-columns: 1.1fr .9fr;
+      padding:52px 20px 28px;
+    }
+
+    .scrollable-links {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #0b1220cc; /* dark bar */
+  border-bottom: 1px solid #ffffff20;
+  scrollbar-width: none; /* Firefox hide scrollbar */
+}
+.scrollable-links::-webkit-scrollbar {
+  display: none; /* Chrome hide scrollbar */
+  
+}
+.scrollable-links a {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+
+  border: 1px solid #ffffff25;
+  border-radius: 999px;
+  font-size: 14px;
+  color: #e5e7eb;
+
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .2s, border-color .2s;
+}
+.scrollable-links a:hover {
+  background: #1f2937;
+  border-color: #ffffff55;
+}
+
+
+
+
+
+    @media (max-width:900px){
+       .hero{grid-template-columns:1fr; padding-top:32px} }
+    .hero h1{
+      font-size: clamp(28px, 4vw, 46px);
+      line-height:1.15; margin:10px 0 8px;
+      letter-spacing:.2px;
+    }
+    .hero p{
+      color:var(--muted);font-size:clamp(14px,2.2vw,18px)
+    }
+    .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:14px}
+    .btn-primary, .btn-ghost{
+      padding:12px 16px; border-radius:14px; font-weight:600; cursor:pointer; border:1px solid transparent;
+      transition: transform .08s ease, box-shadow .2s ease, border-color .2s;
+    }
+    .btn-primary{
+      background: linear-gradient(135deg, var(--brand), var(--accent));
+      color:#0b1220;
+      box-shadow: var(--shadow);
+    }
+    .btn-primary:active{ transform: scale(.98) }
+    .btn-ghost{
+      border-color:#ffffff30; background:#0b122040; color:var(--text)
+    }
+    .preview{
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #0b1220, #0b1220c5);
+      border:1px solid #ffffff12; box-shadow: var(--shadow);
+      padding:16px; min-height:260px;
+      position:relative; overflow:hidden;
+    }
+    .glow{
+      position:absolute; inset:-30%; filter: blur(60px);
+      background: conic-gradient(from 0deg, #22d3ee30, #a78bfa30, transparent 30%);
+      animation: spin 9s linear infinite;
+    }
+    @keyframes spin{ to{ transform: rotate(1turn) } }
+    section{padding:32px 20px}
+    h2{font-size:clamp(20px,3vw,28px); margin:6px 0 12px}
+    .grid{
+      display:grid; gap:16px;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width:900px){
+       .grid{grid-template-columns:1fr 1fr}
+       }
+    @media (max-width:620px){
+       .grid{grid-template-columns:1fr} 
+      }
+    .card{
+      background: linear-gradient(180deg, #0f172acc, #0b1220cc);
+      border:1px solid #ffffff12;
+      border-radius: var(--radius);
+      padding:16px; box-shadow: var(--shadow);
+      transition: transform .15s ease, border-color .2s ease;
+    }
+    .card:hover{ transform: translateY(-4px);
+       border-color:#ffffff35 }
+    .muted{color:var(--muted)}
+    .badge{
+      display:inline-block; font-size:12px; padding:6px 10px; border-radius:999px;
+      border:1px solid #ffffff25; background:#0b122055; margin-bottom:6px
+    }
+    .list{margin:0; padding-left:18px}
+    .list li{margin:6px 0}
+    .faq details{
+      border:1px solid #ffffff18; border-radius:14px; padding:12px 14px; margin:10px 0; background:#0b122040
+    }
+    .faq summary{cursor:pointer; font-weight:600}
+    footer{padding:30px 20px;color:#9aa3b2;border-top:1px solid #ffffff12}
+    .pillnav{display:flex;gap:8px;flex-wrap:wrap}
+    .pillnav a{padding:8px 12px;border:1px solid #ffffff25;border-radius:999px}
+    .pillnav a:hover{border-color:#ffffff55}
+    .ring:focus{outline:none; box-shadow: 0 0 0 4px var(--ring)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <div class="brand"><span class="logo" aria-hidden="true"></span> BCA-HUB</div>
+      <nav class="pillnav">
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="#semesters">Semesters</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn" href="#get-started">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- SCROLLABLE LINKS -->
+<div class="scrollable-links">
+  <a href="index.html">Home</a>
+  <a href="allinone.html">All-in-One Utility</a>
+  <a href="GST-Calculator.html">All Calculator</a>
+  <a href="C++Programming-Quiz.html">C Language Quiz</a>
+  <a href="Editor1.html">HTML Editor</a>
+  <a href="Notes-Maker.html">Whiteboard</a>
+  <a href="clanguage.html">C Language</a>
+  <a href="Project-Ideas.html">Project Ideas</a>
+  <a href="Image-to-PDF-Converter.html">Image to PDF Converter</a>
+  <a href="PDF-Library.html">Notes PDF Library</a>
+</div>
+
+
+  <main class="wrap">
+    <!-- HERO -->
+    <section class="hero" id="get-started" aria-label="Hero">
+      <div>
+        <span class="badge">Free • Mobile Friendly • Practical</span>
+        <h1>BCA-HUB — Learn • Practice • Build</h1>
+        <p>Welcome to our educational and utility website!
+This platform is specially designed for students and learners who want to study, practice, and explore useful tools at one place. Our website provides a collection of features that make learning easier and more interactive.</p>
+        <div class="cta">
+          <a class="btn-primary ring" href="#semesters">Start Learning</a>
+          <a class="btn-ghost ring" href="#features">Explore Features</a>
+        </div>
+      </div>
+      <div class="preview" aria-hidden="true">
+        <div class="glow"></div>
+        <div style="position:relative; z-index:2">
+          <p style="margin:0 0 8px; color:#c7d2fe">console</p>
+          <pre style="margin:0; overflow:auto"><code>// Try it on BCA-HUB
+int main(){
+  printf("Hello BCA!\\n");
+  return 0;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" aria-label="About BCA-HUB">
+      <h2>Our Vision</h2>
+      <p class="muted">
+     Our vision is to create a smart educational hub where students not only read and study but also practice and test themselves in real-time. With a mix of calculators, coding tools, papers, and quizzes, we aim to make learning easy, practical, and interactive.
+      </p>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" aria-label="Key Features">
+      <h2>Key Features</h2>
+      <div class="grid">
+        <div class="card">
+          <strong>PDF Library</strong>
+          <p class="muted">PDF Library, CSS Notes, HTML Notes, JavaScript Notes </p>
+          
+          <button style="background-color: rgb(93, 93, 220);border-radius: 5px;"><a style="color: white;" href="PDF-Library.html">view</a></button>
+        </div>
+        
+            <div class="card">
+          <strong>Whiteboard</strong>
+          <p class="muted">Whether it’s preparing diagrams, mind maps, flowcharts, or study notes, the Whiteboard + Notes Maker helps</p>
+      
+            <button style="background-color: rgb(93, 93, 220);border-radius: 5px;"><a style="color: white;" href="Notes-Maker.html">view</a></button>
+        </div>
+        <div class="card">
+          <strong>Calculators</strong>
+          <p class="muted">GST Calculator, EMI Calculator, BMI Calculator, Age Calculator, etc.</p>
+       
+             <button style="background-color: rgb(93, 93, 220);border-radius: 5px;"><a style="color: white;" href="GST-Calculator.html">view</a></button>
+        
+        </div>
+        <div class="card">
+          <strong>Project Ideas</strong>
+          <p class="muted">Mini and major project ideas with source code.</p>
+        
+        <button style="background-color: rgb(93, 93, 220);border-radius: 5px;"><a style="color: white;" href="Project-Ideas.html">view</a></button>
+        </div>
+
+          <div class="card">
+          <strong> Image to PDF Converter</strong>
+          <p class="muted">The Image to PDF Converter</p>
+        
+        <button style="background-color: rgb(93, 93, 220);border-radius: 5px;"><a style="color: white;" href="Image-to-PDF-Converter.html">view</a></button>
+        </div>
+
+
+        <div class="card">
+          <strong>Meter ⇄ Caliber Converter</strong>
+          <p class="muted">Convert meters to calibers and vice versa — with millimeter or inch options..</p>
+<a href="meter-caliber.html">more</a>
+        </div>
+      </div>
+    </section>
+
+    
+
+    <!-- SEMESTERS QUICK LINKS -->
+
+    <section id="semesters" aria-label="Semesters">
+      <h2>Start Learning —BCA Semesters</h2>
+      <div class="pillnav">
+       <a href="./sem1.html">Semester 1</a>
+        <a href="./sem2.html">Semester 2</a>
+         <a href="./sem3.html">Semester 3</a>
+        <a href="./sem4.html">Semester 4</a>
+        <a href="./sem5.html">Semester 5</a>
+      <a href="./sem6.html">Semester 6</a>
+        <a href="paper.html">Quastions paper</a>
+        
+      </div>
+      <p class="muted" style="margin-top:10px">Topic</p>
+
+    </section>
+
+  
+
+    <!-- FAQ -->
+
+
+    <section id="faq" class="faq" aria-label="FAQs">
+      <h2>FAQs</h2>
+      <details>
+        <summary>kya ye free hai?</summary>
+        <p>Haan, BCA-HUB completely free hai.</p>
+      </details>
+      <details>
+
+        <summary>notes kis format me milte hain?</summary>
+        <p>Short notes + PDFs + live code examples.</p>
+      </details>
+      <details>
+
+
+        <summary>kya phone par smoothly chalega?</summary>
+
+        <p>Haan, site 100% mobile-friendly. Low-data optimized.</p>
+      </details>
+      
+      <details>
+
+        <summary>project help milegi?</summary>
+        <p>Ideas + structure + sample code provide kiya jata hai.</p>
+      </details>
+    </section>
+
+     
+ <!-- FAQ -->
+    <section id="faq" class="faq" aria-label="FAQs">
+      <h2>Computer Graphics?</h2>
+      <details>
+        <summary>1. What is Computer Graphics?</summary>
+        <p>Computer Graphics refers to the creation, manipulation, and representation of visual images using a computer. It involves generating images like 2D drawings, 3D models, and animations.
+</p>
+      </details>
+      <details>
+        <summary>2. What are the types of Computer Graphics?</summary>
+        <p>Raster Graphics: Images made of pixels (e.g., digital photos).
+
+Vector Graphics: Images based on mathematical formulas (e.g., CAD drawings).
+
+3D Graphics: Representations of objects in three dimensions.</p>
+      </details>
+      <details>
+        <summary>3 What is the difference between Raster and Vector graphics?</summary>
+        <p>Raster: Pixel-based, loses quality when scaled, e.g., JPEG, PNG.
+
+Vector: Formula-based, scales without losing quality, e.g., SVG, AI files..</p>
+      </details>
+      <details>
+        <summary>4 What is a pixel?</summary>
+        <p>A pixel (short for “picture element”) is the smallest unit of a digital image or display. Each pixel has a specific color and position.
+
+</p>
+      </details>
+
+      <details>
+        <summary>5 What is a frame buffer?</summary>
+        <p>A frame buffer is a portion of RAM containing a bitmap that drives the video display. It holds color values for every pixel to be displayed on the screen.
+.</p>
+      </details>
+      <details>
+        <summary>6 What are the applications of Computer Graphics?</summary>
+        <p>Video games
+
+Animation movies
+
+CAD (Computer-Aided Design)
+
+Virtual reality
+
+User interface design
+
+Medical imaging</p>
+      </details>
+
+      <details>
+        <summary>7 Explain 2D and 3D transformations.</summary>
+        <p>
+2D Transformation: Operations like translation, rotation, scaling in a 2D plane.
+
+3D Transformation: Same operations but in three dimensions (X, Y, Z axes).</p>
+      </details>
+
+      <details>
+        <summary>8  What is clipping in Computer Graphics?</summary>
+    <p>Clipping is the process of cutting out portions of images or primitives that lie outside a defined region (like a viewport or window).
+.</p>
+      </details>
+      <details>
+          <summary>9  What is the Bresenham’s Line Algorithm?</summary>
+        <p>Bresenham's algorithm is used to draw lines on a grid or raster display efficiently by choosing the nearest pixel to the ideal line.
+</p>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <span>© <span id="y"></span> BCA-HUB</span>
+      <span>Learn • Practice • </span>
+    </div>
+  </footer>
+
+  <script>
+    // Current year
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

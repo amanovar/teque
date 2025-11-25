@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Code Editor with Dark Mode</title>
+  <style>
+    :root {
+       
+      --bg:#0f172a;        /* slate-900 */
+      --card:#111827ee;
+     
+      --text: #000;
+      --tab-bg: #222;
+      --tab-active: #28a745;
+      --editor-bg: #fff;
+      --button-bg: #28a745;
+      --output-border: #ccc;
+    }
+
+    body.dark {
+      --bg: #121212;
+      --text: #fff;
+      --tab-bg: #1e1e1e;
+      --tab-active: #66bb6a;
+      --editor-bg: #1e1e1e;
+      --button-bg: #66bb6a;
+      --output-border: #333;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+     
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      display: flex;
+      
+      flex-direction: column;
+    }
+
+      /* HEADER */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.5em;
+    }
+
+   /* ...existing code... */
+.scrollable-links {
+  position: fixed;
+  height: 50px;
+  margin-top: 60px;
+  top: 0;
+  left: 0;
+  right: 0;
+   background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+  overflow-x: auto;
+  white-space: nowrap;
+  z-index: 999;
+  scrollbar-width: none; /* Firefox scrollbar hide */
+}
+.scrollable-links::-webkit-scrollbar {
+  display: none; /* Chrome/Safari scrollbar hide */
+}
+/* ...existing code... */
+    .scrollable-links a {
+      display: inline-block;
+      color: #fff;
+      text-decoration: none;
+      padding: 15px 22px;
+      transition: background 0.3s;
+    }
+    .scrollable-links a:hover {
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+       background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      position: relative;
+      
+    }
+    .tab {
+      flex: 1;
+      height: auto;
+      margin-top: 130px;
+      text-align: center;
+      padding: 12px;
+      cursor: pointer;
+      color: white;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+    .tab.active {
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      border-bottom: 3px solid var(--tab-active);
+    }
+
+    /* Dark mode button */
+    .toggle-mode {
+      position: absolute;
+      right: 10px;
+      margin-top: 130px;
+    
+      transform: translateY(-50%);
+      background: transparent;
+      color: white;
+      font-size: 20px 20px;
+      cursor: pointer;
+      border: none;
+    }
+
+   /* ...existing code... */
+.main {
+ 
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+ padding: 20px;
+  gap: 10px;
+}
+/* ...existing code... */
+
+    .editor, .preview {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    textarea {
+      flex: 1;
+      width: 100%;
+      height: 500px;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 14px;
+      background: var(--editor-bg);
+      color: var(--text);
+      border: 1px solid #ccc;
+      resize: vertical;
+      border-radius: 4px;
+    }
+
+    .run-btn {
+       background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      margin: 8px 0;
+      font-size: 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      align-self: flex-start;
+      transition: 0.3s;
+    }
+    .run-btn:hover {
+      opacity: 0.8;
+    }
+
+    .preview {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    iframe {
+      flex: 1;
+      height: 100%;
+      min-height: 350px; /* desktop minimum height */
+      border: 1px solid var(--output-border);
+      border-radius: 4px;
+      background: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      font-size: 14px;
+      background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color: #ccc;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main { flex-direction: column; }
+      .preview { min-height: 0; }
+      iframe {
+        min-height: 400px; /* mobile minimum height */
+        height: 60vh;      /* mobile: viewport height */
+      }
+    }
+  </style>
+</head>
+<body>
+     <!-- HEADER -->
+  <header>
+    <div class="sidebar-toggle" onclick="toggleSidebar()"></div>
+    <div class="logo">BCAHUB</div>
+    
+    </div>
+  </header>
+ <!-- SCROLLABLE LINKS -->
+<div class="scrollable-links">
+   <a href="index.html">Home</a>
+  <a href="allinone.html">All-in-One Utility</a>
+  <a href="GST-Calculator.html">All Calculator</a>
+  <a href="BCA-101-Mathematics-I.html">BCA All Semester</a>
+  
+  <a href="C++Programming-Quiz.html">C Language Quiz</a>
+  <a href="Editor1.html">HTML Editor</a>
+  <a href="Notes-Maker.html">Whiteboard</a>
+  <a href="clanguage.html">C Language</a>
+  <a href="Project-Ideas.html">Project Ideas</a>
+  <a href="Image-to-PDF-Converter.html">Image to PDF Converter</a>
+  <a href="PDF-Library.html">Notes PDF Library</a>
+</div>
+
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('html')">HTML</div>
+    <div class="tab" onclick="switchTab('css')">CSS</div>
+    <div class="tab" onclick="switchTab('js')">JS</div>
+    <button class="toggle-mode" onclick="toggleMode()">🌙</button>
+  </div>
+
+  <!-- Editor + Preview -->
+  <div class="main">
+    <div class="editor">
+      <!-- HTML -->
+      <div id="htmlTab">
+        <textarea id="html">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Hello wold</h1>
+  
+</body>
+</html>
+
+        </textarea>
+      </div>
+      <!-- CSS -->
+      <div id="cssTab" style="display:none;">
+        <textarea id="css">
+body { background: #f0f0f0; font-family: Arial; }
+h1 { color: blue; text-align: center; }
+        </textarea>
+      </div>
+      <!-- JS -->
+      <div id="jsTab" style="display:none;">
+        <textarea id="js">
+console.log("Hello from JavaScript!");
+        </textarea>
+      </div>
+      <button class="run-btn" onclick="runLivePreview()">▶ Run Code</button>
+    </div>
+
+    <!-- Output -->
+    <div class="preview">
+      <iframe id="output"></iframe>
+    </div>
+  </div>
+
+  <style>
+  .about {
+    max-width: 800px;         /* text width limit */
+    margin: 40px auto;        /* center align with spacing */
+    padding: 20px 30px;       /* inner spacing */
+    background: #f9f9f9;      /* light background */
+    border-radius: 12px;      /* smooth corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* soft shadow */
+    font-family: "Segoe UI", Arial, sans-serif;
+    line-height: 1.8;         /* good readability */
+    color: #333;
+  }
+
+  .about p {
+    margin-bottom: 15px;
+    font-size: 16px;
+  }
+
+  .about strong {
+    color: #0066cc; /* blue highlight */
+  }
+
+  .about em {
+    color: #d63384; /* pink italic highlight */
+  }
+</style>
+
+
+  <div class="about">
+  <p>
+    This is a <strong>Live HTML Editor</strong> designed to help users write, edit, and run their 
+    <strong>HTML, CSS, and JavaScript</strong> code in real time. It provides a simple, interactive, 
+    and beginner-friendly environment where you can instantly see the output of your code.
+  </p>
+
+  <p>
+    With its <strong>responsive design</strong>, the editor works smoothly on <em>mobile, tablet, 
+    and desktop</em> devices, making it a perfect tool for learning and practicing web development.
+  </p>
+</div>
+
+
+  <footer>
+    <p>&copy; 2025 BCA-HUB</p>
+  </footer>
+
+  <script>
+    function switchTab(tabName) {
+      const tabs = ['html', 'css', 'js'];
+      tabs.forEach(tab => {
+        document.getElementById(tab + 'Tab').style.display = tab === tabName ? 'block' : 'none';
+        document.querySelector(`.tab:nth-child(${tabs.indexOf(tab)+1})`).classList.toggle('active', tab === tabName);
+      });
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle("dark");
+    }
+
+    function runLivePreview() {
+      const html = document.getElementById("html").value;
+      const css = document.getElementById("css").value;
+      const js = document.getElementById("js").value;
+
+      const code = `
+        <!DOCTYPE html>
+        <html>
+        <head><style>${css}</style></head>
+        <body>
+          ${html}
+          <script>${js}<\/script>
+        </body>
+        </html>
+      `;
+      document.getElementById("output").srcdoc = code;
+    }
+
+    window.onload = () => {
+      switchTab("html");
+      runLivePreview();
+    };
+  </script>
+</body>
+</html>

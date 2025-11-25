@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Library, html Library, css Library, js library, JavaScript Library, php library </title>
+  <style>
+     :root{
+      --bg:#0f172a;        /* slate-900 */
+      --card:#111827ee;
+      }
+    body {
+      font-family: Arial, sans-serif;
+        background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    /* SCROLLABLE NAV LINKS */
+    .scrollable-links {
+      position: fixed;
+      top: 0px;
+      left: 0;
+      right: 0;
+       background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+      overflow-x: auto;
+      white-space: nowrap;
+      z-index: 999;
+    }
+
+    .scrollable-links a {
+      display: inline-block;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 18px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .scrollable-links a:hover {
+        background:
+        radial-gradient(800px 400px at 10% -10%, #0ea5e930, transparent 60%),
+        radial-gradient(800px 400px at 110% 10%, #8b5cf630, transparent 60%),
+        var(--bg);
+    }
+
+    h1 {
+      text-align: center;
+      margin: 40px 0 20px 0;
+      font-size: 2em;
+    }
+    .pdf-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      padding: 24px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .pdf-card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .pdf-card:hover {
+      transform: translateY(-5px);
+    }
+    .pdf-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+      color: #f87171;
+    }
+    .pdf-title {
+      font-weight: bold;
+      margin: 10px 0;
+      color: #fff;
+      font-size: 1.1em;
+    }
+    .btn {
+      margin: 8px 4px 0 4px;
+      display: inline-block;
+      background: #3b82f6;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 15px;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #2563eb;
+    }
+    @media (max-width: 600px) {
+      .pdf-container {
+        grid-template-columns: 1fr;
+        padding: 10px;
+      }
+      .pdf-card {
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.3em;
+      }
+    }
+  </style>
+</head>
+<body>
+       <!-- SCROLLABLE LINKS -->
+<div class="scrollable-links">
+   <a href="index.html">Home</a>
+  <a href="allinone.html">All-in-One Utility</a>
+  <a href="GST-Calculator.html">All Calculator</a>
+  <a href="BCA-101-Mathematics-I.html">BCA All Semester</a>
+  
+  <a href="C++Programming-Quiz.html">C Language Quiz</a>
+  <a href="Editor1.html">HTML Editor</a>
+  <a href="Notes-Maker.html">Whiteboard</a>
+  <a href="clanguage.html">C Language</a>
+  <a href="Project-Ideas.html">Project Ideas</a>
+  <a href="Image-to-PDF-Converter.html">Image to PDF Converter</a>
+  <a href="PDF-Library.html">Notes PDF Library</a>
+</div>
+<br>
+<br>
+<br>
+<br>
+
+  <h1>📚 MY PDF Library</h1>
+  <div class="pdf-container">
+    <!-- PDF 1 -->
+    <div class="pdf-card">
+      <div class="pdf-icon">📄</div>
+      <div class="pdf-title">HTML Notes</div>
+      <a href="html.pdf" target="_blank" class="btn">Open</a>
+      <a href="html.pdf" download class="btn">Download</a>
+    </div>
+    <!-- PDF 2 -->
+    <div class="pdf-card">
+      <div class="pdf-icon">📄</div>
+      <div class="pdf-title">CSS Notes</div>
+      <a href="css.pdf" target="_blank" class="btn">Open</a>
+      <a href="css.pdf" download class="btn">Download</a>
+    </div>
+       <!-- PDF 3 -->
+    <div class="pdf-card">
+      <div class="pdf-icon">📄</div>
+      <div class="pdf-title">JavaScript Notes</div>
+      <a href="js.pdf" target="_blank" class="btn">Open</a>
+      <a href="js.pdf" download class="btn">Download</a>
+    </div>
+     <!-- PDF 4 -->
+    <div class="pdf-card">
+      <div class="pdf-icon">📄</div>
+      <div class="pdf-title">C Language</div>
+      <a href="clanguagei.pdf" target="_blank" class="btn">Open</a>
+      <a href="clanguagei.pdf" download class="btn">Download</a>
+    </div>
+
+       <!-- PDF 5 -->
+    <div class="pdf-card">
+      <div class="pdf-icon">📄</div>
+      <div class="pdf-title">PHP Language</div>
+      <a href="lphp.pdf" target="_blank" class="btn">Open</a>
+      <a href="lphp.pdf" download class="btn">Download</a>
+    </div>
+
+      <!-- PDF 6 -->
+    <div class="pdf-card">
+      <div class="pdf-icon">📄</div>
+      <div class="pdf-title">Computer Grafhics</div>
+      <a href="computergraf.pdf" target="_blank" class="btn">Open</a>
+      <a href="computergraf.pdf" download class="btn">Download</a>
+    </div>
+    <!-- और PDF कार्ड add कर सकते हैं -->
+  </div>
+</body>
+</html>
